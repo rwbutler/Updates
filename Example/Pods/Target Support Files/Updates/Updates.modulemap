@@ -1,0 +1,6 @@
+framework module Updates {
+  umbrella header "Updates-umbrella.h"
+
+  export *
+  module * { export * }
+}

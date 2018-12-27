@@ -1,0 +1,22 @@
+{
+  "name": "Updates",
+  "version": "0.1.0",
+  "summary": "A short description of Updates.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/rwbutler/Updates",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "rwbutler": "github@rwbutler.com"
+  },
+  "source": {
+    "git": "https://github.com/rwbutler/Updates.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "8.0"
+  },
+  "source_files": "Updates/Classes/**/*"
+}
