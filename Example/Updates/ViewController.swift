@@ -7,17 +7,49 @@
 //
 
 import UIKit
+import Updates
 
 class ViewController: UIViewController {
-
+    
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var versionLabel: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        activityIndicator.startAnimating()
+        configureLabels()
+        configureUpdates()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        Updates.checkForUpdates(notifying: .once) { [weak self] updateAvailable in
+            if updateAvailable {
+                UpdatesUI.presentAppStore(animated: animated)
+            }
+            self?.activityIndicator.stopAnimating()
+        }
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 
+}
+
+private extension ViewController {
+    
+    func configureLabels() {
+        let versionString: String? = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
+        let buildString: String? =  Bundle.main.infoDictionary?[kCFBundleVersionKey as String] as? String
+        if let version = versionString, let build = buildString {
+            versionLabel.text = "App version: \(version)(\(build))"
+        }
+    }
+    
+    func configureUpdates() {
+        // - Add custom configuration here if needed - 
+        // Updates.bundleIdentifier = ""
+        // Updates.countryCode = "gb"
+    }
+    
 }
