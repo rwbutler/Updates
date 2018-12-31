@@ -64,7 +64,7 @@ From the macOS Terminal run `carthage update --platform iOS` to build the framew
 
 For more information [see here](https://github.com/Carthage/Carthage#quick-start).
 
-## Example
+## Sample App
 
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
 
@@ -74,7 +74,7 @@ Ross Butler
 
 ## License
 
-Updates is available under the MIT license. See the LICENSE file for more info.
+Updates is available under the MIT license. See the [LICENSE file](./LICENSE) for more info.
 
 ## Additional Software
 
