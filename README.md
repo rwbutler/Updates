@@ -4,6 +4,7 @@
 [![Version](https://img.shields.io/cocoapods/v/Updates.svg?style=flat)](https://cocoapods.org/pods/Updates)
 [![License](https://img.shields.io/cocoapods/l/Updates.svg?style=flat)](https://cocoapods.org/pods/Updates)
 [![Platform](https://img.shields.io/cocoapods/p/Updates.svg?style=flat)](https://cocoapods.org/pods/Updates)
+[![Swift 4.2](https://img.shields.io/badge/Swift-4.2-orange.svg?style=flat)](https://swift.org/)
 
 # Note: Currently Work In Progress
 
