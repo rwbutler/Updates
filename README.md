@@ -2,26 +2,71 @@
 
 [![CI Status](https://img.shields.io/travis/rwbutler/Updates.svg?style=flat)](https://travis-ci.org/rwbutler/Updates)
 [![Version](https://img.shields.io/cocoapods/v/Updates.svg?style=flat)](https://cocoapods.org/pods/Updates)
+[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
+[![Maintainability](https://api.codeclimate.com/v1/badges/cbabaea781ab999cb673/maintainability)](https://codeclimate.com/github/rwbutler/Updates/maintainability)
 [![License](https://img.shields.io/cocoapods/l/Updates.svg?style=flat)](https://cocoapods.org/pods/Updates)
 [![Platform](https://img.shields.io/cocoapods/p/Updates.svg?style=flat)](https://cocoapods.org/pods/Updates)
 [![Swift 4.2](https://img.shields.io/badge/Swift-4.2-orange.svg?style=flat)](https://swift.org/)
 
-# Note: Currently Work In Progress
+# ⚠️ Currently Work In Progress 
+
+- [Features](#features)
+- [Installation](#installation)
+	- [Cocoapods](#cocoapods)
+	- [Carthage](#carthage)
+- [Usage](#usage)
+
+## Features
+
+- [x] Automatically detect whether a new version of your app is available.
+- [x] UI component for presenting SKStoreProductViewController or directing users to the App Store directly.
+
+## Installation
+
+### Cocoapods
+
+[CocoaPods](http://cocoapods.org) is a dependency manager which integrates dependencies into your Xcode workspace. To install it using [RubyGems](https://rubygems.org/) run:
+
+```bash
+gem install cocoapods
+```
+
+To install Updates using Cocoapods, simply add the following line to your Podfile:
+
+```ruby
+pod "Updates"
+```
+
+Then run the command:
+
+```bash
+pod install
+```
+
+For more information [see here](https://cocoapods.org/#getstarted).
+
+### Carthage
+
+Carthage is a dependency manager which produces a binary for manual integration into your project. It can be installed via [Homebrew](https://brew.sh/) using the commands:
+
+```bash
+brew update
+brew install carthage
+```
+
+In order to integrate Updates into your project via Carthage, add the following line to your project's Cartfile:
+
+```ogdl
+github "rwbutler/Updates"
+```
+
+From the macOS Terminal run `carthage update --platform iOS` to build the framework then drag `Updates.framework` into your Xcode project.
+
+For more information [see here](https://github.com/Carthage/Carthage#quick-start).
 
 ## Example
 
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
-
-## Requirements
-
-## Installation
-
-Updates is available through [CocoaPods](https://cocoapods.org). To install
-it, simply add the following line to your Podfile:
-
-```ruby
-pod 'Updates'
-```
 
 ## Author
 
