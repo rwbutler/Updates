@@ -1,4 +1,4 @@
-# Updates
+![Updates](https://raw.githubusercontent.com/rwbutler/Updates/master/docs/images/updates-banner.png)
 
 [![CI Status](https://img.shields.io/travis/rwbutler/Updates.svg?style=flat)](https://travis-ci.org/rwbutler/Updates)
 [![Version](https://img.shields.io/cocoapods/v/Updates.svg?style=flat)](https://cocoapods.org/pods/Updates)
