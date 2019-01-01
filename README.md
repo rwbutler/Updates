@@ -69,6 +69,17 @@ For more information [see here](https://github.com/Carthage/Carthage#quick-start
 
 ## Usage
 
+In order to check whether new app versions are available invoke `checkForUpdates` as follows:
+
+```swift
+Updates.checkForUpdates(notifying: .once) { updateAvailable in
+	if updateAvailable {
+		UpdatesUI.presentAppStore(animated: animated)
+	}
+}
+```
+
+The `notifying` parameter allows the developer to specify the number of times the user will be prompted to update.
 
 ## Sample App
 
