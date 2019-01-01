@@ -8,7 +8,10 @@
 [![Platform](https://img.shields.io/cocoapods/p/Updates.svg?style=flat)](https://cocoapods.org/pods/Updates)
 [![Swift 4.2](https://img.shields.io/badge/Swift-4.2-orange.svg?style=flat)](https://swift.org/)
 
+Updates is a framework for automatically detecting app updates and gently prompting users to update.
+
 # ⚠️ Currently Work In Progress 
+Updates will be available for production use on reaching version 1.0.0.
 
 - [Features](#features)
 - [Installation](#installation)
