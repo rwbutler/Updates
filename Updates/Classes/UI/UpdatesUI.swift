@@ -7,6 +7,7 @@
 
 import Foundation
 import StoreKit
+import SafariServices
 
 public class UpdatesUI: NSObject {
     
@@ -20,27 +21,35 @@ public class UpdatesUI: NSObject {
     }
     
     /// Presents SKStoreProductViewController modally.
-    public func presentAppStore() {
-        guard let appStoreId = Updates.appStoreId, let appStoreIdentifierInt = UInt(appStoreId),
-            let presenter = UIApplication.shared.keyWindow?.rootViewController else {
+    public func presentAppStore(presentingViewController: UIViewController) {
+        guard let appStoreId = Updates.appStoreId, let appStoreIdentifierInt = UInt(appStoreId) else {
                 return
         }
+         let animated = self.animated
         let appStoreIdentifier: NSNumber = NSNumber(value: appStoreIdentifierInt)
         let parameters = [SKStoreProductParameterITunesItemIdentifier: appStoreIdentifier]
         let viewController = SKStoreProductViewController()
         viewController.delegate = self
-        viewController.loadProduct(withParameters: parameters) { (loadedSuccessfully, error) in
+        viewController.loadProduct(withParameters: parameters) { [weak self] (loadedSuccessfully, error) in
             guard loadedSuccessfully else {
+                viewController.dismiss(animated: animated, completion: nil)
                 if let appStoreURL = Updates.appStoreURL {
-                    UpdatesUI.openURL(appStoreURL)
+                    self?.presentSafariViewController(animated: animated,
+                                                      presentingViewController: presentingViewController,
+                                                      url: appStoreURL)
                 }
                 return
             }
+            viewController.dismiss(animated: animated, completion: nil)
+            if let appStoreURL = Updates.appStoreURL {
+                self?.presentSafariViewController(animated: animated,
+                                                  presentingViewController: presentingViewController,
+                                                  url: appStoreURL)
+            }
             debugPrint(error as Any)
         }
-        let animated = self.animated
         DispatchQueue.main.async {
-            presenter.present(viewController, animated: animated, completion: nil)
+            presentingViewController.present(viewController, animated: animated, completion: nil)
         }
     }
     
@@ -48,9 +57,10 @@ public class UpdatesUI: NSObject {
     /// - Parameters:
     ///     - animated: Whether or not the modal presentation is animated.
     ///     - completion: Completion closure called on SKStoreProductViewController dismissal.
-    public static func presentAppStore(animated: Bool = true, completion: (() -> Void)? = nil) {
+    public static func presentAppStore(animated: Bool = true, completion: (() -> Void)? = nil,
+                                       presentingViewController: UIViewController) {
         updatesUI = UpdatesUI(animated: animated, completion: completion)
-        updatesUI.presentAppStore()
+        updatesUI.presentAppStore(presentingViewController: presentingViewController)
     }
     
     /// Presents SKStoreProductViewController modally.
@@ -58,10 +68,10 @@ public class UpdatesUI: NSObject {
     ///     - delegate: Delegate for receiving completion delegate call if required.
     ///     - animated: Whether or not the modal presentation is animated.
     public static func presentAppStore(animated: Bool = true,
-                                       delegate: SKStoreProductViewControllerDelegate) {
+                                       delegate: SKStoreProductViewControllerDelegate,
+                                       presentingViewController: UIViewController) {
         guard let appStoreId = Updates.appStoreId,
-            let appStoreIdentifierInt = UInt(appStoreId),
-            let presenter = UIApplication.shared.keyWindow?.rootViewController else {
+            let appStoreIdentifierInt = UInt(appStoreId) else {
                 return
         }
         let appStoreIdentifier: NSNumber = NSNumber(value: appStoreIdentifierInt)
@@ -70,14 +80,23 @@ public class UpdatesUI: NSObject {
         viewController.delegate = delegate
         viewController.loadProduct(withParameters: parameters) { (loadedSuccessfully, error) in
             guard loadedSuccessfully else {
+                viewController.dismiss(animated: animated, completion: nil)
                 if let appStoreURL = Updates.appStoreURL {
-                    openURL(appStoreURL)
+                    updatesUI.presentSafariViewController(animated: animated,
+                                                          presentingViewController: presentingViewController,
+                                                          url: appStoreURL)
                 }
                 return
             }
+            viewController.dismiss(animated: animated, completion: nil)
+            if let appStoreURL = Updates.appStoreURL {
+                updatesUI.presentSafariViewController(animated: animated,
+                                                  presentingViewController: presentingViewController,
+                                                  url: appStoreURL)
+            }
             debugPrint(error as Any)
         }
-        presenter.present(viewController, animated: animated, completion: nil)
+        presentingViewController.present(viewController, animated: animated, completion: nil)
     }
     
 }
@@ -96,15 +115,10 @@ extension UpdatesUI: SKStoreProductViewControllerDelegate {
 // Private API
 private extension UpdatesUI {
     
-    /// Opens the URL specified, if possible.
-    /// - Parameters:
-    ///     - url: The URL to be opened.
-    /// - Returns: Whether or not the URL was opened succesfully.
-    @discardableResult static func openURL(_ url: URL) -> Bool {
-        if UIApplication.shared.canOpenURL(url) {
-            return UIApplication.shared.openURL(url)
-        }
-        return false
+    /// Presents the specified URL
+    func presentSafariViewController(animated: Bool, presentingViewController: UIViewController, url: URL) {
+        let safariViewController = SFSafariViewController(url: url)
+        presentingViewController.present(safariViewController, animated: animated, completion: nil)
     }
     
 }

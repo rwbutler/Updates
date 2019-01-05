@@ -22,11 +22,12 @@ class ViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        Updates.checkForUpdates(notifying: .once) { [weak self] updateAvailable in
+        Updates.configurationURL = URL(string: "")
+        Updates.checkForUpdates(notifying: .once) { updateAvailable, releaseNotes in
             if updateAvailable {
-                UpdatesUI.presentAppStore(animated: animated)
+                UpdatesUI.presentAppStore(animated: animated, presentingViewController: self)
             }
-            self?.activityIndicator.stopAnimating()
+            self.activityIndicator.stopAnimating()
         }
     }
 

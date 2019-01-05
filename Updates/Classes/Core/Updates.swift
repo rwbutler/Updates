@@ -9,6 +9,30 @@ import Foundation
 
 public class Updates {
     
+    // MARK: Global State
+    
+    public static var configurationType: ConfigurationType = {
+        for configurationType in ConfigurationType.allCases {
+            if bundledConfigurationURL(configurationType) != nil {
+                return configurationType
+            }
+        }
+        return .json // default
+    }()
+    
+    /// Defaults configuration URL to bundled configuration detecting the type of config when set
+    public static var configurationURL: URL? = bundledConfigurationURL() {
+        didSet { // detect configuration format by extension
+            guard let lastPathComponent = configurationURL?.lastPathComponent.lowercased() else { return }
+            for configurationType in ConfigurationType.allCases {
+                if lastPathComponent.contains(configurationType.rawValue.lowercased()) {
+                    Updates.configurationType = configurationType
+                    return
+                }
+            }
+        }
+    }
+    
     /// Parses iTunes Search API responses.
     private static let parsingService: ParsingService = JSONParsingService()
     
@@ -27,14 +51,15 @@ public class Updates {
     
     public static var bundleIdentifier: String? = Bundle.main.bundleIdentifier
     
-    public static func checkForUpdates(_ mode: UpdatingMode = .automatically,
+    public static func checkForUpdates(_ mode: UpdatingMode = Updates.updatingMode,
                                        comparingVersions comparator: Versions = .semantic,
-                                       notifying: NotificationMode = .once, completion: @escaping (Bool) -> Void) {
+                                       notifying: NotificationMode = .once,
+                                       completion: @escaping (Bool, String?) -> Void) {
         guard let bundleIdentifier = Updates.bundleIdentifier,
             let apiURL = iTunesSearchAPIURL(bundleIdentifier: bundleIdentifier),
             let apiData = try? Data(contentsOf: apiURL), let result = parseConfiguration(data: apiData),
             let appVersionString = versionString else {
-                completion(false)
+                completion(false, nil)
                 return
         }
         if appStoreId == nil {
@@ -44,12 +69,14 @@ public class Updates {
                                                 comparator: comparator)
         let isRequiredOSAvailable = requiredOSVersionAvailable(requiredOSVersion: result.minimumOsVersion)
         let isUpdateAvailableForCurrentDevice = isUpdateAvailable && isRequiredOSAvailable
-        completion(isUpdateAvailableForCurrentDevice)
+        completion(isUpdateAvailableForCurrentDevice, result.releaseNotes)
     }
     
     public static var countryCode: String? = Locale.current.regionCode
     
     public static let productName: String? = Bundle.main.infoDictionary?["CFBundleDisplayName"] as? String
+    
+    public static var updatingMode: UpdatingMode = .automatically
     
     public static let versionString: String? = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
     
@@ -70,6 +97,29 @@ private extension Updates {
         let lowercasedProductName = productName.lowercased()
         let urlString = "https://itunes.apple.com/\(lowercasedCountryCode)/app/\(lowercasedProductName)/id\(appStoreId)"
         return URL(string: urlString)
+    }
+    
+    static func bundledConfigurationURL(_ configType: ConfigurationType = Updates.configurationType) -> URL? {
+        return Bundle.main.url(forResource: configurationName, withExtension: configType.rawValue)
+    }
+    
+    private static var cachedConfigurationURL: URL? {
+        return try? FileManager.default
+            .url(for: .cachesDirectory,
+                 in: .userDomainMask,
+                 appropriateFor: nil,
+                 create: true)
+            .appendingPathComponent("\(configurationName).\(configurationType.rawValue)")
+    }
+    
+    static func cacheExists() -> Bool {
+        guard let cachedConfigURL = cachedConfigurationURL else { return false }
+        return FileManager.default.fileExists(atPath: cachedConfigURL.path)
+    }
+    
+    static func clearCache() {
+        guard let cachedConfigURL = cachedConfigurationURL else { return }
+        try? FileManager.default.removeItem(at: cachedConfigURL)
     }
     
     /**
@@ -108,6 +158,8 @@ private extension Updates {
         }
         return result
     }
+    
+    static let configurationName: String = "Updates"
     
     static func updateAvailable(appVersion: String, apiVersion: String, comparator: Versions) -> Bool {
         let semanticVersioningComponents: [Versions] = [.major, .minor, .patch]

@@ -15,10 +15,10 @@ struct JSONParsingService: ParsingService {
             let results = jsonContainer["results"],
             let resultsData = try? JSONSerialization.data(withJSONObject: results) else {
                 let decoder = JSONDecoder()
-                return (try? decoder.decode([Result].self, from: data))?.first
+                return (try? decoder.decode([ITunesSearchAPIResult].self, from: data))?.first
         }
         let decoder = JSONDecoder()
-        guard let result = try? decoder.decode([Result].self, from: resultsData).first else {
+        guard let result = try? decoder.decode([ITunesSearchAPIResult].self, from: resultsData).first else {
             return nil
         }
         return result

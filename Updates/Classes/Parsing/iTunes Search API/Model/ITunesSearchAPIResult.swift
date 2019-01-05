@@ -7,8 +7,9 @@
 
 import Foundation
 
-public struct Result: Codable {
+public struct ITunesSearchAPIResult: Codable {
     let minimumOsVersion: String
+    let releaseNotes: String
     let trackId: Int
     let version: String
 }

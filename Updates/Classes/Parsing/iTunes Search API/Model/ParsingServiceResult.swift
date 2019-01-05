@@ -7,4 +7,4 @@
 
 import Foundation
 
-public typealias ParsingServiceResult = Result
+public typealias ParsingServiceResult = ITunesSearchAPIResult
