@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		12A747F80F400AFFE3C3B1DD70B0AD7F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6604A7D69453B4569E4E4827FB9155A9 /* Foundation.framework */; };
 		1367F7CC21E026320082818C /* ConfigurationResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1367F7CA21E0262E0082818C /* ConfigurationResult.swift */; };
+		1367F7CF21E23BAB0082818C /* UpdatesResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1367F7CD21E23B9B0082818C /* UpdatesResult.swift */; };
+		1367F7D521E23D8E0082818C /* ConfigurationType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1367F7D421E23D8E0082818C /* ConfigurationType.swift */; };
 		13DFA50C21D5647700CD9AEA /* Updates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13DFA50921D5647700CD9AEA /* Updates.swift */; };
 		13DFA50D21D5647700CD9AEA /* UpdatesUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13DFA50B21D5647700CD9AEA /* UpdatesUI.swift */; };
 		13DFA53421DAC6F100CD9AEA /* Versions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13DFA52921DAC6F100CD9AEA /* Versions.swift */; };
@@ -18,7 +20,6 @@
 		13DFA54921DBB72400CD9AEA /* JSONParsingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13DFA54421DBB72400CD9AEA /* JSONParsingService.swift */; };
 		13DFA54A21DBB72400CD9AEA /* ITunesSearchAPIResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13DFA54621DBB72400CD9AEA /* ITunesSearchAPIResult.swift */; };
 		13DFA54B21DBB72400CD9AEA /* ParsingServiceResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13DFA54721DBB72400CD9AEA /* ParsingServiceResult.swift */; };
-		13DFA54F21DBBA0100CD9AEA /* ConfigurationType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13DFA54E21DBBA0100CD9AEA /* ConfigurationType.swift */; };
 		60F8F58430BCA01A31641AEE7C518E6B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6604A7D69453B4569E4E4827FB9155A9 /* Foundation.framework */; };
 		63A8F1E92B99F5937B6BD8A430099B4D /* Updates-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = C429E47F8C9A68D9A4ED325B979CAE52 /* Updates-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		75881EE2729ADAF81D5D99373E7F10BA /* Pods-Updates_Example-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 568EEA6ED853765E10CA42FF2E7320A3 /* Pods-Updates_Example-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -49,6 +50,8 @@
 /* Begin PBXFileReference section */
 		1137BEA0C69E4835BB098BEA69AB5166 /* Pods-Updates_Tests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-Updates_Tests-acknowledgements.markdown"; sourceTree = "<group>"; };
 		1367F7CA21E0262E0082818C /* ConfigurationResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurationResult.swift; sourceTree = "<group>"; };
+		1367F7CD21E23B9B0082818C /* UpdatesResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatesResult.swift; sourceTree = "<group>"; };
+		1367F7D421E23D8E0082818C /* ConfigurationType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigurationType.swift; sourceTree = "<group>"; };
 		13DFA50921D5647700CD9AEA /* Updates.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Updates.swift; sourceTree = "<group>"; };
 		13DFA50B21D5647700CD9AEA /* UpdatesUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdatesUI.swift; sourceTree = "<group>"; };
 		13DFA52921DAC6F100CD9AEA /* Versions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Versions.swift; sourceTree = "<group>"; };
@@ -58,7 +61,6 @@
 		13DFA54421DBB72400CD9AEA /* JSONParsingService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONParsingService.swift; sourceTree = "<group>"; };
 		13DFA54621DBB72400CD9AEA /* ITunesSearchAPIResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ITunesSearchAPIResult.swift; sourceTree = "<group>"; };
 		13DFA54721DBB72400CD9AEA /* ParsingServiceResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParsingServiceResult.swift; sourceTree = "<group>"; };
-		13DFA54E21DBBA0100CD9AEA /* ConfigurationType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ConfigurationType.swift; path = ../../../../../../../../../../../Documents/ConfigurationType.swift; sourceTree = "<group>"; };
 		16EA907EACAE0F09A746F60A7516C4D9 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		18383CF24EDF9EC282794A9E9CFD07C3 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1FABCC0F280874348EAEBB73C3F926AD /* Pods-Updates_Tests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Updates_Tests-umbrella.h"; sourceTree = "<group>"; };
@@ -122,6 +124,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1367F7D221E23D8E0082818C /* Configuration */ = {
+			isa = PBXGroup;
+			children = (
+				1367F7D321E23D8E0082818C /* Model */,
+			);
+			path = Configuration;
+			sourceTree = "<group>";
+		};
+		1367F7D321E23D8E0082818C /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				1367F7D421E23D8E0082818C /* ConfigurationType.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		13DFA50821D5647700CD9AEA /* Core */ = {
 			isa = PBXGroup;
 			children = (
@@ -154,20 +172,11 @@
 		13DFA52C21DAC6F100CD9AEA /* Parsing */ = {
 			isa = PBXGroup;
 			children = (
-				13DFA53F21DBB72400CD9AEA /* Configuration */,
+				1367F7D221E23D8E0082818C /* Configuration */,
 				13DFA54021DBB72400CD9AEA /* iTunes Search API */,
 			);
 			name = Parsing;
 			path = Updates/Classes/Parsing;
-			sourceTree = "<group>";
-		};
-		13DFA53F21DBB72400CD9AEA /* Configuration */ = {
-			isa = PBXGroup;
-			children = (
-				13DFA54D21DBB76700CD9AEA /* Model */,
-				13DFA54C21DBB76100CD9AEA /* Implementation */,
-			);
-			path = Configuration;
 			sourceTree = "<group>";
 		};
 		13DFA54021DBB72400CD9AEA /* iTunes Search API */ = {
@@ -202,21 +211,7 @@
 				13DFA54621DBB72400CD9AEA /* ITunesSearchAPIResult.swift */,
 				13DFA54721DBB72400CD9AEA /* ParsingServiceResult.swift */,
 				1367F7CA21E0262E0082818C /* ConfigurationResult.swift */,
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
-		13DFA54C21DBB76100CD9AEA /* Implementation */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Implementation;
-			sourceTree = "<group>";
-		};
-		13DFA54D21DBB76700CD9AEA /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				13DFA54E21DBBA0100CD9AEA /* ConfigurationType.swift */,
+				1367F7CD21E23B9B0082818C /* UpdatesResult.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -505,16 +500,17 @@
 			files = (
 				13DFA54821DBB72400CD9AEA /* ParsingService.swift in Sources */,
 				13DFA54B21DBB72400CD9AEA /* ParsingServiceResult.swift in Sources */,
+				1367F7D521E23D8E0082818C /* ConfigurationType.swift in Sources */,
 				13DFA50D21D5647700CD9AEA /* UpdatesUI.swift in Sources */,
 				13DFA54921DBB72400CD9AEA /* JSONParsingService.swift in Sources */,
 				13DFA50C21D5647700CD9AEA /* Updates.swift in Sources */,
-				13DFA54F21DBBA0100CD9AEA /* ConfigurationType.swift in Sources */,
 				13DFA54A21DBB72400CD9AEA /* ITunesSearchAPIResult.swift in Sources */,
 				1367F7CC21E026320082818C /* ConfigurationResult.swift in Sources */,
 				13DFA53521DAC6F100CD9AEA /* UpdatingMode.swift in Sources */,
 				13DFA53421DAC6F100CD9AEA /* Versions.swift in Sources */,
 				E0B6D50EB1766F119A96ADD519D4D12D /* Updates-dummy.m in Sources */,
 				13DFA53621DAC6F100CD9AEA /* NotificationMode.swift in Sources */,
+				1367F7CF21E23BAB0082818C /* UpdatesResult.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
