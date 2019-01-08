@@ -32,22 +32,13 @@ public class UpdatesUI: NSObject {
         let viewController = SKStoreProductViewController()
         viewController.delegate = self
         viewController.loadProduct(withParameters: parameters) { [weak self] (loadedSuccessfully, error) in
-            guard loadedSuccessfully else {
-                viewController.dismiss(animated: animated, completion: nil)
-                if let appStoreURL = Updates.appStoreURL {
-                    self?.presentSafariViewController(animated: animated,
-                                                      presentingViewController: presentingViewController,
-                                                      url: appStoreURL)
-                }
-                return
-            }
             viewController.dismiss(animated: animated, completion: nil)
-            if let appStoreURL = Updates.appStoreURL {
+            if !loadedSuccessfully, let appStoreURL = Updates.appStoreURL {
+                debugPrint(error as Any)
                 self?.presentSafariViewController(animated: animated,
                                                   presentingViewController: presentingViewController,
                                                   url: appStoreURL)
             }
-            debugPrint(error as Any)
         }
         DispatchQueue.main.async {
             presentingViewController.present(viewController, animated: animated, completion: nil)
@@ -66,22 +57,13 @@ public class UpdatesUI: NSObject {
         let viewController = SKStoreProductViewController()
         viewController.delegate = delegate
         viewController.loadProduct(withParameters: parameters) { [weak self] (loadedSuccessfully, error) in
-            guard loadedSuccessfully else {
-                viewController.dismiss(animated: animated, completion: nil)
-                if let appStoreURL = Updates.appStoreURL {
-                    self?.presentSafariViewController(animated: animated,
-                                                      presentingViewController: presentingViewController,
-                                                      url: appStoreURL)
-                }
-                return
-            }
             viewController.dismiss(animated: animated, completion: nil)
-            if let appStoreURL = Updates.appStoreURL {
+            if !loadedSuccessfully, let appStoreURL = Updates.appStoreURL {
+                debugPrint(error as Any)
                 self?.presentSafariViewController(animated: animated,
                                                   presentingViewController: presentingViewController,
                                                   url: appStoreURL)
             }
-            debugPrint(error as Any)
         }
         DispatchQueue.main.async {
             presentingViewController.present(viewController, animated: animated, completion: nil)

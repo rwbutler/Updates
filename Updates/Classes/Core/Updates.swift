@@ -150,8 +150,8 @@ private extension Updates {
         return FileManager.default.fileExists(atPath: cachedConfigURL.path)
     }
     
-    static func checkForUpdatesAutomatically(comparingVersions comparator: Versions = .semantic,
-                                             notifying: NotificationMode = .once,
+    static func checkForUpdatesAutomatically(comparingVersions comparator: Versions = Updates.comparingVersions,
+                                             notifying: NotificationMode = Updates.notifying,
                                              completion: @escaping (UpdatesResult) -> Void) {
         DispatchQueue.global(qos: .background).async {
             guard let bundleIdentifier = Updates.bundleIdentifier,
@@ -161,20 +161,30 @@ private extension Updates {
                     completion(.none)
                     return
             }
-            if appStoreId == nil {
-                appStoreId = String(parsingResult.trackId)
-            }
-            let isUpdateAvailable = updateAvailable(appVersion: appVersionString, apiVersion: parsingResult.version,
-                                                    comparator: comparator)
-            let isRequiredOSAvailable = requiredOSVersionAvailable(requiredOSVersion: parsingResult.minimumOsVersion)
-            let isUpdateAvailableForCurrentDevice = isUpdateAvailable && isRequiredOSAvailable
-            let update = Update(newVersionString: appVersionString, releaseNotes: parsingResult.releaseNotes,
-                                shouldNotify: isUpdateAvailableForCurrentDevice)
-            let result: UpdatesResult = isUpdateAvailableForCurrentDevice ? .available(update) : .none
+            appStoreId = appStoreId ?? String(parsingResult.trackId)
+            let isUpdateAvailable = isUpdateAvailableForCurrentOS(comparingVersions: comparator,
+                                                                  currentAppVersion: appVersionString,
+                                                                  minimumRequiredOS: parsingResult.minimumOsVersion,
+                                                                  newAppVersion: parsingResult.version)
             DispatchQueue.main.async {
-                completion(result)
+                if isUpdateAvailable {
+                    let update = Update(newVersionString: parsingResult.version,
+                                        releaseNotes: parsingResult.releaseNotes,
+                                        shouldNotify: isUpdateAvailable)
+                    completion(.available(update))
+                } else {
+                    completion(.none)
+                }
             }
         }
+    }
+    
+    static func isUpdateAvailableForCurrentOS(comparingVersions comparator: Versions, currentAppVersion: String,
+                                              minimumRequiredOS: String, newAppVersion: String) -> Bool {
+        let isNewVersionAvailable = updateAvailable(appVersion: currentAppVersion, apiVersion: newAppVersion,
+                                                    comparator: comparator)
+        let isRequiredOSAvailable = requiredOSVersionAvailable(requiredOSVersion: minimumRequiredOS)
+        return isNewVersionAvailable && isRequiredOSAvailable
     }
     
     static func checkForUpdatesManually(appStoreId: String,
@@ -216,30 +226,39 @@ private extension Updates {
      */
     static func compareVersions(lhs: String, rhs: String) -> ComparisonResult {
         var result = ComparisonResult.orderedSame
-        var versionComponents = lhs.components(separatedBy: ".")
-        var versionToCompareComponents = rhs.components(separatedBy: ".")
+        var lhsComponents = lhs.components(separatedBy: ".")
+        var rhsComponents = rhs.components(separatedBy: ".")
         
         // Pad out the array to make equal in length
-        while versionComponents.count < versionToCompareComponents.count {
-            versionComponents.append("0")
-        }
-        
-        while versionComponents.count > versionToCompareComponents.count {
-            versionToCompareComponents.append("0")
-        }
-        
-        for i in 0..<versionComponents.count {
-            if let versionComponent = Int(versionComponents[i]),
-                let versionToCompareComponent = Int(versionToCompareComponents[i]) {
-                if versionComponent < versionToCompareComponent {
-                    result = ComparisonResult.orderedAscending
-                    break
-                }
-                if versionComponent > versionToCompareComponent {
-                    result = ComparisonResult.orderedDescending
-                    break
-                }
+        lhsComponents = padLHSWithZeroes(lhs: lhsComponents, rhs: rhsComponents)
+        rhsComponents = padLHSWithZeroes(lhs: rhsComponents, rhs: lhsComponents)
+        for (lhsComponent, rhsComponent) in zip(lhsComponents, rhsComponents) {
+            result = comparisonResult(lhs: lhsComponent, rhs: rhsComponent)
+            if result != .orderedSame {
+                break
             }
+        }
+        return result
+    }
+    
+    static func comparisonResult(lhs: Int, rhs: Int) -> ComparisonResult {
+        var result = ComparisonResult.orderedSame
+        if lhs < rhs {
+            result = ComparisonResult.orderedAscending
+        } else if lhs > rhs {
+            result = ComparisonResult.orderedDescending
+        }
+        return result
+    }
+    
+    static func comparisonResult(lhs: String, rhs: String) -> ComparisonResult {
+        var result: ComparisonResult = .orderedSame
+        if let lhsComponent = Int(lhs), let rhsComponent = Int(rhs) {
+            result = comparisonResult(lhs: lhsComponent, rhs: rhsComponent)
+        } else if lhs < rhs {
+            result = .orderedAscending
+        } else if lhs > rhs {
+            result = .orderedDescending
         }
         return result
     }
@@ -279,6 +298,15 @@ private extension Updates {
         let lowercasedCountryCode = countryCode.lowercased()
         let urlString = "http://itunes.apple.com/lookup?bundleId=\(bundleIdentifier)&country=\(lowercasedCountryCode)"
         return URL(string: urlString)
+    }
+    
+    /// Pads out LHS array with zeroes
+    static func padLHSWithZeroes(lhs: [String], rhs: [String]) -> [String] {
+        var result = lhs
+        while result.count < rhs.count {
+            result.append("0")
+        }
+        return result
     }
     
     /// Parses data returned by the iTunes Search API.
