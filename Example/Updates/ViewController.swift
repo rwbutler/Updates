@@ -23,10 +23,8 @@ class ViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         Updates.configurationURL = URL(string: "")
-        Updates.checkForUpdates(notifying: .once) { updateAvailable, releaseNotes in
-            if updateAvailable {
-                UpdatesUI.presentAppStore(animated: animated, presentingViewController: self)
-            }
+        Updates.checkForUpdates { result in
+            UpdatesUI.promptToUpdate(result, presentingViewController: self)
             self.activityIndicator.stopAnimating()
         }
     }
@@ -50,7 +48,7 @@ private extension ViewController {
     func configureUpdates() {
         // - Add custom configuration here if needed - 
         // Updates.bundleIdentifier = ""
-        // Updates.countryCode = "gb"
+        // Updates.countryCode = ""
     }
     
 }

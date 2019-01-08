@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum UpdatingMode: String {
+public enum UpdatingMode: String, Codable {
     case automatically
     case manually
 }

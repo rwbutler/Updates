@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Versions: OptionSet {
+public struct Versions: OptionSet, Codable {
     
     public let rawValue: Int
     public static let major = Versions(rawValue: 1 << 0)

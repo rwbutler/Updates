@@ -88,51 +88,56 @@ public class UpdatesUI: NSObject {
         }
     }
     
+    /// Prompt the user to update to the latest version
+    public static func promptToUpdate(_ result: UpdatesResult, animated: Bool = true, completion: (() -> Void)? = nil,
+                                      presentingViewController: UIViewController,
+                                      title: String? = nil,
+                                      message: String? = nil) {
+        guard case let .available(update) = result else { return }
+        let alertTitle: String
+        if let title = title {
+            alertTitle = title
+        } else if let productName = Updates.productName {
+            alertTitle = "\(productName) v\(update.newVersionString) Available"
+        } else {
+            alertTitle = "Version \(update.newVersionString) Available"
+        }
+        let alertMessage: String? = message ?? update.releaseNotes
+        let alert = UIAlertController(title: alertTitle, message: alertMessage, preferredStyle: .alert)
+        let updateAction = UIAlertAction(title: "Update", style: .default) { _ in
+            alert.dismiss(animated: animated, completion: completion)
+            self.presentAppStore(animated: animated, completion: completion,
+                                 presentingViewController: presentingViewController)
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { _ in
+            alert.dismiss(animated: animated, completion: completion)
+        }
+        alert.addAction(updateAction)
+        alert.addAction(cancelAction)
+        presentingViewController.present(alert, animated: animated, completion: nil)
+    }
+    
     /// Presents SKStoreProductViewController modally.
     /// - Parameters:
     ///     - animated: Whether or not the modal presentation is animated.
     ///     - completion: Completion closure called on SKStoreProductViewController dismissal.
+    ///     - presentingViewController: View controller to present on.
     public static func presentAppStore(animated: Bool = true, completion: (() -> Void)? = nil,
                                        presentingViewController: UIViewController) {
-        updatesUI = UpdatesUI()
         updatesUI.presentAppStore(animated: animated, completion: completion,
                                   presentingViewController: presentingViewController)
     }
     
     /// Presents SKStoreProductViewController modally.
     /// - Parameters:
-    ///     - delegate: Delegate for receiving completion delegate call if required.
     ///     - animated: Whether or not the modal presentation is animated.
+    ///     - delegate: Delegate for receiving completion delegate call if required.
+    ///     - presentingViewController: View controller to present on.
     public static func presentAppStore(animated: Bool = true,
                                        delegate: SKStoreProductViewControllerDelegate,
                                        presentingViewController: UIViewController) {
-        guard let appStoreId = Updates.appStoreId,
-            let appStoreIdentifierInt = UInt(appStoreId) else {
-                return
-        }
-        let appStoreIdentifier: NSNumber = NSNumber(value: appStoreIdentifierInt)
-        let parameters = [SKStoreProductParameterITunesItemIdentifier: appStoreIdentifier]
-        let viewController = SKStoreProductViewController()
-        viewController.delegate = delegate
-        viewController.loadProduct(withParameters: parameters) { (loadedSuccessfully, error) in
-            guard loadedSuccessfully else {
-                viewController.dismiss(animated: animated, completion: nil)
-                if let appStoreURL = Updates.appStoreURL {
-                    updatesUI.presentSafariViewController(animated: animated,
-                                                          presentingViewController: presentingViewController,
-                                                          url: appStoreURL)
-                }
-                return
-            }
-            viewController.dismiss(animated: animated, completion: nil)
-            if let appStoreURL = Updates.appStoreURL {
-                updatesUI.presentSafariViewController(animated: animated,
-                                                      presentingViewController: presentingViewController,
-                                                      url: appStoreURL)
-            }
-            debugPrint(error as Any)
-        }
-        presentingViewController.present(viewController, animated: animated, completion: nil)
+        updatesUI.presentAppStore(animated: animated, delegate: delegate,
+                                  presentingViewController: presentingViewController)
     }
     
 }

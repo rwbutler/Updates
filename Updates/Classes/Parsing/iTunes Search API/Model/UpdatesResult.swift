@@ -7,9 +7,13 @@
 
 import Foundation
 
-struct UpdatesResult {
-    let newVersionString: String
-    let releaseNotes: String
-    let shouldNotifyUser: Bool
-    let updateAvailable: Bool
+public enum UpdatesResult {
+    case available(Update)
+    case none
+}
+
+public struct Update {
+    public let newVersionString: String
+    public let releaseNotes: String?
+    public let shouldNotify: Bool
 }

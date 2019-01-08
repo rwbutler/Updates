@@ -34,7 +34,7 @@ public class Updates {
     }
     
     /// Parses iTunes Search API responses.
-    private static let parsingService: ParsingService = JSONParsingService()
+    private static let parsingService: ITunesSearchJSONParsingService = ITunesSearchJSONParsingService()
     
     public static var appStoreId: String? {
         didSet {
@@ -51,28 +51,61 @@ public class Updates {
     
     public static var bundleIdentifier: String? = Bundle.main.bundleIdentifier
     
-    public static func checkForUpdates(_ mode: UpdatingMode = Updates.updatingMode,
-                                       comparingVersions comparator: Versions = .semantic,
-                                       notifying: NotificationMode = .once,
-                                       completion: @escaping (Bool, String?) -> Void) {
-        guard let bundleIdentifier = Updates.bundleIdentifier,
-            let apiURL = iTunesSearchAPIURL(bundleIdentifier: bundleIdentifier),
-            let apiData = try? Data(contentsOf: apiURL), let result = parseConfiguration(data: apiData),
-            let appVersionString = versionString else {
-                completion(false, nil)
-                return
+    public static func checkForUpdates(completion: @escaping (UpdatesResult) -> Void) {
+        // Check for updates using settings in configuration JSON
+        if let configurationURL = configurationURL {
+            if let configurationData = try? Data(contentsOf: configurationURL) {
+                let parsingResult = ConfigurationJSONParsingService().parse(configurationData)
+                switch parsingResult {
+                case .success(let configuration):
+                    checkForUpdates(configuration.updatingMode, comparingVersions: configuration.comparator,
+                                    notifying: configuration.notificationMode, completion: completion)
+                case .failure:
+                    // TODO: Couldn't obtain configuration settings - read settings from cache
+                    checkForUpdates(Updates.updatingMode, comparingVersions: comparingVersions,
+                                    notifying: notifying, completion: completion)
+                }
+            }
+        } else {
+            // Check for updates using programmatic settings
+            checkForUpdates(updatingMode, comparingVersions: comparingVersions, notifying: notifying,
+                            completion: completion)
         }
-        if appStoreId == nil {
-            appStoreId = String(result.trackId)
-        }
-        let isUpdateAvailable = updateAvailable(appVersion: appVersionString, apiVersion: result.version,
-                                                comparator: comparator)
-        let isRequiredOSAvailable = requiredOSVersionAvailable(requiredOSVersion: result.minimumOsVersion)
-        let isUpdateAvailableForCurrentDevice = isUpdateAvailable && isRequiredOSAvailable
-        completion(isUpdateAvailableForCurrentDevice, result.releaseNotes)
     }
     
+    public static func checkForUpdates(_ mode: UpdatingMode = Updates.updatingMode,
+                                       comparingVersions comparator: Versions = Updates.comparingVersions,
+                                       notifying: NotificationMode = Updates.notifying,
+                                       completion: @escaping (UpdatesResult) -> Void) {
+        switch updatingMode {
+        case .automatically:
+            checkForUpdatesAutomatically(completion: completion)
+        case .manually:
+            guard let appStoreId = self.appStoreId, let minimumOSVersion = self.minimumOSVersion,
+                let newVersionString = self.newVersionString else {
+                    let diagnosticMessage = """
+                        Missing required information to check for updates manually. Requires App Store identifier,
+                        minimum required OS version and version string for the new app version.
+                    """
+                    print(diagnosticMessage)
+                    checkForUpdatesAutomatically(completion: completion)
+                    return
+            }
+            checkForUpdatesManually(appStoreId: appStoreId, comparingVersions: comparator,
+                                    newVersionString: newVersionString, notifying: notifying,
+                                    minimumOSVersion: minimumOSVersion, completion: completion)
+        }
+    }
+    
+    public static var comparingVersions: Versions = .patch
+    
     public static var countryCode: String? = Locale.current.regionCode
+    
+    public static var newVersionString: String?
+    
+    public static var notifying: NotificationMode = .once
+    
+    public static var minimumOSVersion: String?
     
     public static let productName: String? = Bundle.main.infoDictionary?["CFBundleDisplayName"] as? String
     
@@ -115,6 +148,58 @@ private extension Updates {
     static func cacheExists() -> Bool {
         guard let cachedConfigURL = cachedConfigurationURL else { return false }
         return FileManager.default.fileExists(atPath: cachedConfigURL.path)
+    }
+    
+    static func checkForUpdatesAutomatically(comparingVersions comparator: Versions = .semantic,
+                                             notifying: NotificationMode = .once,
+                                             completion: @escaping (UpdatesResult) -> Void) {
+        DispatchQueue.global(qos: .background).async {
+            guard let bundleIdentifier = Updates.bundleIdentifier,
+                let apiURL = iTunesSearchAPIURL(bundleIdentifier: bundleIdentifier),
+                let apiData = try? Data(contentsOf: apiURL), let parsingResult = parseConfiguration(data: apiData),
+                let appVersionString = versionString else {
+                    completion(.none)
+                    return
+            }
+            if appStoreId == nil {
+                appStoreId = String(parsingResult.trackId)
+            }
+            let isUpdateAvailable = updateAvailable(appVersion: appVersionString, apiVersion: parsingResult.version,
+                                                    comparator: comparator)
+            let isRequiredOSAvailable = requiredOSVersionAvailable(requiredOSVersion: parsingResult.minimumOsVersion)
+            let isUpdateAvailableForCurrentDevice = isUpdateAvailable && isRequiredOSAvailable
+            let update = Update(newVersionString: appVersionString, releaseNotes: parsingResult.releaseNotes,
+                                shouldNotify: isUpdateAvailableForCurrentDevice)
+            let result: UpdatesResult = isUpdateAvailableForCurrentDevice ? .available(update) : .none
+            DispatchQueue.main.async {
+                completion(result)
+            }
+        }
+    }
+    
+    static func checkForUpdatesManually(appStoreId: String,
+                                        comparingVersions comparator: Versions = .semantic,
+                                        newVersionString: String,
+                                        notifying: NotificationMode = .once,
+                                        minimumOSVersion: String,
+                                        completion: @escaping (UpdatesResult) -> Void) {
+        DispatchQueue.global(qos: .background).async {
+            guard let appVersionString = versionString else {
+                completion(.none)
+                return
+            }
+            self.appStoreId = appStoreId
+            let isUpdateAvailable = updateAvailable(appVersion: appVersionString, apiVersion: newVersionString,
+                                                    comparator: comparator)
+            let isRequiredOSAvailable = requiredOSVersionAvailable(requiredOSVersion: minimumOSVersion)
+            let isUpdateAvailableForCurrentDevice = isUpdateAvailable && isRequiredOSAvailable
+            let update = Update(newVersionString: newVersionString, releaseNotes: nil,
+                                shouldNotify: isUpdateAvailableForCurrentDevice)
+            let result: UpdatesResult = isUpdateAvailableForCurrentDevice ? .available(update) : .none
+            DispatchQueue.main.async {
+                completion(result)
+            }
+        }
     }
     
     static func clearCache() {
@@ -198,7 +283,12 @@ private extension Updates {
     
     /// Parses data returned by the iTunes Search API.
     private static func parseConfiguration(data: Data) -> ParsingServiceResult? {
-        return parsingService.parse(data)
+        switch parsingService.parse(data) {
+        case .success(let result):
+            return result
+        case .failure:
+            return nil
+        }
     }
     
     /// Determines whether the required iOS version is available on the current device.

@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum NotificationMode: String {
+public enum NotificationMode: String, Codable {
     case never
     case once
     case twice
