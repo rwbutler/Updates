@@ -13,6 +13,8 @@ Updates is a framework for automatically detecting app updates and gently prompt
 # ⚠️ Currently Work In Progress 
 Updates will be available for production use on reaching version 1.0.0.
 
+To learn more about how to use Updates, take a look at the [keynote presentation](https://github.com/rwbutler/Updates/blob/master/docs/presentations/updates.pdf), or make use of the table of contents below:
+
 - [Features](#features)
 - [Installation](#installation)
 	- [Cocoapods](#cocoapods)
@@ -72,10 +74,8 @@ For more information [see here](https://github.com/Carthage/Carthage#quick-start
 In order to check whether new app versions are available invoke `checkForUpdates` as follows:
 
 ```swift
-Updates.checkForUpdates(notifying: .once) { updateAvailable in
-	if updateAvailable {
-		UpdatesUI.presentAppStore(animated: animated)
-	}
+Updates.checkForUpdates { result in
+    UpdatesUI.promptToUpdate(result, presentingViewController: self)
 }
 ```
 
