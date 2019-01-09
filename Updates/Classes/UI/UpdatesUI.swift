@@ -34,7 +34,7 @@ public class UpdatesUI: NSObject {
         viewController.loadProduct(withParameters: parameters) { [weak self] (loadedSuccessfully, error) in
             viewController.dismiss(animated: animated, completion: nil)
             if !loadedSuccessfully, let appStoreURL = Updates.appStoreURL {
-                debugPrint(error as Any)
+                print(error as Any)
                 self?.presentSafariViewController(animated: animated,
                                                   presentingViewController: presentingViewController,
                                                   url: appStoreURL)
@@ -59,7 +59,7 @@ public class UpdatesUI: NSObject {
         viewController.loadProduct(withParameters: parameters) { [weak self] (loadedSuccessfully, error) in
             viewController.dismiss(animated: animated, completion: nil)
             if !loadedSuccessfully, let appStoreURL = Updates.appStoreURL {
-                debugPrint(error as Any)
+                print(error as Any)
                 self?.presentSafariViewController(animated: animated,
                                                   presentingViewController: presentingViewController,
                                                   url: appStoreURL)

@@ -58,12 +58,21 @@ public class Updates {
                 let parsingResult = ConfigurationJSONParsingService().parse(configurationData)
                 switch parsingResult {
                 case .success(let configuration):
+                    cacheConfiguration(configuration)
                     checkForUpdates(configuration.updatingMode, comparingVersions: configuration.comparator,
                                     notifying: configuration.notificationMode, completion: completion)
                 case .failure:
-                    // TODO: Couldn't obtain configuration settings - read settings from cache
-                    checkForUpdates(Updates.updatingMode, comparingVersions: comparingVersions,
-                                    notifying: notifying, completion: completion)
+                    // Attempt to use last cached configuration first
+                    if let cachedConfigurationURL = cachedConfigurationURL,
+                        let cachedData = try? Data(contentsOf: cachedConfigurationURL),
+                        case let .success(configuration) = ConfigurationJSONParsingService().parse(cachedData) {
+                        checkForUpdates(configuration.updatingMode, comparingVersions: configuration.comparator,
+                                        notifying: configuration.notificationMode, completion: completion)
+                    } else {
+                        // Fallback to programmatic settings
+                        checkForUpdates(Updates.updatingMode, comparingVersions: comparingVersions,
+                                        notifying: notifying, completion: completion)
+                    }
                 }
             }
         } else {
@@ -145,6 +154,13 @@ private extension Updates {
             .appendingPathComponent("\(configurationName).\(configurationType.rawValue)")
     }
     
+    static func cacheConfiguration(_ result: ConfigurationResult) {
+        let encoder = JSONEncoder()
+        guard let data = try? encoder.encode(result),
+            let cachedConfigurationURL = cachedConfigurationURL else { return }
+        try? data.write(to: cachedConfigurationURL)
+    }
+    
     static func cacheExists() -> Bool {
         guard let cachedConfigURL = cachedConfigurationURL else { return false }
         return FileManager.default.fileExists(atPath: cachedConfigURL.path)
@@ -158,7 +174,9 @@ private extension Updates {
                 let apiURL = iTunesSearchAPIURL(bundleIdentifier: bundleIdentifier),
                 let apiData = try? Data(contentsOf: apiURL), let parsingResult = parseConfiguration(data: apiData),
                 let appVersionString = versionString else {
-                    completion(.none)
+                    DispatchQueue.main.async {
+                        completion(.none)
+                    }
                     return
             }
             appStoreId = appStoreId ?? String(parsingResult.trackId)
@@ -188,14 +206,16 @@ private extension Updates {
     }
     
     static func checkForUpdatesManually(appStoreId: String,
-                                        comparingVersions comparator: Versions = .semantic,
+                                        comparingVersions comparator: Versions = Updates.comparingVersions,
                                         newVersionString: String,
-                                        notifying: NotificationMode = .once,
+                                        notifying: NotificationMode = Updates.notifying,
                                         minimumOSVersion: String,
                                         completion: @escaping (UpdatesResult) -> Void) {
         DispatchQueue.global(qos: .background).async {
             guard let appVersionString = versionString else {
-                completion(.none)
+                DispatchQueue.main.async {
+                    completion(.none)
+                }
                 return
             }
             self.appStoreId = appStoreId
@@ -283,7 +303,7 @@ private extension Updates {
                 let versionToCompareComponent = Int(versionToCompareComponents[i]),
                 i < semanticVersioningComponents.count {
                 let semanticVersioningComponent = semanticVersioningComponents[i]
-                if versionComponent < versionToCompareComponent, comparator.contains(semanticVersioningComponent) {
+                if versionComponent < versionToCompareComponent, semanticVersioningComponent <= comparator {
                     return true
                 }
             }

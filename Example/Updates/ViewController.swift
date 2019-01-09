@@ -22,7 +22,7 @@ class ViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        Updates.configurationURL = URL(string: "")
+        Updates.configurationURL = Bundle.main.url(forResource: "Updates", withExtension: "json")
         Updates.checkForUpdates { result in
             UpdatesUI.promptToUpdate(result, presentingViewController: self)
             self.activityIndicator.stopAnimating()
