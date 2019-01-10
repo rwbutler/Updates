@@ -22,19 +22,27 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="App version: Version(Build)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HPU-d5-uii">
-                                <rect key="frame" x="84" y="323" width="207" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <rect key="frame" x="79.5" y="321" width="216" height="25"/>
+                                <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="18"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="kb6-fh-7dQ">
-                                <rect key="frame" x="177.5" y="374" width="20" height="20"/>
+                                <rect key="frame" x="177.5" y="376" width="20" height="20"/>
                             </activityIndicatorView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Updates" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="z5N-pp-R6h">
+                                <rect key="frame" x="38" y="201.5" width="299.5" height="109.5"/>
+                                <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="80"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="z5N-pp-R6h" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" id="0NS-vy-EFd"/>
                             <constraint firstItem="HPU-d5-uii" firstAttribute="centerY" secondItem="kh9-bI-dsS" secondAttribute="centerY" id="1Cs-Kl-e04"/>
                             <constraint firstItem="kb6-fh-7dQ" firstAttribute="top" secondItem="HPU-d5-uii" secondAttribute="bottom" constant="30" id="ZAb-u0-ib2"/>
+                            <constraint firstItem="HPU-d5-uii" firstAttribute="top" secondItem="z5N-pp-R6h" secondAttribute="bottom" constant="10" id="ech-LL-M4Y"/>
                             <constraint firstItem="kb6-fh-7dQ" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" id="j3f-Fm-cLi"/>
                             <constraint firstItem="HPU-d5-uii" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" id="nU1-K4-AiP"/>
                         </constraints>
