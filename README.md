@@ -16,15 +16,34 @@ Updates will be available for production use on reaching version 1.0.0.
 To learn more about how to use Updates, take a look at the [keynote presentation](https://github.com/rwbutler/Updates/blob/master/docs/presentations/updates.pdf), or make use of the table of contents below:
 
 - [Features](#features)
+- [Quickstart](#quickstart)
 - [Installation](#installation)
 	- [Cocoapods](#cocoapods)
 	- [Carthage](#carthage)
+- [How It Works](#how-it-works)
 - [Usage](#usage)
+- [Author](#author)
+- [License](#license)
+- [Additional Software](#additional-software)
+	- [Frameworks](#frameworks)
+	- [Tools](#tools)
 
 ## Features
 
 - [x] Automatically detect whether a new version of your app is available.
 - [x] UI component for presenting SKStoreProductViewController or directing users to the App Store directly.
+
+## Quickstart
+
+In order to check whether new app versions are available invoke `checkForUpdates` as follows:
+
+```swift
+Updates.checkForUpdates { result in
+    UpdatesUI.promptToUpdate(result, presentingViewController: self)
+}
+```
+
+The `notifying` parameter allows the developer to specify the number of times the user will be prompted to update.
 
 ## Installation
 
@@ -69,7 +88,23 @@ From the macOS Terminal run `carthage update --platform iOS` to build the framew
 
 For more information [see here](https://github.com/Carthage/Carthage#quick-start).
 
+## How It Works
+Updates is a framework which automatically checks to see whether a new version of your app is available. When an update is released, Updates is able to present the new version number and accompanying release notes to the user giving them the choice to update. Users electing to proceed are seamlessly presented the App Store in-app so that updating becomes effortless.
+
+How does Updates achieve this? Firstly, it makes use of the [iTunes Search API](https://developer.apple.com/library/archive/documentation/AudioVideo/Conceptual/iTuneSearchAPI/index.html) to retrieve the version number of the latest version of your app available from the store. Along with this, the release notes and numeric App Store identifier are fetched for your app which means that when a new version is released, Updates is able to tell your users the version number of the update as well as what's new.
+
+Using the numeric App Store identifier, if the user elects to update then Updates can present the App Store allowing the user to seamlessly update without ever the app. 
+
+If you would prefer to set this information manually (rather than having Updates retrieve it for you), you may do so by specifying a JSON configuration file. Furthermore, having a JSON configuration file allows you to specify whether or not Updates checks automatically or manually - you may then later toggle this setting remotely. Alternatively, everything can be configured programmatically in the case that this is preferred.
+
 ## Usage
+
+There are two ways of using Updates - having it check for updates automatically, or providing the update information manually via a JSON configuration file.
+
+### Configuration
+
+#### Check for updates automatically
+#### Notify of updates manually
 
 In order to check whether new app versions are available invoke `checkForUpdates` as follows:
 
