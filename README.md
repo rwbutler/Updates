@@ -104,6 +104,45 @@ There are two ways of using Updates - having it check for updates automatically,
 ### Configuration
 
 #### Check for updates automatically
+
+To have Updates automatically check for new versions of your app you may configure the framework using a JSON configuration file. You need to let Updates know where to look for the file by specifying a configuration URL as follows:
+
+```
+Updates.configurationURL = URL(string: "https://exampledomain.com/updates.json")
+```
+
+Alternatively the URL may reference a local file / file in your app bundle using a file URL e.g.
+
+```
+Updates.configurationURL = Bundle.main.url(forResource: "Updates", withExtension: "json")
+```
+
+A simple configuration file might look as follows:
+
+```
+{
+    "updates": {
+        "check-for": "automatically",
+        "notify": "once"
+    }
+}
+```
+
+Note that Updates looks for a top-level key called `updates` which means that it is possible to add to an existing JSON file rather than creating an entirely new one.
+
+The above configuration tells Updates to resolve all of the information needed to determine whether a new version of your app is available automatically with minimal configuration. It also indicates that users should only be notified once about a particular app update to avoid badgering them. Alternative values of this property are `twice`, `thrice`, `never` and `always`.
+
+Having a remote JSON configuration allows for the greatest amount of flexibility once your app has been deployed as this makes it possible to switch from automatic to manual mode remotely and then provide the details of your app's latest update yourself should you wish to.
+
+You may forego a remote JSON configuration and simply configure Updates programmatically if you want as follows:
+
+```
+Updates.updatingMode = .automatically
+Updates.notifying = .once
+```
+
+This is equivalent to the configuration in the above JSON snippet.
+
 #### Notify of updates manually
 
 In order to check whether new app versions are available invoke `checkForUpdates` as follows:
