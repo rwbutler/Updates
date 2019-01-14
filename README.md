@@ -25,6 +25,8 @@ To learn more about how to use Updates, take a look at the [keynote presentation
 	- [Configuration](#configuration)
 		- [Check for Updates Automatically](#check-for-updates-automatically)
 		- [Manually Notify Users of Updates](#manually-notify-users-of-updates)
+	- [Checking For Updates](#check-for-updates)
+	- [UI Component](#ui-component)
 - [Author](#author)
 - [License](#license)
 - [Additional Software](#additional-software)
@@ -34,6 +36,7 @@ To learn more about how to use Updates, take a look at the [keynote presentation
 ## Features
 
 - [x] Automatically detect whether a new version of your app is available.
+- [x] Configure framework settings remotely using a self-hosted JSON file.
 - [x] UI component for presenting `SKStoreProductViewController `or directing users to the App Store directly.
 
 ## Quickstart
@@ -179,6 +182,56 @@ Updates.comparingVersions: .major
 Updates.minimumOSVersion: "12.0.0"
 Updates.versionString: "2.0.0"
 ```
+
+
+### Checking For Updates
+
+Regardless of whether you have configured Updates to check for updates automatically or manually, call `checkForUpdates` in your app to be notified of new app updates as follows:
+
+```swift
+Updates.checkForUpdates { result in
+    // Implement custom UI or use UpdatesUI component
+}
+```
+
+The `UpdatesUI` component described in the next section can be used in conjunction with this method call to present the App Store in-app (using either a `SKStoreProductViewController` or `SFSafariViewController` in the event that the former cannot be loaded) allowing users to update seamlessly. Alternatively you may elect to implement your own custom UI in the callback.
+
+The callback returns an `UpdatesResult` enum value indicating whether or not an update is available:
+
+```swift
+public enum UpdatesResult {
+    case available(Update)
+    case none
+}
+```
+
+In the case that an update is available, an `Update` value is available providing the version number of the update as well as the release notes when using automatic configuration:
+
+```swift
+public struct Update {
+    public let newVersionString: String
+    public let releaseNotes: String?
+    public let shouldNotify: Bool
+}
+```
+
+Note that the value of `notify` property in your JSON configuration is used to determine whether or not `shouldNotify` is `true` or `false`. Where writing custom UI it is up to the developer to respect the value of `shouldNotify`. If using the `UpdatesUI` component this property will automatically be respected.
+
+### UI Component
+
+The UpdatesUI component is separate from the core Updates framework to allow developers to create a custom UI if needed. For developers who do not require a custom UI, `UpdatesUI` makes it as simple as possible for users to update. Users will be presented a `UIAlertController` asking whether to Update or Cancel. Should the user elect to update then a `SKStoreProductViewController` will be displayed allowing the update to be initiated in-app.
+
+In order to display the UI simply pass the `UpdatesResult` value returned from the update check to the UI as follows:
+
+```swift
+Updates.checkForUpdates { result in
+    UpdatesUI.promptToUpdate(result, presentingViewController: self)
+}
+```
+
+The result will look as follows:
+
+![UpdatesUI](https://raw.githubusercontent.com/rwbutler/Updates/master/docs/images/screenshot.png)
 
 ## Sample App
 
