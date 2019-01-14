@@ -22,6 +22,9 @@ To learn more about how to use Updates, take a look at the [keynote presentation
 	- [Carthage](#carthage)
 - [How It Works](#how-it-works)
 - [Usage](#usage)
+	- [Configuration](#configuration)
+		- [Check for Updates Automatically](#check-for-updates-automatically)
+		- [Manually Notify Users of Updates](#manually-notify-users-of-updates)
 - [Author](#author)
 - [License](#license)
 - [Additional Software](#additional-software)
@@ -31,15 +34,13 @@ To learn more about how to use Updates, take a look at the [keynote presentation
 ## Features
 
 - [x] Automatically detect whether a new version of your app is available.
-- [x] UI component for presenting SKStoreProductViewController or directing users to the App Store directly.
+- [x] UI component for presenting `SKStoreProductViewController `or directing users to the App Store directly.
 
 ## Quickstart
 
 In order to check whether new app versions are available invoke `checkForUpdates` as follows:
 
 ```swift
-import Updates
-...
 Updates.checkForUpdates { result in
     UpdatesUI.promptToUpdate(result, presentingViewController: self)
 }
@@ -95,33 +96,32 @@ Updates is a framework which automatically checks to see whether a new version o
 
 How does Updates achieve this? Firstly, it makes use of the [iTunes Search API](https://developer.apple.com/library/archive/documentation/AudioVideo/Conceptual/iTuneSearchAPI/index.html) to retrieve the version number of the latest version of your app available from the store. Along with this, the release notes and numeric App Store identifier are fetched for your app which means that when a new version is released, Updates is able to tell your users the version number of the update as well as what's new.
 
-Using the numeric App Store identifier, if the user elects to update then Updates can present the App Store allowing the user to seamlessly update without ever the app. 
+Using the numeric App Store identifier, if the user elects to update then Updates can present the App Store allowing the user to seamlessly update without having to leave the app. 
 
-If you would prefer to set this information manually (rather than having Updates retrieve it for you), you may do so by specifying a JSON configuration file. Furthermore, having a JSON configuration file allows you to specify whether or not Updates checks automatically or manually - you may then later toggle this setting remotely. Alternatively, everything can be configured programmatically in the case that this is preferred.
+If you would prefer to set this information manually (rather than having Updates retrieve it for you), you may do so by specifying the necessary information as part of a JSON configuration file. Furthermore, having a JSON configuration file allows you to specify whether or not Updates checks automatically or manually - you may then later toggle this setting remotely. It also possible to configure all settings programmatically.
 
 ## Usage
 
 There are two ways of using Updates - having it check for updates automatically, or providing the update information manually via a JSON configuration file.
 
 ### Configuration
-
-#### Check for updates automatically
+#### Check for Updates Automatically
 
 To have Updates automatically check for new versions of your app you may configure the framework using a JSON configuration file. You need to let Updates know where to look for the file by specifying a configuration URL as follows:
 
-```
+```swift
 Updates.configurationURL = URL(string: "https://exampledomain.com/updates.json")
 ```
 
 Alternatively the URL may reference a local file / file in your app bundle using a file URL e.g.
 
-```
+```swift
 Updates.configurationURL = Bundle.main.url(forResource: "Updates", withExtension: "json")
 ```
 
 A simple configuration file might look as follows:
 
-```
+```json
 {
     "updates": {
         "check-for": "automatically",
@@ -138,24 +138,47 @@ Having a remote JSON configuration allows for the greatest amount of flexibility
 
 You may forego a remote JSON configuration and simply configure Updates programmatically if you want as follows:
 
-```
+```swift
 Updates.updatingMode = .automatically
 Updates.notifying = .once
 ```
 
 This is equivalent to the configuration in the above JSON snippet.
 
-#### Notify of updates manually
+#### Manually Notify Users of Updates
 
-In order to check whether new app versions are available invoke `checkForUpdates` as follows:
+To manually notify users of updates to your app configure your JSON file as follows:
 
-```swift
-Updates.checkForUpdates { result in
-    UpdatesUI.promptToUpdate(result, presentingViewController: self)
+```json
+{
+    "updates": {
+        "check-for": "manually",
+        "notify": "always",
+        "app-store-id": "123456",
+        "comparing": "major-versions",
+        "min-os-required": "12.0.0",
+        "version": "2.0.0"
+    }
 }
 ```
 
-The `notifying` parameter allows the developer to specify the number of times the user will be prompted to update.
+- `check-for` specifies whether Updates should check for updates automatically or manually.
+- The `notifying` parameter allows the developer to specify the number of times the user will be prompted to update.
+- The `app-store-id` parameter specifies the numeric identifier for your app in the App Store. This parameter is only required should you wish to use the `UpdatesUI` component to present an `SKStoreProductViewController` allowing the user to update. If developing a custom UI, this parameter may be omitted. 
+- `comparing` determines the version number increment required for users to be notified about a notify version e.g. `major-versions` indicates that users will only be notified when the app's major version number is incremented. Other possible values here are `minor-versions` and `patch-versions`.
+- The `min-os-required` property ensures that if the new version of your app does not support older versions of iOS that were previously supported then users who cannot take advantage of the update are not notified about the new version.
+- The `version` property indicates the new app version available from the App Store.
+
+If you chose not to host a remote configuration file, the same configuration may be obtained programmatically:
+
+```swift
+Updates.updatingMode = .manually
+Updates.notifying = .always
+Updates.appStoreId: "123456"
+Updates.comparingVersions: .major
+Updates.minimumOSVersion: "12.0.0"
+Updates.versionString: "2.0.0"
+```
 
 ## Sample App
 
