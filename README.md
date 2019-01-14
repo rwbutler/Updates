@@ -38,12 +38,14 @@ To learn more about how to use Updates, take a look at the [keynote presentation
 In order to check whether new app versions are available invoke `checkForUpdates` as follows:
 
 ```swift
+import Updates
+...
 Updates.checkForUpdates { result in
     UpdatesUI.promptToUpdate(result, presentingViewController: self)
 }
 ```
 
-The `notifying` parameter allows the developer to specify the number of times the user will be prompted to update.
+Then invoke UpdatesUI to present an `SKStoreProductViewController` allowing users to update to the latest version without having to leave your app.
 
 ## Installation
 
