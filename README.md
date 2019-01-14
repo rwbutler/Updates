@@ -239,7 +239,7 @@ To run the example project, clone the repo, and run `pod install` from the Examp
 
 ## Author
 
-Ross Butler
+[Ross Butler](https://github.com/rwbutler/)
 
 ## License
 
