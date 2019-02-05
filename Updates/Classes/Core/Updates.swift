@@ -33,9 +33,6 @@ public class Updates {
         }
     }
     
-    /// Parses iTunes Search API responses.
-    private static let parsingService: ITunesSearchJSONParsingService = ITunesSearchJSONParsingService()
-    
     public static var appStoreId: String? {
         didSet {
             guard appStoreURL == nil, let appStoreId = appStoreId, let productName = productName else {
@@ -117,6 +114,13 @@ public class Updates {
     public static var minimumOSVersion: String?
     
     public static let productName: String? = Bundle.main.infoDictionary?["CFBundleDisplayName"] as? String
+    
+    /// Determines whether the required version of iOS is available on the current device.
+    @objc public static func systemVersionAvailable(_ systemVersionString: String) -> Bool {
+        let currentOSVersion = UIDevice.current.systemVersion
+        let comparisonResult = compareVersions(lhs: systemVersionString, rhs: currentOSVersion)
+        return comparisonResult != .orderedDescending
+    }
     
     public static var updatingMode: UpdatingMode = .automatically
     
@@ -201,7 +205,7 @@ private extension Updates {
                                               minimumRequiredOS: String, newAppVersion: String) -> Bool {
         let isNewVersionAvailable = updateAvailable(appVersion: currentAppVersion, apiVersion: newAppVersion,
                                                     comparator: comparator)
-        let isRequiredOSAvailable = requiredOSVersionAvailable(requiredOSVersion: minimumRequiredOS)
+        let isRequiredOSAvailable = systemVersionAvailable(minimumRequiredOS)
         return isNewVersionAvailable && isRequiredOSAvailable
     }
     
@@ -221,7 +225,7 @@ private extension Updates {
             self.appStoreId = appStoreId
             let isUpdateAvailable = updateAvailable(appVersion: appVersionString, apiVersion: newVersionString,
                                                     comparator: comparator)
-            let isRequiredOSAvailable = requiredOSVersionAvailable(requiredOSVersion: minimumOSVersion)
+            let isRequiredOSAvailable = systemVersionAvailable(minimumOSVersion)
             let isUpdateAvailableForCurrentDevice = isUpdateAvailable && isRequiredOSAvailable
             let update = Update(newVersionString: newVersionString, releaseNotes: nil,
                                 shouldNotify: isUpdateAvailableForCurrentDevice)
@@ -339,11 +343,7 @@ private extension Updates {
         }
     }
     
-    /// Determines whether the required iOS version is available on the current device.
-    static func requiredOSVersionAvailable(requiredOSVersion: String) -> Bool {
-        let currentOSVersion = UIDevice.current.systemVersion
-        let comparisonResult = compareVersions(lhs: requiredOSVersion, rhs: currentOSVersion)
-        return comparisonResult != .orderedDescending
-    }
+    /// Parses iTunes Search API responses.
+    private static let parsingService: ITunesSearchJSONParsingService = ITunesSearchJSONParsingService()
     
 }
