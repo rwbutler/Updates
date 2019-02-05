@@ -104,6 +104,8 @@ public class Updates {
                                     newVersionString: newVersionString, notifying: notifying,
                                     minimumOSVersion: minimumOSVersion, releaseNotes: releaseNotes,
                                     completion: completion)
+        case .never:
+            break
         }
     }
     
