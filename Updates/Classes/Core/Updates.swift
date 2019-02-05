@@ -57,18 +57,20 @@ public class Updates {
                 case .success(let configuration):
                     cacheConfiguration(configuration)
                     checkForUpdates(configuration.updatingMode, comparingVersions: configuration.comparator,
-                                    notifying: configuration.notificationMode, completion: completion)
+                                    notifying: configuration.notificationMode, releaseNotes: configuration.releaseNotes,
+                                    completion: completion)
                 case .failure:
                     // Attempt to use last cached configuration first
                     if let cachedConfigurationURL = cachedConfigurationURL,
                         let cachedData = try? Data(contentsOf: cachedConfigurationURL),
                         case let .success(configuration) = ConfigurationJSONParsingService().parse(cachedData) {
                         checkForUpdates(configuration.updatingMode, comparingVersions: configuration.comparator,
-                                        notifying: configuration.notificationMode, completion: completion)
+                                        notifying: configuration.notificationMode,
+                                        releaseNotes: configuration.releaseNotes, completion: completion)
                     } else {
                         // Fallback to programmatic settings
                         checkForUpdates(Updates.updatingMode, comparingVersions: comparingVersions,
-                                        notifying: notifying, completion: completion)
+                                        notifying: notifying, releaseNotes: releaseNotes, completion: completion)
                     }
                 }
             }
@@ -82,6 +84,7 @@ public class Updates {
     public static func checkForUpdates(_ mode: UpdatingMode = Updates.updatingMode,
                                        comparingVersions comparator: Versions = Updates.comparingVersions,
                                        notifying: NotificationMode = Updates.notifying,
+                                       releaseNotes: String? = nil,
                                        completion: @escaping (UpdatesResult) -> Void) {
         switch updatingMode {
         case .automatically:
@@ -99,7 +102,8 @@ public class Updates {
             }
             checkForUpdatesManually(appStoreId: appStoreId, comparingVersions: comparator,
                                     newVersionString: newVersionString, notifying: notifying,
-                                    minimumOSVersion: minimumOSVersion, completion: completion)
+                                    minimumOSVersion: minimumOSVersion, releaseNotes: releaseNotes,
+                                    completion: completion)
         }
     }
     
@@ -114,6 +118,8 @@ public class Updates {
     public static var minimumOSVersion: String?
     
     public static let productName: String? = Bundle.main.infoDictionary?["CFBundleDisplayName"] as? String
+    
+    public static var releaseNotes: String?
     
     /// Determines whether the required version of iOS is available on the current device.
     @objc public static func systemVersionAvailable(_ systemVersionString: String) -> Bool {
@@ -214,6 +220,7 @@ private extension Updates {
                                         newVersionString: String,
                                         notifying: NotificationMode = Updates.notifying,
                                         minimumOSVersion: String,
+                                        releaseNotes: String?,
                                         completion: @escaping (UpdatesResult) -> Void) {
         DispatchQueue.global(qos: .background).async {
             guard let appVersionString = versionString else {
@@ -227,7 +234,7 @@ private extension Updates {
                                                     comparator: comparator)
             let isRequiredOSAvailable = systemVersionAvailable(minimumOSVersion)
             let isUpdateAvailableForCurrentDevice = isUpdateAvailable && isRequiredOSAvailable
-            let update = Update(newVersionString: newVersionString, releaseNotes: nil,
+            let update = Update(newVersionString: newVersionString, releaseNotes: releaseNotes,
                                 shouldNotify: isUpdateAvailableForCurrentDevice)
             let result: UpdatesResult = isUpdateAvailableForCurrentDevice ? .available(update) : .none
             DispatchQueue.main.async {

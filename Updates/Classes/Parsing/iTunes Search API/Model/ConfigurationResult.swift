@@ -15,6 +15,7 @@ struct ConfigurationResult: Codable {
         case comparing
         case minOSRequired = "min-os-required"
         case notificationMode = "notify"
+        case releaseNotes = "release-notes"
         case updatingMode = "check-for"
         case version
     }
@@ -24,6 +25,7 @@ struct ConfigurationResult: Codable {
     let comparator: Versions
     let minOSRequired: String?
     let notificationMode: NotificationMode
+    let releaseNotes: String?
     let updatingMode: UpdatingMode
     let version: String?
     
@@ -34,6 +36,7 @@ struct ConfigurationResult: Codable {
         self.comparator = (try? container.decode(Versions.self, forKey: .comparing)) ?? .patch
         self.minOSRequired = try? container.decode(String.self, forKey: .minOSRequired)
         self.notificationMode = (try? container.decode(NotificationMode.self, forKey: .notificationMode)) ?? .once
+        self.releaseNotes = try? container.decode(String.self, forKey: .releaseNotes)
         self.updatingMode = (try? container.decode(UpdatingMode.self, forKey: .updatingMode)) ?? .automatically
         self.version = try? container.decode(String.self, forKey: .version)
     }
@@ -45,6 +48,7 @@ struct ConfigurationResult: Codable {
         try container.encode(comparator, forKey: .comparing)
         try container.encode(minOSRequired, forKey: .minOSRequired)
         try container.encode(notificationMode, forKey: .notificationMode)
+        try container.encode(releaseNotes, forKey: .releaseNotes)
         try container.encode(updatingMode, forKey: .updatingMode)
         try container.encode(version, forKey: .version)
     }
