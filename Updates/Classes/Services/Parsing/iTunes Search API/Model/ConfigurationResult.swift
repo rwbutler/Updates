@@ -22,7 +22,7 @@ struct ConfigurationResult: Codable {
     
     let appStoreId: String?
     let buildString: String?
-    let comparator: Versions
+    let comparator: VersionComparator
     let minOSRequired: String?
     let notificationMode: NotificationMode
     let releaseNotes: String?
@@ -33,7 +33,7 @@ struct ConfigurationResult: Codable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.appStoreId = try? container.decode(String.self, forKey: .appStoreId)
         self.buildString = try? container.decode(String.self, forKey: .build)
-        self.comparator = (try? container.decode(Versions.self, forKey: .comparing)) ?? .patch
+        self.comparator = (try? container.decode(VersionComparator.self, forKey: .comparing)) ?? .patch
         self.minOSRequired = try? container.decode(String.self, forKey: .minOSRequired)
         self.notificationMode = (try? container.decode(NotificationMode.self, forKey: .notificationMode)) ?? .once
         self.releaseNotes = try? container.decode(String.self, forKey: .releaseNotes)

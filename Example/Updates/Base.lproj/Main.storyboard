@@ -22,27 +22,36 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="App version: Version(Build)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HPU-d5-uii">
-                                <rect key="frame" x="79.5" y="321" width="216" height="25"/>
+                                <rect key="frame" x="79.5" y="383" width="216" height="25"/>
                                 <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="18"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="kb6-fh-7dQ">
-                                <rect key="frame" x="177.5" y="376" width="20" height="20"/>
+                                <rect key="frame" x="177.5" y="438" width="20" height="20"/>
                             </activityIndicatorView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Updates" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="z5N-pp-R6h">
-                                <rect key="frame" x="38" y="201.5" width="299.5" height="109.5"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Updates" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sdt-LB-7WZ">
+                                <rect key="frame" x="38" y="253.5" width="299.5" height="109.5"/>
                                 <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="80"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="updates-large-logo" translatesAutoresizingMaskIntoConstraints="NO" id="tMl-TF-rP7">
+                                <rect key="frame" x="87.5" y="33.5" width="200" height="200"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="200" id="Gjr-Tz-0SV"/>
+                                    <constraint firstAttribute="width" constant="200" id="YYH-0g-D6b"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="z5N-pp-R6h" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" id="0NS-vy-EFd"/>
-                            <constraint firstItem="HPU-d5-uii" firstAttribute="centerY" secondItem="kh9-bI-dsS" secondAttribute="centerY" id="1Cs-Kl-e04"/>
+                            <constraint firstItem="tMl-TF-rP7" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" id="8yv-XQ-ZWC"/>
+                            <constraint firstItem="Sdt-LB-7WZ" firstAttribute="top" secondItem="tMl-TF-rP7" secondAttribute="bottom" constant="20" id="TOu-XD-Slk"/>
+                            <constraint firstItem="HPU-d5-uii" firstAttribute="top" secondItem="Sdt-LB-7WZ" secondAttribute="bottom" constant="20" id="TZp-Ol-bvN"/>
                             <constraint firstItem="kb6-fh-7dQ" firstAttribute="top" secondItem="HPU-d5-uii" secondAttribute="bottom" constant="30" id="ZAb-u0-ib2"/>
-                            <constraint firstItem="HPU-d5-uii" firstAttribute="top" secondItem="z5N-pp-R6h" secondAttribute="bottom" constant="10" id="ech-LL-M4Y"/>
+                            <constraint firstItem="Sdt-LB-7WZ" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" id="ave-i4-hht"/>
+                            <constraint firstItem="tMl-TF-rP7" firstAttribute="centerY" secondItem="kh9-bI-dsS" secondAttribute="centerY" constant="-200" id="fuM-8T-daZ"/>
                             <constraint firstItem="kb6-fh-7dQ" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" id="j3f-Fm-cLi"/>
                             <constraint firstItem="HPU-d5-uii" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" id="nU1-K4-AiP"/>
                         </constraints>
@@ -56,4 +65,7 @@
             </objects>
         </scene>
     </scenes>
+    <resources>
+        <image name="updates-large-logo" width="300" height="300"/>
+    </resources>
 </document>
