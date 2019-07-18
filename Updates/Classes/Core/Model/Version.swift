@@ -49,7 +49,7 @@ struct Version: Codable {
             }
         })
         assert(!sorted.isEmpty, "Initializer does not allow a new version without an accompanying build number.")
-        // swiftlint:disable:next force_unwrap
         return sorted.last!
     }
+    
 }

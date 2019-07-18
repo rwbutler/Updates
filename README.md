@@ -6,13 +6,10 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/cbabaea781ab999cb673/maintainability)](https://codeclimate.com/github/rwbutler/Updates/maintainability)
 [![License](https://img.shields.io/cocoapods/l/Updates.svg?style=flat)](https://cocoapods.org/pods/Updates)
 [![Platform](https://img.shields.io/cocoapods/p/Updates.svg?style=flat)](https://cocoapods.org/pods/Updates)
-[![Swift 4.2](https://img.shields.io/badge/Swift-4.2-orange.svg?style=flat)](https://swift.org/)
+[![Swift 5.0](https://img.shields.io/badge/Swift-5.0-orange.svg?style=flat)](https://swift.org/)
 [![Reviewed by Hound](https://img.shields.io/badge/Reviewed_by-Hound-8E64B0.svg)](https://houndci.com)
 
 Updates is a framework for automatically detecting app updates and gently prompting users to update.
-
-# ⚠️ Currently Work In Progress 
-Updates will be available for production use on reaching version 1.0.0.
 
 To learn more about how to use Updates, take a look at the [keynote presentation](https://github.com/rwbutler/Updates/blob/master/docs/presentations/updates.pdf), or make use of the table of contents below:
 
