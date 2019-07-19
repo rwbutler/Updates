@@ -11,7 +11,7 @@
 
 Updates is a framework for automatically detecting app updates and gently prompting users to update.
 
-To learn more about how to use Updates, take a look at the [keynote presentation](https://github.com/rwbutler/Updates/blob/master/docs/presentations/updates.pdf), or make use of the table of contents below:
+To learn more about how to use Updates, take a look at the [keynote presentation](https://github.com/rwbutler/Updates/blob/master/docs/presentations/updates.pdf), check out the [blog post](https://medium.com/@rwbutler/updating-users-to-the-latest-app-release-on-ios-ed96e4c76705) or make use of the table of contents below:
 
 - [Features](#features)
 - [Quickstart](#quickstart)
