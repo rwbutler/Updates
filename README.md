@@ -25,6 +25,7 @@ To learn more about how to use Updates, take a look at the [keynote presentation
 		- [Manually Notify Users of Updates](#manually-notify-users-of-updates)
 	- [Checking For Updates](#check-for-updates)
 	- [UI Component](#ui-component)
+- [FAQs](#faqs)
 - [Author](#author)
 - [License](#license)
 - [Additional Software](#additional-software)
@@ -234,6 +235,19 @@ The result will look as follows:
 ## Sample App
 
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
+
+## FAQs
+
+### When I invoke `Updates.checkForUpdates` my closure is not being invoked when expected, what's wrong?
+
+Updates uses your app's bundle identifier to invoke the iTunes Search API using a URL such as the following:
+
+[https://itunes.apple.com/lookupbundleId=com.rwbutler.daycalculator&country=gb](https://itunes.apple.com/lookupbundleId=com.rwbutler.daycalculator&country=gb)
+
+This allows Updates to retrieve the release notes, latest version number and App Store identifier for your app. If this process fails for you, the likelihood is that the `country` parameter has been set incorrectly. 
+
+This parameter needs to be set to the country code for the App Store territory from which the user downloaded your app. Currently Updates retrieves this code by querying the device's current locale using `Locale.current.regionCode` however this can be overridden programmatically via the `Updates.countryCode` parameter. Once set correctly you shouldn't experience any further issues.
+
 
 ## Author
 
