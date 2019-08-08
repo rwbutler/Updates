@@ -51,6 +51,7 @@ extension Updates {
     
     static func checkForUpdatesAutomatically(comparingVersions
         comparator: VersionComparator = Updates.comparingVersions,
+                                             currentOSVersion: String,
                                              notifying: NotificationMode = Updates.notifying,
                                              completion: @escaping (UpdatesResult) -> Void) {
         DispatchQueue.global(qos: .background).async {
@@ -66,6 +67,7 @@ extension Updates {
             appStoreId = appStoreId ?? String(parsingResult.trackId)
             let isUpdateAvailable = isUpdateAvailableForSystemVersion(comparingVersions: comparator,
                                                                       currentAppVersion: appVersionString,
+                                                                      currentOSVersion: currentOSVersion,
                                                                       minimumRequiredOS: parsingResult.minimumOsVersion,
                                                                       newAppVersion: parsingResult.version)
             let update = Update(newVersionString: parsingResult.version,
@@ -79,20 +81,21 @@ extension Updates {
     }
     
     static func isUpdateAvailableForSystemVersion(comparingVersions comparator: VersionComparator,
-                                                  currentAppVersion: String, minimumRequiredOS: String,
+                                                  currentAppVersion: String, currentOSVersion: String,
+                                                  minimumRequiredOS: String,
                                                   newAppVersion: String) -> Bool {
         let isNewVersionAvailable = updateAvailable(appVersion: currentAppVersion, apiVersion: newAppVersion,
                                                     comparator: comparator)
-        let isRequiredOSAvailable = systemVersionAvailable(minimumRequiredOS)
+        let isRequiredOSAvailable = systemVersionAvailable(currentOSVersion: currentOSVersion,
+                                                           requiredVersionString: minimumRequiredOS)
         return isNewVersionAvailable && isRequiredOSAvailable
     }
     
     static func checkForUpdatesManually(appStoreId: String,
                                         comparingVersions comparator: VersionComparator = Updates.comparingVersions,
-                                        newVersionString: String,
+                                        currentOSVersion: String, newVersionString: String,
                                         notifying: NotificationMode = Updates.notifying,
-                                        minimumOSVersion: String,
-                                        releaseNotes: String?,
+                                        minimumOSVersion: String, releaseNotes: String?,
                                         completion: @escaping (UpdatesResult) -> Void) {
         DispatchQueue.global(qos: .background).async {
             guard let appVersionString = versionString else {
@@ -104,6 +107,7 @@ extension Updates {
             self.appStoreId = appStoreId
             let isUpdateAvailable = isUpdateAvailableForSystemVersion(comparingVersions: comparator,
                                                                       currentAppVersion: appVersionString,
+                                                                      currentOSVersion: currentOSVersion,
                                                                       minimumRequiredOS: minimumOSVersion,
                                                                       newAppVersion: newVersionString)
             let update = Update(newVersionString: newVersionString, releaseNotes: releaseNotes,

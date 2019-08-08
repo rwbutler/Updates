@@ -58,7 +58,7 @@ public class Updates {
     
     public static var bundleIdentifier: String? = Bundle.main.bundleIdentifier
     
-    public static func checkForUpdates(completion: @escaping (UpdatesResult) -> Void) {
+    public static func checkForUpdates(currentOSVersion: String, completion: @escaping (UpdatesResult) -> Void) {
         
         // Check for updates using settings in configuration JSON
         if let configurationURL = configurationURL {
@@ -68,7 +68,8 @@ public class Updates {
                 case .success(let configuration):
                     cacheConfiguration(configuration)
                     checkForUpdates(configuration.updatingMode, comparingVersions: configuration.comparator,
-                                    notifying: configuration.notificationMode, releaseNotes: configuration.releaseNotes,
+                                    currentOSVersion: currentOSVersion, notifying: configuration.notificationMode,
+                                    releaseNotes: configuration.releaseNotes,
                                     completion: completion)
                 case .failure:
                     // Attempt to use last cached configuration first
@@ -76,24 +77,26 @@ public class Updates {
                         let cachedData = try? Data(contentsOf: cachedConfigurationURL),
                         case let .success(configuration) = ConfigurationJSONParsingService().parse(cachedData) {
                         checkForUpdates(configuration.updatingMode, comparingVersions: configuration.comparator,
-                                        notifying: configuration.notificationMode,
+                                        currentOSVersion: currentOSVersion, notifying: configuration.notificationMode,
                                         releaseNotes: configuration.releaseNotes, completion: completion)
                     } else {
                         // Fallback to programmatic settings
                         checkForUpdates(Updates.updatingMode, comparingVersions: comparingVersions,
-                                        notifying: notifying, releaseNotes: releaseNotes, completion: completion)
+                                        currentOSVersion: currentOSVersion, notifying: notifying,
+                                        releaseNotes: releaseNotes, completion: completion)
                     }
                 }
             }
         } else {
             // Check for updates using programmatic settings
-            checkForUpdates(updatingMode, comparingVersions: comparingVersions, notifying: notifying,
-                            completion: completion)
+            checkForUpdates(updatingMode, comparingVersions: comparingVersions, currentOSVersion: currentOSVersion,
+                            notifying: notifying, completion: completion)
         }
     }
     
     public static func checkForUpdates(_ mode: UpdatingMode = Updates.updatingMode,
                                        comparingVersions comparator: VersionComparator = Updates.comparingVersions,
+                                       currentOSVersion: String,
                                        notifying: NotificationMode = Updates.notifying,
                                        releaseNotes: String? = nil,
                                        completion: @escaping (UpdatesResult) -> Void) {
@@ -104,7 +107,7 @@ public class Updates {
         
         switch updatingMode {
         case .automatically:
-            checkForUpdatesAutomatically(completion: completion)
+            checkForUpdatesAutomatically(currentOSVersion: currentOSVersion, completion: completion)
         case .manually:
             guard let appStoreId = self.appStoreId, let minimumOSVersion = self.minimumOSVersion,
                 let newVersionString = self.newVersionString else {
@@ -113,13 +116,13 @@ public class Updates {
                         minimum required OS version and version string for the new app version.
                     """
                     print(diagnosticMessage)
-                    checkForUpdatesAutomatically(completion: completion)
+                    checkForUpdatesAutomatically(currentOSVersion: currentOSVersion, completion: completion)
                     return
             }
             checkForUpdatesManually(appStoreId: appStoreId, comparingVersions: comparator,
-                                    newVersionString: newVersionString, notifying: notifying,
-                                    minimumOSVersion: minimumOSVersion, releaseNotes: releaseNotes,
-                                    completion: completion)
+                                    currentOSVersion: currentOSVersion, newVersionString: newVersionString,
+                                    notifying: notifying, minimumOSVersion: minimumOSVersion,
+                                    releaseNotes: releaseNotes, completion: completion)
         case .never:
             completion(.none)
         }
@@ -144,9 +147,9 @@ public class Updates {
     public static var releaseNotes: String?
     
     /// Determines whether the required version of iOS is available on the current device.
-    @objc public static func systemVersionAvailable(_ systemVersionString: String) -> Bool {
-        let currentOSVersion = UIDevice.current.systemVersion
-        let comparisonResult = compareVersions(lhs: systemVersionString, rhs: currentOSVersion, comparator: .patch)
+    /// - parameter currentOSVersion The current version of iOS as determined by `UIDevice.current.systemVersion`.
+    @objc public static func systemVersionAvailable(currentOSVersion: String, requiredVersionString: String) -> Bool {
+        let comparisonResult = compareVersions(lhs: requiredVersionString, rhs: currentOSVersion, comparator: .patch)
         return comparisonResult != .orderedDescending
     }
     
@@ -155,4 +158,5 @@ public class Updates {
     internal static let userDefaultsKey = "com.rwbutler.updates"
     
     public static let versionString: String? = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
+    
 }

@@ -19,6 +19,7 @@
 		131907EF222DD7DC0089CAA8 /* ParsingServiceResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131907E5222DD7DB0089CAA8 /* ParsingServiceResult.swift */; };
 		131907F0222DD7DC0089CAA8 /* ParsingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131907E6222DD7DB0089CAA8 /* ParsingError.swift */; };
 		131907F1222DD7DC0089CAA8 /* UpdatesResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131907E7222DD7DB0089CAA8 /* UpdatesResult.swift */; };
+		138018F222FC7D96008FC6D4 /* Updates+UIDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 138018F022FC7D82008FC6D4 /* Updates+UIDevice.swift */; };
 		138B3515220B187700BB506A /* Versions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 138B3513220B187200BB506A /* Versions.swift */; };
 		138B3517220B18A000BB506A /* Build.swift in Sources */ = {isa = PBXBuildFile; fileRef = 138B3516220B18A000BB506A /* Build.swift */; };
 		138B3519220B195400BB506A /* Version.swift in Sources */ = {isa = PBXBuildFile; fileRef = 138B3518220B195400BB506A /* Version.swift */; };
@@ -68,6 +69,7 @@
 		131907E5222DD7DB0089CAA8 /* ParsingServiceResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParsingServiceResult.swift; sourceTree = "<group>"; };
 		131907E6222DD7DB0089CAA8 /* ParsingError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParsingError.swift; sourceTree = "<group>"; };
 		131907E7222DD7DB0089CAA8 /* UpdatesResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdatesResult.swift; sourceTree = "<group>"; };
+		138018F022FC7D82008FC6D4 /* Updates+UIDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Updates+UIDevice.swift"; sourceTree = "<group>"; };
 		138B3513220B187200BB506A /* Versions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Versions.swift; sourceTree = "<group>"; };
 		138B3516220B18A000BB506A /* Build.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Build.swift; sourceTree = "<group>"; };
 		138B3518220B195400BB506A /* Version.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Version.swift; sourceTree = "<group>"; };
@@ -237,6 +239,7 @@
 			isa = PBXGroup;
 			children = (
 				13DFA50B21D5647700CD9AEA /* UpdatesUI.swift */,
+				138018F022FC7D82008FC6D4 /* Updates+UIDevice.swift */,
 			);
 			name = UI;
 			path = Updates/Classes/UI;
@@ -477,7 +480,7 @@
 				LastUpgradeCheck = 1020;
 				TargetAttributes = {
 					74E1BB52F0AD1D37095FC573FC8B2E15 = {
-						LastSwiftMigration = 1010;
+						LastSwiftMigration = 1030;
 					};
 					F5B9312B12BE87A1189E7834E4D96311 = {
 						LastSwiftMigration = 1020;
@@ -546,6 +549,7 @@
 				13DFA50D21D5647700CD9AEA /* UpdatesUI.swift in Sources */,
 				131907E8222DD7DC0089CAA8 /* ConfigurationJSONParsingService.swift in Sources */,
 				13DFA50C21D5647700CD9AEA /* Updates.swift in Sources */,
+				138018F222FC7D96008FC6D4 /* Updates+UIDevice.swift in Sources */,
 				13DFA53521DAC6F100CD9AEA /* UpdatingMode.swift in Sources */,
 				131907ED222DD7DC0089CAA8 /* ITunesSearchAPIResult.swift in Sources */,
 				131907EF222DD7DC0089CAA8 /* ParsingServiceResult.swift in Sources */,
@@ -646,6 +650,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MODULEMAP_FILE = "Target Support Files/Updates/Updates.modulemap";
+				PRODUCT_BUNDLE_IDENTIFIER = com.rwbutler.Updates;
 				PRODUCT_MODULE_NAME = Updates;
 				PRODUCT_NAME = Updates;
 				SDKROOT = iphoneos;
@@ -743,6 +748,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MODULEMAP_FILE = "Target Support Files/Updates/Updates.modulemap";
+				PRODUCT_BUNDLE_IDENTIFIER = com.rwbutler.Updates;
 				PRODUCT_MODULE_NAME = Updates;
 				PRODUCT_NAME = Updates;
 				SDKROOT = iphoneos;

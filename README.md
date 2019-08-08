@@ -7,6 +7,7 @@
 [![License](https://img.shields.io/cocoapods/l/Updates.svg?style=flat)](https://cocoapods.org/pods/Updates)
 [![Platform](https://img.shields.io/cocoapods/p/Updates.svg?style=flat)](https://cocoapods.org/pods/Updates)
 [![Swift 5.0](https://img.shields.io/badge/Swift-5.0-orange.svg?style=flat)](https://swift.org/)
+[![Twitter](https://img.shields.io/badge/twitter-@ross_w_butler-blue.svg?style=flat)](https://twitter.com/ross_w_butler)
 [![Reviewed by Hound](https://img.shields.io/badge/Reviewed_by-Hound-8E64B0.svg)](https://houndci.com)
 
 Updates is a framework for automatically detecting app updates and gently prompting users to update.
@@ -18,6 +19,7 @@ To learn more about how to use Updates, take a look at the [keynote presentation
 - [Installation](#installation)
 	- [Cocoapods](#cocoapods)
 	- [Carthage](#carthage)
+	- [Swift Package Manager](#swift-package-manager)
 - [How It Works](#how-it-works)
 - [Usage](#usage)
 	- [Configuration](#configuration)
@@ -92,6 +94,20 @@ github "rwbutler/Updates"
 From the macOS Terminal run `carthage update --platform iOS` to build the framework then drag `Updates.framework` into your Xcode project.
 
 For more information [see here](https://github.com/Carthage/Carthage#quick-start).
+
+### Swift Package Manager
+
+The [Swift Package Manager](https://swift.org/package-manager/) is a dependency manager for Swift modules and is included as part of the build system as of Swift 3.0. It is used to automate the download, compilation and linking of dependencies.
+
+To include Updates as a dependency within a Swift package, add the package to the `dependencies` entry in your `Package.swift` file as follows:
+
+```swift
+dependencies: [
+    .package(url: "https://github.com/rwbutler/Updates.git", from: "1.0.0")
+]
+```
+
+* Note that the `UpdatesUI` component is not available as part of the SPM package but will be made available on official release of Xcode 11.
 
 ## How It Works
 Updates is a framework which automatically checks to see whether a new version of your app is available. When an update is released, Updates is able to present the new version number and accompanying release notes to the user giving them the choice to update. Users electing to proceed are seamlessly presented the App Store in-app so that updating becomes effortless.
