@@ -32,7 +32,6 @@ public class UpdatesUI: NSObject {
         let viewController = SKStoreProductViewController()
         viewController.delegate = self
         viewController.loadProduct(withParameters: parameters) { [weak self] (loadedSuccessfully, error) in
-            viewController.dismiss(animated: animated, completion: nil)
             if !loadedSuccessfully, let appStoreURL = Updates.appStoreURL {
                 print(error as Any)
                 self?.presentSafariViewController(animated: animated,
@@ -57,7 +56,6 @@ public class UpdatesUI: NSObject {
         let viewController = SKStoreProductViewController()
         viewController.delegate = delegate
         viewController.loadProduct(withParameters: parameters) { [weak self] (loadedSuccessfully, error) in
-            viewController.dismiss(animated: animated, completion: nil)
             if !loadedSuccessfully, let appStoreURL = Updates.appStoreURL {
                 print(error as Any)
                 self?.presentSafariViewController(animated: animated,
