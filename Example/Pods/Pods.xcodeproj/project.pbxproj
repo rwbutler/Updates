@@ -15,7 +15,6 @@
 		131907EB222DD7DC0089CAA8 /* ITunesSearchJSONParsingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131907E0222DD7DB0089CAA8 /* ITunesSearchJSONParsingService.swift */; };
 		131907EC222DD7DC0089CAA8 /* ConfigurationResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131907E2222DD7DB0089CAA8 /* ConfigurationResult.swift */; };
 		131907ED222DD7DC0089CAA8 /* ITunesSearchAPIResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131907E3222DD7DB0089CAA8 /* ITunesSearchAPIResult.swift */; };
-		131907EE222DD7DC0089CAA8 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131907E4222DD7DB0089CAA8 /* Result.swift */; };
 		131907EF222DD7DC0089CAA8 /* ParsingServiceResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131907E5222DD7DB0089CAA8 /* ParsingServiceResult.swift */; };
 		131907F0222DD7DC0089CAA8 /* ParsingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131907E6222DD7DB0089CAA8 /* ParsingError.swift */; };
 		131907F1222DD7DC0089CAA8 /* UpdatesResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131907E7222DD7DB0089CAA8 /* UpdatesResult.swift */; };
@@ -65,7 +64,6 @@
 		131907E0222DD7DB0089CAA8 /* ITunesSearchJSONParsingService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ITunesSearchJSONParsingService.swift; sourceTree = "<group>"; };
 		131907E2222DD7DB0089CAA8 /* ConfigurationResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigurationResult.swift; sourceTree = "<group>"; };
 		131907E3222DD7DB0089CAA8 /* ITunesSearchAPIResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ITunesSearchAPIResult.swift; sourceTree = "<group>"; };
-		131907E4222DD7DB0089CAA8 /* Result.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
 		131907E5222DD7DB0089CAA8 /* ParsingServiceResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParsingServiceResult.swift; sourceTree = "<group>"; };
 		131907E6222DD7DB0089CAA8 /* ParsingError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParsingError.swift; sourceTree = "<group>"; };
 		131907E7222DD7DB0089CAA8 /* UpdatesResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdatesResult.swift; sourceTree = "<group>"; };
@@ -216,7 +214,6 @@
 			children = (
 				131907E2222DD7DB0089CAA8 /* ConfigurationResult.swift */,
 				131907E3222DD7DB0089CAA8 /* ITunesSearchAPIResult.swift */,
-				131907E4222DD7DB0089CAA8 /* Result.swift */,
 				131907E5222DD7DB0089CAA8 /* ParsingServiceResult.swift */,
 				131907E6222DD7DB0089CAA8 /* ParsingError.swift */,
 				131907E7222DD7DB0089CAA8 /* UpdatesResult.swift */,
@@ -541,7 +538,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				131907EE222DD7DC0089CAA8 /* Result.swift in Sources */,
 				131907EA222DD7DC0089CAA8 /* ParsingService.swift in Sources */,
 				138B3515220B187700BB506A /* Versions.swift in Sources */,
 				131907D4222DCA380089CAA8 /* Updates+Internal.swift in Sources */,
