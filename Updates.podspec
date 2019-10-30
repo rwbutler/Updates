@@ -12,6 +12,7 @@ Updates is a framework which automatically checks to see whether a new version o
   s.author           = { 'Ross Butler' => 'github@rwbutler.com' }
   s.source           = { :git => 'https://github.com/rwbutler/Updates.git', :tag => s.version.to_s }
   s.social_media_url = 'https://twitter.com/ross_w_butler'
+  s.frameworks       = 'StoreKit'
   s.ios.deployment_target = '9.0'
   s.source_files = 'Updates/Classes/**/*'
 end
