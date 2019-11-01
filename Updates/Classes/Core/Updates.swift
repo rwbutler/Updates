@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import StoreKit
 
 public class Updates {
     
@@ -130,7 +131,18 @@ public class Updates {
     
     public static var comparingVersions: VersionComparator = .patch
     
-    public static var countryCode: String? = Locale.current.regionCode
+    public static var countryCode: String? = {
+        let currentBundle = Bundle(for: Updates.self)
+        if #available(iOS 13.0, *),
+            let iso3166Alpha3CountryCode = SKPaymentQueue.default().storefront?.countryCode,
+            !iso3166Alpha3CountryCode.isEmpty,
+            let iso3166Mapping = currentBundle.infoDictionary?["ISO3166Map"] as? [String: String],
+            let iso3166Alpha2CountryCode = iso3166Mapping[iso3166Alpha3CountryCode] {
+            return iso3166Alpha2CountryCode
+        } else {
+            return Locale.current.regionCode
+        }
+    }()
     
     public internal(set) static var isFirstLaunchFollowingInstall: Bool = false
     

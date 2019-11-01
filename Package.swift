@@ -13,16 +13,10 @@ let package = Package(
         )
     ],
     targets: [
-        /*.target(
-            name: "UpdatesUI",
-            dependencies: ["Updates"],
-            path: "Updates/Classes/UI"
-        ),*/
         .target(
             name: "Updates",
             dependencies: [],
-            path: "Updates/Classes",
-            exclude: ["UI"]
+            path: "Updates/Classes"
         )
     ]
 )
