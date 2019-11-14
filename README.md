@@ -107,8 +107,6 @@ dependencies: [
 ]
 ```
 
-* Note that the `UpdatesUI` component is not available as part of the SPM package but will be made available on official release of Xcode 11.
-
 ## How It Works
 Updates is a framework which automatically checks to see whether a new version of your app is available. When an update is released, Updates is able to present the new version number and accompanying release notes to the user giving them the choice to update. Users electing to proceed are seamlessly presented the App Store in-app so that updating becomes effortless.
 
