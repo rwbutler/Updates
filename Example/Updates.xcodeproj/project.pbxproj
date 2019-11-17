@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0DBE9D5CEE2221799F947E36 /* Pods_Updates_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 91DE3341BDCDE614AE1E06AA /* Pods_Updates_Example.framework */; };
 		13DFA53C21DBA9F400CD9AEA /* Updates.json in Resources */ = {isa = PBXBuildFile; fileRef = 13DFA53B21DBA9F400CD9AEA /* Updates.json */; };
+		13E52DFF2381662100E8A311 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 13E52DFE2381662100E8A311 /* Localizable.strings */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
 		607FACD81AFB9204008FA782 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD71AFB9204008FA782 /* ViewController.swift */; };
 		607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 607FACD91AFB9204008FA782 /* Main.storyboard */; };
@@ -30,6 +31,7 @@
 
 /* Begin PBXFileReference section */
 		13DFA53B21DBA9F400CD9AEA /* Updates.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Updates.json; sourceTree = "<group>"; };
+		13E52DFE2381662100E8A311 /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		192669EE856EA13AA7927B35 /* Pods_Updates_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Updates_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1E9F4668DFE8536698ED8419 /* Pods-Updates_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Updates_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Updates_Example/Pods-Updates_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		2A13D5BAAB3D20BFB4B952A2 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
@@ -120,6 +122,7 @@
 			children = (
 				13DFA53B21DBA9F400CD9AEA /* Updates.json */,
 				607FACD41AFB9204008FA782 /* Info.plist */,
+				13E52DFE2381662100E8A311 /* Localizable.strings */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -252,6 +255,7 @@
 			files = (
 				607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */,
 				607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */,
+				13E52DFF2381662100E8A311 /* Localizable.strings in Resources */,
 				13DFA53C21DBA9F400CD9AEA /* Updates.json in Resources */,
 				607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */,
 			);

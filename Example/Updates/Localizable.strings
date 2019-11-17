@@ -1,0 +1,11 @@
+/* 
+  Localization.strings
+  Updates
+
+  Created by Ross Butler on 17/11/2019.
+  Copyright © 2019 Ross Butler. All rights reserved.
+*/
+
+"updates.update-button-title" = "OK";
+"updates.cancel-button-title" = "Maybe later";
+

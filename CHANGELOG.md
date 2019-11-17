@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0] - 2019-11-17
+### Added
+- `UIAlertController` button titles can be set using localization keys `updates.update-button-title` and `updates.cancel-button-title`.
+
 ## [1.1.2] - 2019-11-01
 ### Changed
 - Uses `SKStoreFront` on iOS 13 to improve accuracy of country code used for iTunes Search API calls.

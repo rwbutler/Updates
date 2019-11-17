@@ -20,6 +20,17 @@ public class UpdatesUI: NSObject {
         self.completion = completion
     }
     
+    /// Button title displayed by the `UIAlertController`.
+    private static func buttonTitle(_ key: String) -> String {
+        let updateLocalizationKey = "updates.\(key)-button-title".lowercased()
+        let updateButtonTitle = NSLocalizedString(updateLocalizationKey, comment: key)
+        if updateButtonTitle != updateLocalizationKey {
+            return updateButtonTitle
+        } else {
+            return key
+        }
+    }
+    
     /// Presents SKStoreProductViewController modally.
     public func presentAppStore(animated: Bool = true, completion: (() -> Void)? = nil,
                                 presentingViewController: UIViewController) {
@@ -84,12 +95,14 @@ public class UpdatesUI: NSObject {
         }
         let alertMessage: String? = message ?? update.releaseNotes
         let alert = UIAlertController(title: alertTitle, message: alertMessage, preferredStyle: .alert)
-        let updateAction = UIAlertAction(title: "Update", style: .default) { _ in
+        let updateButtonTitle = buttonTitle("Update")
+        let updateAction = UIAlertAction(title: updateButtonTitle, style: .default) { _ in
             alert.dismiss(animated: animated, completion: completion)
             self.presentAppStore(animated: animated, completion: completion,
                                  presentingViewController: presentingViewController)
         }
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { _ in
+        let cancelButtonTitle = buttonTitle("Cancel")
+        let cancelAction = UIAlertAction(title: cancelButtonTitle, style: .cancel) { _ in
             alert.dismiss(animated: animated, completion: completion)
         }
         alert.addAction(updateAction)
