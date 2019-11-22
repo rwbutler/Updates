@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.1] - 2019-11-22
+### Changed
+- Ensured that the `countryCode` property can be detected correctly on the macOS Catalyst platform as well as on iOS.
+
 ## [1.2.0] - 2019-11-17
 ### Added
 - `UIAlertController` button titles can be set using localization keys `updates.update-button-title` and `updates.cancel-button-title`.

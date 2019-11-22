@@ -9,7 +9,7 @@ import Foundation
 
 public struct ITunesSearchAPIResult: Codable {
     let minimumOsVersion: String
-    let releaseNotes: String
+    let releaseNotes: String?
     let trackId: Int
     let version: String
 }

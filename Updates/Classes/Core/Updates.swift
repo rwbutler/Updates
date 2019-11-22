@@ -133,7 +133,7 @@ public class Updates {
     
     public static var countryCode: String? = {
         let currentBundle = Bundle(for: Updates.self)
-        if #available(iOS 13.0, *),
+        if #available(iOS 13.0, macCatalyst 13.0, *),
             let iso3166Alpha3CountryCode = SKPaymentQueue.default().storefront?.countryCode,
             !iso3166Alpha3CountryCode.isEmpty,
             let iso3166Mapping = currentBundle.infoDictionary?["ISO3166Map"] as? [String: String],
