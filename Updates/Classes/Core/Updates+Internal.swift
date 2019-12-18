@@ -132,7 +132,7 @@ extension Updates {
      and orderedDescending if rhs is earlier than lhs.
      */
     static func compareVersions(lhs: String, rhs: String, comparator: VersionComparator) -> ComparisonResult {
-        let semanticVersioningComponents: [VersionComparator] = [.major, .minor, .patch]
+        let semanticVersioningComponents: [VersionComparator] = [.major, .minor, .patch, .build]
         var result = ComparisonResult.orderedSame
         var lhsComponents = lhs.components(separatedBy: ".")
         var rhsComponents = rhs.components(separatedBy: ".")
@@ -143,7 +143,7 @@ extension Updates {
         var counter = 0
         for (lhsComponent, rhsComponent) in zip(lhsComponents, rhsComponents) {
             let semanticComponent = semanticVersioningComponents[counter]
-            guard semanticComponent.rawValue < comparator.rawValue else { break }
+            guard semanticComponent.rawValue <= comparator.rawValue else { break }
             result = comparisonResult(lhs: lhsComponent, rhs: rhsComponent)
             if result != .orderedSame {
                 break
@@ -177,30 +177,8 @@ extension Updates {
     
     static let configurationName: String = "Updates"
     
-    static func updateAvailable(appVersion: String, apiVersion: String, comparator: VersionComparator) -> Bool {
-        let semanticVersioningComponents: [VersionComparator] = [.major, .minor, .patch, .build]
-        var versionComponents = appVersion.components(separatedBy: ".")
-        var versionToCompareComponents = apiVersion.components(separatedBy: ".")
-        
-        while versionComponents.count < versionToCompareComponents.count {
-            versionComponents.append("0")
-        }
-        
-        while versionComponents.count > versionToCompareComponents.count {
-            versionToCompareComponents.append("0")
-        }
-        
-        for i in 0..<versionComponents.count {
-            if let versionComponent = Int(versionComponents[i]),
-                let versionToCompareComponent = Int(versionToCompareComponents[i]),
-                i < semanticVersioningComponents.count {
-                let semanticVersioningComponent = semanticVersioningComponents[i]
-                if versionComponent < versionToCompareComponent, semanticVersioningComponent <= comparator {
-                    return true
-                }
-            }
-        }
-        return false
+    public static func updateAvailable(appVersion: String, apiVersion: String, comparator: VersionComparator) -> Bool {
+        return compareVersions(lhs: appVersion, rhs: apiVersion, comparator: comparator) == .orderedAscending
     }
     
     static func iTunesSearchAPIURL(bundleIdentifier: String, countryCode: String? = nil) -> URL? {

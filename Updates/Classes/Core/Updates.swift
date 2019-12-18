@@ -169,6 +169,6 @@ public class Updates {
     
     internal static let userDefaultsKey = "com.rwbutler.updates"
     
-    public static let versionString: String? = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
+    public static var versionString: String? = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
     
 }

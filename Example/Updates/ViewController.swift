@@ -17,8 +17,8 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         activityIndicator.startAnimating()
-        configureLabels()
         configureUpdates()
+        configureLabels()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -38,8 +38,8 @@ class ViewController: UIViewController {
 private extension ViewController {
     
     func configureLabels() {
-        let versionString: String? = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
-        let buildString: String? =  Bundle.main.infoDictionary?[kCFBundleVersionKey as String] as? String
+        let versionString: String? = Updates.versionString
+        let buildString: String? =  Updates.buildString
         if let version = versionString, let build = buildString {
             versionLabel.text = "App version: \(version)(\(build))"
         }
@@ -49,6 +49,7 @@ private extension ViewController {
         // - Add custom configuration here if needed - 
         // Updates.bundleIdentifier = ""
         // Updates.countryCode = ""
+        // Updates.versionString = ""
     }
     
 }
