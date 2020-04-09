@@ -13,10 +13,8 @@ public class Updates {
     // MARK: Global State
     
     public static var configurationType: ConfigurationType = {
-        for configurationType in ConfigurationType.allCases {
-            if bundledConfigurationURL(configurationType) != nil {
-                return configurationType
-            }
+        for configurationType in ConfigurationType.allCases where bundledConfigurationURL(configurationType) != nil {
+            return configurationType
         }
         return .json // default
     }()
@@ -25,11 +23,10 @@ public class Updates {
     public static var configurationURL: URL? = bundledConfigurationURL() {
         didSet { // detect configuration format by extension
             guard let lastPathComponent = configurationURL?.lastPathComponent.lowercased() else { return }
-            for configurationType in ConfigurationType.allCases {
-                if lastPathComponent.contains(configurationType.rawValue.lowercased()) {
-                    Updates.configurationType = configurationType
-                    return
-                }
+            let configExtension = configurationType.rawValue.lowercased()
+            for configurationType in ConfigurationType.allCases where lastPathComponent.contains(configExtension) {
+                Updates.configurationType = configurationType
+                return
             }
         }
     }
