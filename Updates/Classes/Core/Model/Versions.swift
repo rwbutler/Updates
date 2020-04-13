@@ -15,7 +15,7 @@ struct Versions: Codable {
     
     @discardableResult
     mutating func appendVersion(versionIdentifier: String, buildIdentifier: String) -> Version {
-        guard var existingVersion = version(versionIdentifier) else {
+        guard let existingVersion = version(versionIdentifier) else {
             let newVersion = Version(versionIdentifier, buildIdentifier: buildIdentifier)
             versions.append(newVersion)
             return newVersion
@@ -25,9 +25,10 @@ struct Versions: Codable {
     }
     
     func versionExists(versionIdentifier: String, comparator: VersionComparator) -> Bool {
-        // TODO: Implement comparator.
-        let existingVersion = version(versionIdentifier)
-        return existingVersion != nil
+        return versions.contains { version in
+            Updates.compareVersions(lhs: versionIdentifier, rhs: version.identifier, comparator: comparator)
+                == .orderedSame
+        }
     }
     
     func buildExists(versionIdentifier: String, buildIdentifier: String) -> Bool {

@@ -19,6 +19,7 @@ class ViewController: UIViewController {
         activityIndicator.startAnimating()
         configureUpdates()
         configureLabels()
+        observeAppVersionDidChange()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -31,6 +32,23 @@ class ViewController: UIViewController {
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+    }
+    
+    // MARK: - Notifications
+    
+    private func observeAppVersionDidChange() {
+        NotificationCenter.default.addObserver(self, selector: #selector(appDidInstall),
+        name: .appDidInstall, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(appVersionDidChange),
+                                               name: .appVersionDidChange, object: nil)
+    }
+    
+    @objc func appDidInstall(_ notification: Notification) {
+        print("App installed.")
+    }
+    
+    @objc func appVersionDidChange(_ notification: Notification) {
+        print("App version changed.")
     }
 
 }

@@ -18,6 +18,13 @@
 		131907EF222DD7DC0089CAA8 /* ParsingServiceResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131907E5222DD7DB0089CAA8 /* ParsingServiceResult.swift */; };
 		131907F0222DD7DC0089CAA8 /* ParsingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131907E6222DD7DB0089CAA8 /* ParsingError.swift */; };
 		131907F1222DD7DC0089CAA8 /* UpdatesResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131907E7222DD7DB0089CAA8 /* UpdatesResult.swift */; };
+		1326528B243F9D1B003FDA45 /* NotificationNameAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1326528A243F9D1B003FDA45 /* NotificationNameAdditions.swift */; };
+		1326528D243FAA20003FDA45 /* AppMetadataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1326528C243FAA20003FDA45 /* AppMetadataService.swift */; };
+		1326528F243FAA3E003FDA45 /* ITunesSearchAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1326528E243FAA3E003FDA45 /* ITunesSearchAPIService.swift */; };
+		1326529F24409579003FDA45 /* UpdatesResultFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1326529E24409579003FDA45 /* UpdatesResultFactory.swift */; };
+		132652A1244353B0003FDA45 /* Services.swift in Sources */ = {isa = PBXBuildFile; fileRef = 132652A0244353B0003FDA45 /* Services.swift */; };
+		132652A32443AE7E003FDA45 /* Factory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 132652A22443AE7E003FDA45 /* Factory.swift */; };
+		132652B5244493D5003FDA45 /* MainQueueAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 132652B3244493D2003FDA45 /* MainQueueAdditions.swift */; };
 		138018F222FC7D96008FC6D4 /* Updates+UIDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 138018F022FC7D82008FC6D4 /* Updates+UIDevice.swift */; };
 		138B3515220B187700BB506A /* Versions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 138B3513220B187200BB506A /* Versions.swift */; };
 		138B3517220B18A000BB506A /* Build.swift in Sources */ = {isa = PBXBuildFile; fileRef = 138B3516220B18A000BB506A /* Build.swift */; };
@@ -67,6 +74,13 @@
 		131907E5222DD7DB0089CAA8 /* ParsingServiceResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParsingServiceResult.swift; sourceTree = "<group>"; };
 		131907E6222DD7DB0089CAA8 /* ParsingError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParsingError.swift; sourceTree = "<group>"; };
 		131907E7222DD7DB0089CAA8 /* UpdatesResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdatesResult.swift; sourceTree = "<group>"; };
+		1326528A243F9D1B003FDA45 /* NotificationNameAdditions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationNameAdditions.swift; sourceTree = "<group>"; };
+		1326528C243FAA20003FDA45 /* AppMetadataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppMetadataService.swift; sourceTree = "<group>"; };
+		1326528E243FAA3E003FDA45 /* ITunesSearchAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ITunesSearchAPIService.swift; sourceTree = "<group>"; };
+		1326529E24409579003FDA45 /* UpdatesResultFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatesResultFactory.swift; sourceTree = "<group>"; };
+		132652A0244353B0003FDA45 /* Services.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Services.swift; sourceTree = "<group>"; };
+		132652A22443AE7E003FDA45 /* Factory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Factory.swift; sourceTree = "<group>"; };
+		132652B3244493D2003FDA45 /* MainQueueAdditions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainQueueAdditions.swift; sourceTree = "<group>"; };
 		138018F022FC7D82008FC6D4 /* Updates+UIDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Updates+UIDevice.swift"; sourceTree = "<group>"; };
 		138B3513220B187200BB506A /* Versions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Versions.swift; sourceTree = "<group>"; };
 		138B3516220B18A000BB506A /* Build.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Build.swift; sourceTree = "<group>"; };
@@ -143,7 +157,10 @@
 		131907D5222DD7DB0089CAA8 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				131907DC222DD7DB0089CAA8 /* App Metadata */,
+				132652B624449721003FDA45 /* Updates */,
 				131907D6222DD7DB0089CAA8 /* Parsing */,
+				132652A0244353B0003FDA45 /* Services.swift */,
 			);
 			name = Services;
 			path = Updates/Classes/Services;
@@ -153,7 +170,6 @@
 			isa = PBXGroup;
 			children = (
 				131907D7222DD7DB0089CAA8 /* Configuration */,
-				131907DC222DD7DB0089CAA8 /* iTunes Search API */,
 			);
 			path = Parsing;
 			sourceTree = "<group>";
@@ -183,20 +199,21 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		131907DC222DD7DB0089CAA8 /* iTunes Search API */ = {
+		131907DC222DD7DB0089CAA8 /* App Metadata */ = {
 			isa = PBXGroup;
 			children = (
 				131907DD222DD7DB0089CAA8 /* Protocol */,
 				131907DF222DD7DB0089CAA8 /* Implementation */,
 				131907E1222DD7DB0089CAA8 /* Model */,
 			);
-			path = "iTunes Search API";
+			path = "App Metadata";
 			sourceTree = "<group>";
 		};
 		131907DD222DD7DB0089CAA8 /* Protocol */ = {
 			isa = PBXGroup;
 			children = (
 				131907DE222DD7DB0089CAA8 /* ParsingService.swift */,
+				1326528C243FAA20003FDA45 /* AppMetadataService.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -205,6 +222,7 @@
 			isa = PBXGroup;
 			children = (
 				131907E0222DD7DB0089CAA8 /* ITunesSearchJSONParsingService.swift */,
+				1326528E243FAA3E003FDA45 /* ITunesSearchAPIService.swift */,
 			);
 			path = Implementation;
 			sourceTree = "<group>";
@@ -217,8 +235,26 @@
 				131907E5222DD7DB0089CAA8 /* ParsingServiceResult.swift */,
 				131907E6222DD7DB0089CAA8 /* ParsingError.swift */,
 				131907E7222DD7DB0089CAA8 /* UpdatesResult.swift */,
+				1326529E24409579003FDA45 /* UpdatesResultFactory.swift */,
+				132652A22443AE7E003FDA45 /* Factory.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		13265289243F9CF7003FDA45 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				1326528A243F9D1B003FDA45 /* NotificationNameAdditions.swift */,
+				132652B3244493D2003FDA45 /* MainQueueAdditions.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		132652B624449721003FDA45 /* Updates */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Updates;
 			sourceTree = "<group>";
 		};
 		13DFA50821D5647700CD9AEA /* Core */ = {
@@ -349,6 +385,7 @@
 		B5D7FD0C1A2B02FC4D60CC7ECB28C5C9 /* Updates */ = {
 			isa = PBXGroup;
 			children = (
+				13265289243F9CF7003FDA45 /* Extensions */,
 				131907D5222DD7DB0089CAA8 /* Services */,
 				13DFA50821D5647700CD9AEA /* Core */,
 				13DFA50A21D5647700CD9AEA /* UI */,
@@ -477,7 +514,7 @@
 				LastUpgradeCheck = 1020;
 				TargetAttributes = {
 					74E1BB52F0AD1D37095FC573FC8B2E15 = {
-						LastSwiftMigration = 1030;
+						LastSwiftMigration = 1130;
 					};
 					F5B9312B12BE87A1189E7834E4D96311 = {
 						LastSwiftMigration = 1020;
@@ -539,14 +576,21 @@
 			buildActionMask = 2147483647;
 			files = (
 				131907EA222DD7DC0089CAA8 /* ParsingService.swift in Sources */,
+				1326528B243F9D1B003FDA45 /* NotificationNameAdditions.swift in Sources */,
 				138B3515220B187700BB506A /* Versions.swift in Sources */,
+				1326529F24409579003FDA45 /* UpdatesResultFactory.swift in Sources */,
 				131907D4222DCA380089CAA8 /* Updates+Internal.swift in Sources */,
+				132652A32443AE7E003FDA45 /* Factory.swift in Sources */,
 				131907E9222DD7DC0089CAA8 /* ConfigurationType.swift in Sources */,
 				13DFA50D21D5647700CD9AEA /* UpdatesUI.swift in Sources */,
 				131907E8222DD7DC0089CAA8 /* ConfigurationJSONParsingService.swift in Sources */,
 				13DFA50C21D5647700CD9AEA /* Updates.swift in Sources */,
+				1326528F243FAA3E003FDA45 /* ITunesSearchAPIService.swift in Sources */,
 				138018F222FC7D96008FC6D4 /* Updates+UIDevice.swift in Sources */,
+				132652B5244493D5003FDA45 /* MainQueueAdditions.swift in Sources */,
 				13DFA53521DAC6F100CD9AEA /* UpdatingMode.swift in Sources */,
+				1326528D243FAA20003FDA45 /* AppMetadataService.swift in Sources */,
+				132652A1244353B0003FDA45 /* Services.swift in Sources */,
 				131907ED222DD7DC0089CAA8 /* ITunesSearchAPIResult.swift in Sources */,
 				131907EF222DD7DC0089CAA8 /* ParsingServiceResult.swift in Sources */,
 				13DFA53421DAC6F100CD9AEA /* VersionComparator.swift in Sources */,

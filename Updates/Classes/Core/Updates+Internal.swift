@@ -49,46 +49,35 @@ extension Updates {
         return FileManager.default.fileExists(atPath: cachedConfigURL.path)
     }
     
-    static func checkForUpdatesAutomatically(comparingVersions
-        comparator: VersionComparator = Updates.comparingVersions,
-                                             currentOSVersion: String,
-                                             notifying: NotificationMode = Updates.notifying,
+    static func checkForUpdatesAutomatically(comparingVersions comparator: VersionComparator = Updates.comparingVersions,
+                                             currentOSVersion: String, notifying: NotificationMode = Updates.notifying,
                                              completion: @escaping (UpdatesResult) -> Void) {
         DispatchQueue.global(qos: .background).async {
-            guard let bundleIdentifier = Updates.bundleIdentifier,
-                let apiURL = iTunesSearchAPIURL(bundleIdentifier: bundleIdentifier),
-                let apiData = try? Data(contentsOf: apiURL), let parsingResult = parseConfiguration(data: apiData),
-                let appVersionString = versionString else {
+            guard let bundleIdentifier = Updates.bundleIdentifier, let countryCode = Updates.countryCode,
+                let appVersion = versionString,
+                let metadataService = Services.appMetadata(bundleIdentifier: bundleIdentifier,
+                                                           countryCode: countryCode) else {
                     DispatchQueue.main.async {
                         completion(.none)
                     }
                     return
             }
-            appStoreId = appStoreId ?? String(parsingResult.trackId)
-            let isUpdateAvailable = isUpdateAvailableForSystemVersion(comparingVersions: comparator,
-                                                                      currentAppVersion: appVersionString,
-                                                                      currentOSVersion: currentOSVersion,
-                                                                      minimumRequiredOS: parsingResult.minimumOsVersion,
-                                                                      newAppVersion: parsingResult.version)
-            let update = Update(newVersionString: parsingResult.version,
-                                releaseNotes: parsingResult.releaseNotes,
-                                shouldNotify: isUpdateAvailable)
-            let result: UpdatesResult = isUpdateAvailable ? .available(update) : .none
-            DispatchQueue.main.async {
-                completion(result)
+            metadataService.fetchAppMetadata { result in
+                switch result {
+                case .success(let apiResult):
+                    let factoryDependencies = UpdatesResultFactory.Dependencies(
+                        appVersion: appVersion,
+                        comparator: comparator,
+                        notifying: notifying,
+                        operatingSystemVersion: currentOSVersion
+                    )
+                    let factory = UpdatesResultFactory(apiResult: apiResult, dependencies: factoryDependencies)
+                    completion(factory.manufacture())
+                case .failure:
+                    onMainQueue(completion)(.none)
+                }
             }
         }
-    }
-    
-    static func isUpdateAvailableForSystemVersion(comparingVersions comparator: VersionComparator,
-                                                  currentAppVersion: String, currentOSVersion: String,
-                                                  minimumRequiredOS: String,
-                                                  newAppVersion: String) -> Bool {
-        let isNewVersionAvailable = updateAvailable(appVersion: currentAppVersion, apiVersion: newAppVersion,
-                                                    comparator: comparator)
-        let isRequiredOSAvailable = systemVersionAvailable(currentOSVersion: currentOSVersion,
-                                                           requiredVersionString: minimumRequiredOS)
-        return isNewVersionAvailable && isRequiredOSAvailable
     }
     
     static func checkForUpdatesManually(appStoreId: String,
@@ -98,24 +87,21 @@ extension Updates {
                                         minimumOSVersion: String, releaseNotes: String?,
                                         completion: @escaping (UpdatesResult) -> Void) {
         DispatchQueue.global(qos: .background).async {
-            guard let appVersionString = versionString else {
-                DispatchQueue.main.async {
-                    completion(.none)
-                }
+            guard let appVersion = versionString else {
+                onMainQueue(completion)(.none)
                 return
             }
-            self.appStoreId = appStoreId
-            let isUpdateAvailable = isUpdateAvailableForSystemVersion(comparingVersions: comparator,
-                                                                      currentAppVersion: appVersionString,
-                                                                      currentOSVersion: currentOSVersion,
-                                                                      minimumRequiredOS: minimumOSVersion,
-                                                                      newAppVersion: newVersionString)
-            let update = Update(newVersionString: newVersionString, releaseNotes: releaseNotes,
-                                shouldNotify: isUpdateAvailable)
-            let result: UpdatesResult = isUpdateAvailable ? .available(update) : .none
-            DispatchQueue.main.async {
-                completion(result)
-            }
+            let trackId = Int(appStoreId) ?? 0
+            let apiResult = ITunesSearchAPIResult(minimumOsVersion: minimumOSVersion, releaseNotes: releaseNotes,
+                                                  trackId: trackId, version: appVersion)
+            let factoryDependencies = UpdatesResultFactory.Dependencies(
+                appVersion: appVersion,
+                comparator: comparator,
+                notifying: notifying,
+                operatingSystemVersion: currentOSVersion
+            )
+            let factory = UpdatesResultFactory(apiResult: apiResult, dependencies: factoryDependencies)
+            completion(factory.manufacture())
         }
     }
     
@@ -177,19 +163,6 @@ extension Updates {
     
     static let configurationName: String = "Updates"
     
-    public static func updateAvailable(appVersion: String, apiVersion: String, comparator: VersionComparator) -> Bool {
-        return compareVersions(lhs: appVersion, rhs: apiVersion, comparator: comparator) == .orderedAscending
-    }
-    
-    static func iTunesSearchAPIURL(bundleIdentifier: String, countryCode: String? = nil) -> URL? {
-        guard let countryCode = countryCode ?? Updates.countryCode else {
-            return nil
-        }
-        let lowercasedCountryCode = countryCode.lowercased()
-        let urlString = "http://itunes.apple.com/lookup?bundleId=\(bundleIdentifier)&country=\(lowercasedCountryCode)"
-        return URL(string: urlString)
-    }
-    
     /// Pads out LHS array with zeroes
     static func padLHSWithZeroes(lhs: [String], rhs: [String]) -> [String] {
         var result = lhs
@@ -199,40 +172,43 @@ extension Updates {
         return result
     }
     
-    /// Parses data returned by the iTunes Search API.
-    private static func parseConfiguration(data: Data) -> ParsingServiceResult? {
-        switch parsingService.parse(data) {
-        case .success(let result):
-            return result
-        case .failure:
-            return nil
-        }
-    }
-    
-    /// Parses iTunes Search API responses.
-    private static let parsingService: ITunesSearchJSONParsingService = ITunesSearchJSONParsingService()
-    
     /// Records the current build so that we can determine
     static func addBuild(versionString: String, buildString: String, comparator: VersionComparator) {
         guard var versionInformation = cachedVersionInfo() else {
+            postAppDidInstallNotification()
             var versionInfo = Versions()
             versionInfo.appendVersion(versionIdentifier: versionString, buildIdentifier: buildString)
             cacheVersionInfo(versionInfo: versionInfo)
             isFirstLaunchFollowingInstall = true
             return
         }
-        guard versionInformation.versionExists(versionIdentifier: versionString, comparator: .patch) else {
-            isFirstLaunchFollowingUpdate = true
-            versionInformation.appendVersion(versionIdentifier: versionString, buildIdentifier: buildString)
-            cacheVersionInfo(versionInfo: versionInformation)
-            return
+        let comparators: [VersionComparator] = [.major, .minor, .patch, .build]
+        comparators.forEach { comparator in
+            if !versionInformation.versionExists(versionIdentifier: versionString, comparator: comparator) {
+                isFirstLaunchFollowingUpdate = true
+                postAppVersionDidChangeNotification()
+                versionInformation.appendVersion(versionIdentifier: versionString, buildIdentifier: buildString)
+                cacheVersionInfo(versionInfo: versionInformation)
+                return
+            }
         }
         let buildExists = versionInformation.buildExists(versionIdentifier: versionString, buildIdentifier: buildString)
         if !buildExists, comparator.contains(.build) {
             isFirstLaunchFollowingUpdate = true
+            postAppVersionDidChangeNotification()
             versionInformation.appendVersion(versionIdentifier: versionString, buildIdentifier: buildString)
             cacheVersionInfo(versionInfo: versionInformation)
         }
+    }
+    
+    private static func postAppDidInstallNotification() {
+        let appVersionDidChange = Notification(name: .appDidInstall)
+        NotificationCenter.default.post(appVersionDidChange)
+    }
+    
+    private static func postAppVersionDidChangeNotification() {
+        let appVersionDidChange = Notification(name: .appVersionDidChange)
+        NotificationCenter.default.post(appVersionDidChange)
     }
     
     private static func cachedVersionInfo() -> Versions? {

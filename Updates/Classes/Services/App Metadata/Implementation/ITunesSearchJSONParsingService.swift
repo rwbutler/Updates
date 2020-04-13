@@ -13,6 +13,9 @@ struct ITunesSearchJSONParsingService: ParsingService {
     typealias T = ITunesSearchAPIResult
     
     func parse(_ data: Data) -> Result<ITunesSearchAPIResult, ParsingError> {
+        guard !data.isEmpty else {
+            return .failure(.emptyPayload)
+        }
         let decoder = JSONDecoder()
         guard let json = try? JSONSerialization.jsonObject(with: data, options: .allowFragments),
             let jsonContainer = json as? [String: Any],

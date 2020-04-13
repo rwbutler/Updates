@@ -16,10 +16,10 @@ public class Updates {
         for configurationType in ConfigurationType.allCases where bundledConfigurationURL(configurationType) != nil {
             return configurationType
         }
-        return .json // default
+        return .json // Default configuration type.
     }()
     
-    /// Defaults configuration URL to bundled configuration detecting the type of config when set
+    /// Defaults configuration URL to bundled configuration and detects configuration type when set.
     public static var configurationURL: URL? = bundledConfigurationURL() {
         didSet { // detect configuration format by extension
             guard let lastPathComponent = configurationURL?.lastPathComponent.lowercased() else { return }
@@ -59,36 +59,35 @@ public class Updates {
     public static func checkForUpdates(currentOSVersion: String, completion: @escaping (UpdatesResult) -> Void) {
         
         // Check for updates using settings in configuration JSON
-        if let configurationURL = configurationURL {
-            if let configurationData = try? Data(contentsOf: configurationURL) {
-                let parsingResult = ConfigurationJSONParsingService().parse(configurationData)
-                switch parsingResult {
-                case .success(let configuration):
-                    cacheConfiguration(configuration)
-                    checkForUpdates(configuration.updatingMode, comparingVersions: configuration.comparator,
-                                    currentOSVersion: currentOSVersion, notifying: configuration.notificationMode,
-                                    releaseNotes: configuration.releaseNotes,
-                                    completion: completion)
-                case .failure:
-                    // Attempt to use last cached configuration first
-                    if let cachedConfigurationURL = cachedConfigurationURL,
-                        let cachedData = try? Data(contentsOf: cachedConfigurationURL),
-                        case let .success(configuration) = ConfigurationJSONParsingService().parse(cachedData) {
-                        checkForUpdates(configuration.updatingMode, comparingVersions: configuration.comparator,
-                                        currentOSVersion: currentOSVersion, notifying: configuration.notificationMode,
-                                        releaseNotes: configuration.releaseNotes, completion: completion)
-                    } else {
-                        // Fallback to programmatic settings
-                        checkForUpdates(Updates.updatingMode, comparingVersions: comparingVersions,
-                                        currentOSVersion: currentOSVersion, notifying: notifying,
-                                        releaseNotes: releaseNotes, completion: completion)
-                    }
-                }
-            }
-        } else {
+        guard let configURL = configurationURL, let configData = try? Data(contentsOf: configURL) else {
             // Check for updates using programmatic settings
             checkForUpdates(updatingMode, comparingVersions: comparingVersions, currentOSVersion: currentOSVersion,
                             notifying: notifying, completion: completion)
+            return
+        }
+        
+        let parsingResult = ConfigurationJSONParsingService().parse(configData)
+        switch parsingResult {
+        case .success(let configuration):
+            cacheConfiguration(configuration)
+            checkForUpdates(configuration.updatingMode, comparingVersions: configuration.comparator,
+                            currentOSVersion: currentOSVersion, notifying: configuration.notificationMode,
+                            releaseNotes: configuration.releaseNotes,
+                            completion: completion)
+        case .failure:
+            // Attempt to use last cached configuration first
+            if let cachedConfigurationURL = cachedConfigurationURL,
+                let cachedData = try? Data(contentsOf: cachedConfigurationURL),
+                case let .success(configuration) = ConfigurationJSONParsingService().parse(cachedData) {
+                checkForUpdates(configuration.updatingMode, comparingVersions: configuration.comparator,
+                                currentOSVersion: currentOSVersion, notifying: configuration.notificationMode,
+                                releaseNotes: configuration.releaseNotes, completion: completion)
+            } else {
+                // Fallback to programmatic settings
+                checkForUpdates(Updates.updatingMode, comparingVersions: comparingVersions,
+                                currentOSVersion: currentOSVersion, notifying: notifying,
+                                releaseNotes: releaseNotes, completion: completion)
+            }
         }
     }
     
@@ -102,7 +101,6 @@ public class Updates {
         if let versionString = versionString, let buildString = buildString {
             addBuild(versionString: versionString, buildString: buildString, comparator: .build)
         }
-        
         switch updatingMode {
         case .automatically:
             checkForUpdatesAutomatically(currentOSVersion: currentOSVersion, completion: completion)
@@ -110,9 +108,9 @@ public class Updates {
             guard let appStoreId = self.appStoreId, let minimumOSVersion = self.minimumOSVersion,
                 let newVersionString = self.newVersionString else {
                     let diagnosticMessage = """
-                        Missing required information to check for updates manually. Requires App Store identifier,
-                        minimum required OS version and version string for the new app version.
-                    """
+         Missing required information to check for updates manually. Requires App Store identifier,
+         minimum required OS version and version string for the new app version.
+         """
                     print(diagnosticMessage)
                     checkForUpdatesAutomatically(currentOSVersion: currentOSVersion, completion: completion)
                     return
@@ -155,16 +153,9 @@ public class Updates {
     
     public static var releaseNotes: String?
     
-    /// Determines whether the required version of iOS is available on the current device.
-    /// - parameter currentOSVersion The current version of iOS as determined by `UIDevice.current.systemVersion`.
-    @objc public static func systemVersionAvailable(currentOSVersion: String, requiredVersionString: String) -> Bool {
-        let comparisonResult = compareVersions(lhs: requiredVersionString, rhs: currentOSVersion, comparator: .patch)
-        return comparisonResult != .orderedDescending
-    }
-    
     public static var updatingMode: UpdatingMode = .automatically
     
-    internal static let userDefaultsKey = "com.rwbutler.updates"
+    static let userDefaultsKey = "com.rwbutler.updates"
     
     public static var versionString: String? = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
     

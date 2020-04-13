@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Version: Codable {
+class Version: Codable {
     
     typealias SortOptions = VersionSortOptions
     
@@ -20,7 +20,7 @@ struct Version: Codable {
     }
     
     @discardableResult
-    mutating func appendBuild(_ buildIdentifier: String) -> Build {
+    func appendBuild(_ buildIdentifier: String) -> Build {
         let existingBuild = builds.first(where: { build in
             build.identifier == buildIdentifier
         })
