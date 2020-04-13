@@ -24,12 +24,6 @@ struct ITunesSearchAPIService: AppMetadataService {
         self.iTunesSearchAPIURL = url
     }
     
-    private func completeOnMainQueue(result: AppMetadataResult, completion: @escaping (AppMetadataResult) -> Void) {
-        DispatchQueue.main.async {
-            completion(result)
-        }
-    }
-    
     /// Parses data returned by the iTunes Search API.
     private func parseConfiguration(data: Data) -> ParsingServiceResult? {
         switch parsingService.parse(data) {
@@ -43,7 +37,7 @@ struct ITunesSearchAPIService: AppMetadataService {
     func fetchAppMetadata(_ completion: @escaping (AppMetadataResult) -> Void) {
         DispatchQueue.global(qos: .background).async {
             guard let apiData = try? Data(contentsOf: self.iTunesSearchAPIURL) else {
-                self.completeOnMainQueue(result: .failure(.emptyPayload), completion: completion)
+                onMainQueue(completion)(.failure(.emptyPayload))
                 return
             }
             let parsingResult = self.parsingService.parse(apiData)
