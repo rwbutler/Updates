@@ -14,42 +14,61 @@ struct UpdatesResultFactory: Factory {
         let comparator: VersionComparator
         let notifying: NotificationMode
         let operatingSystemVersion: String
-        
     }
     
-    private let apiResult: ITunesSearchAPIResult
-    private let dependencies: Dependencies
+    private let bundleVersion: String
+    private let configuration: ConfigurationResult
+    private let operatingSystemVersion: String
     
-    init(apiResult: ITunesSearchAPIResult, dependencies: Dependencies) {
-        self.apiResult = apiResult
-        self.dependencies = dependencies
-    }
-    
-    private func isUpdateAvailableForSystemVersion() -> Bool {
-        let appStoreVersion = apiResult.version
-        let bundleVersion = dependencies.appVersion
-        let comparator = dependencies.comparator
-        let minRequiredOSVersion = apiResult.minimumOsVersion
-        let operatingSystemVersion = dependencies.operatingSystemVersion
-        let isNewVersionAvailable = updateAvailable(appVersion: bundleVersion, apiVersion: appStoreVersion,
-                                                    comparator: comparator)
-        let isRequiredOSAvailable = systemVersionAvailable(currentOSVersion: operatingSystemVersion,
-                                                           requiredVersionString: minRequiredOSVersion)
-        return isNewVersionAvailable && isRequiredOSAvailable
+    init(configuration: ConfigurationResult, bundleVersion: String, operatingSystemVersion: String) {
+        self.bundleVersion = bundleVersion
+        self.configuration = configuration
+        self.operatingSystemVersion = operatingSystemVersion
     }
     
     func manufacture() -> UpdatesResult {
+        guard let appStoreVersion = configuration.version else {
+            return .none
+        }
         let isUpdateAvailable = isUpdateAvailableForSystemVersion()
-        let update = Update(newVersionString: apiResult.version, releaseNotes: apiResult.releaseNotes,
-                            shouldNotify: isUpdateAvailable)
+        let update = Update(
+            newVersionString: appStoreVersion,
+            releaseNotes: configuration.releaseNotes,
+            shouldNotify: isUpdateAvailable
+        )
         return (isUpdateAvailable) ? .available(update) : .none
+    }
+    
+}
+
+private extension UpdatesResultFactory {
+    
+    private func isUpdateAvailableForSystemVersion() -> Bool {
+        guard let appStoreVersion = configuration.version,
+            let minRequiredOSVersion = configuration.minOSRequired else {
+                return false
+        }
+        let comparator = configuration.comparator
+        let isNewVersionAvailable = updateAvailable(
+            appVersion: bundleVersion,
+            apiVersion: appStoreVersion,
+            comparator: comparator
+        )
+        let isRequiredOSAvailable = systemVersionAvailable(
+            currentOSVersion: operatingSystemVersion,
+            requiredVersionString: minRequiredOSVersion
+        )
+        return isNewVersionAvailable && isRequiredOSAvailable
     }
     
     /// Determines whether the required version of iOS is available on the current device.
     /// - parameter currentOSVersion The current version of iOS as determined by `UIDevice.current.systemVersion`.
     private func systemVersionAvailable(currentOSVersion: String, requiredVersionString: String) -> Bool {
-        let comparisonResult = Updates.compareVersions(lhs: requiredVersionString,
-                                                       rhs: currentOSVersion, comparator: .patch)
+        let comparisonResult = Updates.compareVersions(
+            lhs: requiredVersionString,
+            rhs: currentOSVersion,
+            comparator: .patch
+        )
         return comparisonResult != .orderedDescending
     }
     

@@ -14,13 +14,4 @@ public extension Updates {
         Updates.checkForUpdates(currentOSVersion: UIDevice.current.systemVersion, completion: completion)
     }
     
-    static func checkForUpdates(_ mode: UpdatingMode = Updates.updatingMode,
-                                comparingVersions comparator: VersionComparator = Updates.comparingVersions,
-                                notifying: NotificationMode = Updates.notifying,
-                                releaseNotes: String? = nil,
-                                completion: @escaping (UpdatesResult) -> Void) {
-        checkForUpdates(mode, comparingVersions: comparator, currentOSVersion: UIDevice.current.systemVersion,
-                        notifying: notifying, releaseNotes: releaseNotes, completion: completion)
-    }
-    
 }

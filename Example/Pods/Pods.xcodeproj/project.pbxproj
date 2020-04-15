@@ -25,6 +25,15 @@
 		132652A32443AE7E003FDA45 /* Factory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 132652A22443AE7E003FDA45 /* Factory.swift */; };
 		132652BC2444AFB6003FDA45 /* NotificationNameAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 132652BA2444AFB6003FDA45 /* NotificationNameAdditions.swift */; };
 		132652BD2444AFB6003FDA45 /* MainQueueAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 132652BB2444AFB6003FDA45 /* MainQueueAdditions.swift */; };
+		132652BF2444F0F6003FDA45 /* StrategicUpdatesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 132652BE2444F0F6003FDA45 /* StrategicUpdatesService.swift */; };
+		132652C22446521C003FDA45 /* ConfigurationError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 132652C12446521C003FDA45 /* ConfigurationError.swift */; };
+		132652CE244773DB003FDA45 /* UpdateResolutionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 132652CD244773DB003FDA45 /* UpdateResolutionService.swift */; };
+		132652D0244773F8003FDA45 /* NeverResolvingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 132652CF244773F8003FDA45 /* NeverResolvingService.swift */; };
+		132652D324477460003FDA45 /* ManualUpdateResolutionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 132652D224477460003FDA45 /* ManualUpdateResolutionService.swift */; };
+		132652D524477493003FDA45 /* AutomaticUpdateResolutionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 132652D424477493003FDA45 /* AutomaticUpdateResolutionService.swift */; };
+		132652D7244784A4003FDA45 /* ConfigurationServiceResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 132652D6244784A4003FDA45 /* ConfigurationServiceResult.swift */; };
+		132652DA244784C4003FDA45 /* ConfigurationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 132652D9244784C4003FDA45 /* ConfigurationService.swift */; };
+		132652DC244784F1003FDA45 /* DefaultConfigurationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 132652DB244784F1003FDA45 /* DefaultConfigurationService.swift */; };
 		138018F222FC7D96008FC6D4 /* Updates+UIDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 138018F022FC7D82008FC6D4 /* Updates+UIDevice.swift */; };
 		138B3515220B187700BB506A /* Versions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 138B3513220B187200BB506A /* Versions.swift */; };
 		138B3517220B18A000BB506A /* Build.swift in Sources */ = {isa = PBXBuildFile; fileRef = 138B3516220B18A000BB506A /* Build.swift */; };
@@ -81,6 +90,15 @@
 		132652A22443AE7E003FDA45 /* Factory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Factory.swift; sourceTree = "<group>"; };
 		132652BA2444AFB6003FDA45 /* NotificationNameAdditions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationNameAdditions.swift; sourceTree = "<group>"; };
 		132652BB2444AFB6003FDA45 /* MainQueueAdditions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainQueueAdditions.swift; sourceTree = "<group>"; };
+		132652BE2444F0F6003FDA45 /* StrategicUpdatesService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StrategicUpdatesService.swift; sourceTree = "<group>"; };
+		132652C12446521C003FDA45 /* ConfigurationError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurationError.swift; sourceTree = "<group>"; };
+		132652CD244773DB003FDA45 /* UpdateResolutionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateResolutionService.swift; sourceTree = "<group>"; };
+		132652CF244773F8003FDA45 /* NeverResolvingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NeverResolvingService.swift; sourceTree = "<group>"; };
+		132652D224477460003FDA45 /* ManualUpdateResolutionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManualUpdateResolutionService.swift; sourceTree = "<group>"; };
+		132652D424477493003FDA45 /* AutomaticUpdateResolutionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutomaticUpdateResolutionService.swift; sourceTree = "<group>"; };
+		132652D6244784A4003FDA45 /* ConfigurationServiceResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurationServiceResult.swift; sourceTree = "<group>"; };
+		132652D9244784C4003FDA45 /* ConfigurationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurationService.swift; sourceTree = "<group>"; };
+		132652DB244784F1003FDA45 /* DefaultConfigurationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultConfigurationService.swift; sourceTree = "<group>"; };
 		138018F022FC7D82008FC6D4 /* Updates+UIDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Updates+UIDevice.swift"; sourceTree = "<group>"; };
 		138B3513220B187200BB506A /* Versions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Versions.swift; sourceTree = "<group>"; };
 		138B3516220B18A000BB506A /* Build.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Build.swift; sourceTree = "<group>"; };
@@ -157,10 +175,11 @@
 		131907D5222DD7DB0089CAA8 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				131907DC222DD7DB0089CAA8 /* App Metadata */,
-				132652B624449721003FDA45 /* Updates */,
-				131907D6222DD7DB0089CAA8 /* Parsing */,
 				132652A0244353B0003FDA45 /* Services.swift */,
+				131907DC222DD7DB0089CAA8 /* App Metadata */,
+				131907D6222DD7DB0089CAA8 /* Parsing */,
+				132652C02446520B003FDA45 /* Configuration */,
+				132652B624449721003FDA45 /* Updates */,
 			);
 			name = Services;
 			path = Updates/Classes/Services;
@@ -169,18 +188,10 @@
 		131907D6222DD7DB0089CAA8 /* Parsing */ = {
 			isa = PBXGroup;
 			children = (
-				131907D7222DD7DB0089CAA8 /* Configuration */,
+				131907D8222DD7DB0089CAA8 /* Implementation */,
+				132652D8244784B6003FDA45 /* Protocol */,
 			);
 			path = Parsing;
-			sourceTree = "<group>";
-		};
-		131907D7222DD7DB0089CAA8 /* Configuration */ = {
-			isa = PBXGroup;
-			children = (
-				131907D8222DD7DB0089CAA8 /* Implementation */,
-				131907DA222DD7DB0089CAA8 /* Model */,
-			);
-			path = Configuration;
 			sourceTree = "<group>";
 		};
 		131907D8222DD7DB0089CAA8 /* Implementation */ = {
@@ -189,14 +200,6 @@
 				131907D9222DD7DB0089CAA8 /* ConfigurationJSONParsingService.swift */,
 			);
 			path = Implementation;
-			sourceTree = "<group>";
-		};
-		131907DA222DD7DB0089CAA8 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				131907DB222DD7DB0089CAA8 /* ConfigurationType.swift */,
-			);
-			path = Model;
 			sourceTree = "<group>";
 		};
 		131907DC222DD7DB0089CAA8 /* App Metadata */ = {
@@ -212,7 +215,6 @@
 		131907DD222DD7DB0089CAA8 /* Protocol */ = {
 			isa = PBXGroup;
 			children = (
-				131907DE222DD7DB0089CAA8 /* ParsingService.swift */,
 				1326528C243FAA20003FDA45 /* AppMetadataService.swift */,
 			);
 			path = Protocol;
@@ -244,6 +246,9 @@
 		132652B624449721003FDA45 /* Updates */ = {
 			isa = PBXGroup;
 			children = (
+				132652D12447740B003FDA45 /* Model */,
+				132652CC244773B0003FDA45 /* Implementation */,
+				132652CB244773A0003FDA45 /* Protocol */,
 			);
 			path = Updates;
 			sourceTree = "<group>";
@@ -256,6 +261,76 @@
 			);
 			name = Extensions;
 			path = Updates/Classes/Extensions;
+			sourceTree = "<group>";
+		};
+		132652C02446520B003FDA45 /* Configuration */ = {
+			isa = PBXGroup;
+			children = (
+				132652DF2447858E003FDA45 /* Implementation */,
+				132652DE24478529003FDA45 /* Protocol */,
+				132652DD24478522003FDA45 /* Model */,
+			);
+			path = Configuration;
+			sourceTree = "<group>";
+		};
+		132652CB244773A0003FDA45 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				132652CD244773DB003FDA45 /* UpdateResolutionService.swift */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
+		132652CC244773B0003FDA45 /* Implementation */ = {
+			isa = PBXGroup;
+			children = (
+				132652BE2444F0F6003FDA45 /* StrategicUpdatesService.swift */,
+				132652CF244773F8003FDA45 /* NeverResolvingService.swift */,
+				132652D224477460003FDA45 /* ManualUpdateResolutionService.swift */,
+				132652D424477493003FDA45 /* AutomaticUpdateResolutionService.swift */,
+			);
+			name = Implementation;
+			sourceTree = "<group>";
+		};
+		132652D12447740B003FDA45 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		132652D8244784B6003FDA45 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				131907DE222DD7DB0089CAA8 /* ParsingService.swift */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
+		132652DD24478522003FDA45 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				131907DB222DD7DB0089CAA8 /* ConfigurationType.swift */,
+				132652D6244784A4003FDA45 /* ConfigurationServiceResult.swift */,
+				132652C12446521C003FDA45 /* ConfigurationError.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		132652DE24478529003FDA45 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				132652D9244784C4003FDA45 /* ConfigurationService.swift */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
+		132652DF2447858E003FDA45 /* Implementation */ = {
+			isa = PBXGroup;
+			children = (
+				132652DB244784F1003FDA45 /* DefaultConfigurationService.swift */,
+			);
+			path = Implementation;
 			sourceTree = "<group>";
 		};
 		13DFA50821D5647700CD9AEA /* Core */ = {
@@ -582,11 +657,15 @@
 				131907D4222DCA380089CAA8 /* Updates+Internal.swift in Sources */,
 				132652A32443AE7E003FDA45 /* Factory.swift in Sources */,
 				131907E9222DD7DC0089CAA8 /* ConfigurationType.swift in Sources */,
+				132652DC244784F1003FDA45 /* DefaultConfigurationService.swift in Sources */,
+				132652D7244784A4003FDA45 /* ConfigurationServiceResult.swift in Sources */,
+				132652C22446521C003FDA45 /* ConfigurationError.swift in Sources */,
 				13DFA50D21D5647700CD9AEA /* UpdatesUI.swift in Sources */,
 				131907E8222DD7DC0089CAA8 /* ConfigurationJSONParsingService.swift in Sources */,
 				13DFA50C21D5647700CD9AEA /* Updates.swift in Sources */,
 				1326528F243FAA3E003FDA45 /* ITunesSearchAPIService.swift in Sources */,
 				138018F222FC7D96008FC6D4 /* Updates+UIDevice.swift in Sources */,
+				132652BF2444F0F6003FDA45 /* StrategicUpdatesService.swift in Sources */,
 				13DFA53521DAC6F100CD9AEA /* UpdatingMode.swift in Sources */,
 				132652BD2444AFB6003FDA45 /* MainQueueAdditions.swift in Sources */,
 				1326528D243FAA20003FDA45 /* AppMetadataService.swift in Sources */,
@@ -594,15 +673,20 @@
 				131907ED222DD7DC0089CAA8 /* ITunesSearchAPIResult.swift in Sources */,
 				131907EF222DD7DC0089CAA8 /* ParsingServiceResult.swift in Sources */,
 				132652BC2444AFB6003FDA45 /* NotificationNameAdditions.swift in Sources */,
+				132652D524477493003FDA45 /* AutomaticUpdateResolutionService.swift in Sources */,
 				13DFA53421DAC6F100CD9AEA /* VersionComparator.swift in Sources */,
 				E0B6D50EB1766F119A96ADD519D4D12D /* Updates-dummy.m in Sources */,
+				132652CE244773DB003FDA45 /* UpdateResolutionService.swift in Sources */,
 				138B351B220B1FF600BB506A /* VersionSortOptions.swift in Sources */,
+				132652D324477460003FDA45 /* ManualUpdateResolutionService.swift in Sources */,
 				131907EC222DD7DC0089CAA8 /* ConfigurationResult.swift in Sources */,
 				138B3519220B195400BB506A /* Version.swift in Sources */,
 				131907F1222DD7DC0089CAA8 /* UpdatesResult.swift in Sources */,
+				132652D0244773F8003FDA45 /* NeverResolvingService.swift in Sources */,
 				13DFA53621DAC6F100CD9AEA /* NotificationMode.swift in Sources */,
 				138B3517220B18A000BB506A /* Build.swift in Sources */,
 				131907EB222DD7DC0089CAA8 /* ITunesSearchJSONParsingService.swift in Sources */,
+				132652DA244784C4003FDA45 /* ConfigurationService.swift in Sources */,
 				131907F0222DD7DC0089CAA8 /* ParsingError.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

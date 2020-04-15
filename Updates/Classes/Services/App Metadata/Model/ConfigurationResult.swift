@@ -29,6 +29,18 @@ struct ConfigurationResult: Codable {
     let updatingMode: UpdatingMode
     let version: String?
     
+    init(appStoreId: String?, build: String?, comparator: VersionComparator, minRequiredOSVersion: String?,
+         notifying: NotificationMode, releaseNotes: String?, updatingMode: UpdatingMode, version: String?) {
+        self.appStoreId = appStoreId
+        self.buildString = build
+        self.comparator = comparator
+        self.minOSRequired = minRequiredOSVersion
+        self.notificationMode = notifying
+        self.releaseNotes = releaseNotes
+        self.updatingMode = updatingMode
+        self.version = version
+    }
+    
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.appStoreId = try? container.decode(String.self, forKey: .appStoreId)
@@ -51,6 +63,24 @@ struct ConfigurationResult: Codable {
         try container.encode(releaseNotes, forKey: .releaseNotes)
         try container.encode(updatingMode, forKey: .updatingMode)
         try container.encode(version, forKey: .version)
+    }
+    
+}
+
+extension ConfigurationResult {
+    
+    func mutableCopy(with apiResult: ITunesSearchAPIResult) -> ConfigurationResult {
+        let mergedReleaseNotes = apiResult.releaseNotes ?? releaseNotes
+        return ConfigurationResult(
+            appStoreId: "\(apiResult.trackId)",
+            build: buildString,
+            comparator: comparator,
+            minRequiredOSVersion: apiResult.minimumOsVersion,
+            notifying: notificationMode,
+            releaseNotes: mergedReleaseNotes,
+            updatingMode: updatingMode,
+            version: apiResult.version
+        )
     }
     
 }

@@ -49,62 +49,6 @@ extension Updates {
         return FileManager.default.fileExists(atPath: cachedConfigURL.path)
     }
     
-    static func checkForUpdatesAutomatically(comparingVersions comparator: VersionComparator = Updates.comparingVersions,
-                                             currentOSVersion: String, notifying: NotificationMode = Updates.notifying,
-                                             completion: @escaping (UpdatesResult) -> Void) {
-        DispatchQueue.global(qos: .background).async {
-            guard let bundleIdentifier = Updates.bundleIdentifier, let countryCode = Updates.countryCode,
-                let appVersion = versionString,
-                let metadataService = Services.appMetadata(bundleIdentifier: bundleIdentifier,
-                                                           countryCode: countryCode) else {
-                    DispatchQueue.main.async {
-                        completion(.none)
-                    }
-                    return
-            }
-            metadataService.fetchAppMetadata { result in
-                switch result {
-                case .success(let apiResult):
-                    let factoryDependencies = UpdatesResultFactory.Dependencies(
-                        appVersion: appVersion,
-                        comparator: comparator,
-                        notifying: notifying,
-                        operatingSystemVersion: currentOSVersion
-                    )
-                    let factory = UpdatesResultFactory(apiResult: apiResult, dependencies: factoryDependencies)
-                    completion(factory.manufacture())
-                case .failure:
-                    onMainQueue(completion)(.none)
-                }
-            }
-        }
-    }
-    
-    static func checkForUpdatesManually(appStoreId: String,
-                                        comparingVersions comparator: VersionComparator = Updates.comparingVersions,
-                                        currentOSVersion: String, newVersionString: String,
-                                        notifying: NotificationMode = Updates.notifying,
-                                        minimumOSVersion: String, releaseNotes: String?,
-                                        completion: @escaping (UpdatesResult) -> Void) {
-        DispatchQueue.global(qos: .background).async {
-            guard let appVersion = versionString else {
-                onMainQueue(completion)(.none)
-                return
-            }
-            let trackId = Int(appStoreId) ?? 0
-            let apiResult = ITunesSearchAPIResult(minimumOsVersion: minimumOSVersion, releaseNotes: releaseNotes,
-                                                  trackId: trackId, version: appVersion)
-            let factoryDependencies = UpdatesResultFactory.Dependencies(
-                appVersion: appVersion,
-                comparator: comparator,
-                notifying: notifying,
-                operatingSystemVersion: currentOSVersion
-            )
-            let factory = UpdatesResultFactory(apiResult: apiResult, dependencies: factoryDependencies)
-            completion(factory.manufacture())
-        }
-    }
-    
     static func clearCache() {
         guard let cachedConfigURL = cachedConfigurationURL else { return }
         try? FileManager.default.removeItem(at: cachedConfigURL)
@@ -173,7 +117,7 @@ extension Updates {
     }
     
     /// Records the current build so that we can determine
-    static func addBuild(versionString: String, buildString: String, comparator: VersionComparator) {
+    static func registerBuild(versionString: String, buildString: String, comparator: VersionComparator) {
         guard var versionInformation = cachedVersionInfo() else {
             postAppDidInstallNotification()
             var versionInfo = Versions()
