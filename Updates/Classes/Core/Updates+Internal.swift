@@ -37,23 +37,6 @@ extension Updates {
             .appendingPathComponent("\(configurationName).\(configurationType.rawValue)")
     }
     
-    static func cacheConfiguration(_ result: ConfigurationResult) {
-        let encoder = JSONEncoder()
-        guard let data = try? encoder.encode(result),
-            let cachedConfigurationURL = cachedConfigurationURL else { return }
-        try? data.write(to: cachedConfigurationURL)
-    }
-    
-    static func cacheExists() -> Bool {
-        guard let cachedConfigURL = cachedConfigurationURL else { return false }
-        return FileManager.default.fileExists(atPath: cachedConfigURL.path)
-    }
-    
-    static func clearCache() {
-        guard let cachedConfigURL = cachedConfigurationURL else { return }
-        try? FileManager.default.removeItem(at: cachedConfigURL)
-    }
-    
     /**
      Compares two semantic version numbers.
      - parameter lhs: First semantic version number.

@@ -25,6 +25,18 @@ struct DefaultConfigurationService: ConfigurationService {
         }
     }
     
+}
+
+private extension DefaultConfigurationService {
+    
+    private func cacheConfiguration(_ result: ConfigurationResult) {
+        let encoder = JSONEncoder()
+        guard let data = try? encoder.encode(result) else {
+            return
+        }
+        try? data.write(to: cachedConfigurationURL)
+    }
+
     /// Synchronously fetches settings from the given URL.
     private func fetchSettings(configurationURL: URL) -> ConfigurationServiceResult {
         guard let configurationData = try? Data(contentsOf: configurationURL) else {
@@ -33,6 +45,9 @@ struct DefaultConfigurationService: ConfigurationService {
         let parsingResult = ConfigurationJSONParsingService().parse(configurationData)
         switch parsingResult {
         case .success(let configuration):
+            if configurationURL != cachedConfigurationURL {
+                cacheConfiguration(configuration)
+            }
             return .success(configuration)
         case .failure(let error):
             guard configurationURL != cachedConfigurationURL else {
