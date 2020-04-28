@@ -53,8 +53,20 @@ extension Updates {
         // Pad out the array to make equal in length
         lhsComponents = padLHSWithZeroes(lhs: lhsComponents, rhs: rhsComponents)
         rhsComponents = padLHSWithZeroes(lhs: rhsComponents, rhs: lhsComponents)
+        guard semanticVersioningComponents.contains(comparator) else {
+            for (lhsComponent, rhsComponent) in zip(lhsComponents, rhsComponents) {
+                result = comparisonResult(lhs: lhsComponent, rhs: rhsComponent)
+                if result != .orderedSame {
+                    break
+                }
+            }
+            return result
+        }
         var counter = 0
         for (lhsComponent, rhsComponent) in zip(lhsComponents, rhsComponents) {
+            guard counter < semanticVersioningComponents.count else {
+                break
+            }
             let semanticComponent = semanticVersioningComponents[counter]
             guard semanticComponent.rawValue <= comparator.rawValue else {
                 break
