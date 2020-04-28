@@ -14,7 +14,7 @@ public struct VersionComparator: OptionSet, Codable {
     public static let minor = VersionComparator(rawValue: 1 << 1)
     public static let patch = VersionComparator(rawValue: 1 << 2)
     public static let build = VersionComparator(rawValue: 1 << 3) // Currently not supported
-
+    
     public init(rawValue: Int) {
         self.rawValue = rawValue
     }
@@ -24,10 +24,12 @@ public struct VersionComparator: OptionSet, Codable {
 extension VersionComparator {
     public init(optionsString: String) {
         var result: VersionComparator = []
-        let allOptions: [String: VersionComparator] = ["major-versions": VersionComparator.major,
-                                              "minor-versions": VersionComparator.minor,
-                                              "patch-versions": VersionComparator.patch,
-                                              "build-versions": VersionComparator.build]
+        let allOptions: [String: VersionComparator] = [
+            "major-versions": VersionComparator.major,
+            "minor-versions": VersionComparator.minor,
+            "patch-versions": VersionComparator.patch,
+            "build-versions": VersionComparator.build
+        ]
         let options = optionsString.split(separator: ",").map { String($0) }
         for (key, value) in allOptions {
             if options.contains(key) {

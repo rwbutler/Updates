@@ -45,7 +45,7 @@ extension Updates {
      and orderedDescending if rhs is earlier than lhs.
      */
     static func compareVersions(lhs: String, rhs: String, comparator: VersionComparator) -> ComparisonResult {
-        let semanticVersioningComponents: [VersionComparator] = [.major, .minor, .patch, .build]
+        let semanticVersioningComponents: [VersionComparator] = [.major, .minor, .patch]
         var result = ComparisonResult.orderedSame
         var lhsComponents = lhs.components(separatedBy: ".")
         var rhsComponents = rhs.components(separatedBy: ".")
@@ -56,7 +56,9 @@ extension Updates {
         var counter = 0
         for (lhsComponent, rhsComponent) in zip(lhsComponents, rhsComponents) {
             let semanticComponent = semanticVersioningComponents[counter]
-            guard semanticComponent.rawValue <= comparator.rawValue else { break }
+            guard semanticComponent.rawValue <= comparator.rawValue else {
+                break
+            }
             result = comparisonResult(lhs: lhsComponent, rhs: rhsComponent)
             if result != .orderedSame {
                 break
@@ -98,58 +100,5 @@ extension Updates {
         }
         return result
     }
-    
-    /// Records the current build so that we can determine
-    static func registerBuild(versionString: String, buildString: String, comparator: VersionComparator) {
-        guard var versionInformation = cachedVersionInfo() else {
-            postAppDidInstallNotification()
-            var versionInfo = Versions()
-            versionInfo.appendVersion(versionIdentifier: versionString, buildIdentifier: buildString)
-            cacheVersionInfo(versionInfo: versionInfo)
-            isFirstLaunchFollowingInstall = true
-            return
-        }
-        let comparators: [VersionComparator] = [.major, .minor, .patch, .build]
-        comparators.forEach { comparator in
-            if !versionInformation.versionExists(versionIdentifier: versionString, comparator: comparator) {
-                isFirstLaunchFollowingUpdate = true
-                postAppVersionDidChangeNotification()
-                versionInformation.appendVersion(versionIdentifier: versionString, buildIdentifier: buildString)
-                cacheVersionInfo(versionInfo: versionInformation)
-                return
-            }
-        }
-        let buildExists = versionInformation.buildExists(versionIdentifier: versionString, buildIdentifier: buildString)
-        if !buildExists, comparator.contains(.build) {
-            isFirstLaunchFollowingUpdate = true
-            postAppVersionDidChangeNotification()
-            versionInformation.appendVersion(versionIdentifier: versionString, buildIdentifier: buildString)
-            cacheVersionInfo(versionInfo: versionInformation)
-        }
-    }
-    
-    private static func postAppDidInstallNotification() {
-        let appVersionDidChange = Notification(name: .appDidInstall)
-        NotificationCenter.default.post(appVersionDidChange)
-    }
-    
-    private static func postAppVersionDidChangeNotification() {
-        let appVersionDidChange = Notification(name: .appVersionDidChange)
-        NotificationCenter.default.post(appVersionDidChange)
-    }
-    
-    private static func cachedVersionInfo() -> Versions? {
-        let decoder = JSONDecoder()
-        guard let data = UserDefaults.standard.data(forKey: userDefaultsKey),
-            let versionInfo = try? decoder.decode(Versions.self, from: data) else {
-                return nil
-        }
-        return versionInfo
-    }
-    
-    private static func cacheVersionInfo(versionInfo: Versions) {
-        let encoder = JSONEncoder()
-        guard let data = try? encoder.encode(versionInfo) else { return }
-        UserDefaults.standard.set(data, forKey: userDefaultsKey)
-    }
+
 }

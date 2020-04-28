@@ -32,4 +32,8 @@ struct Services {
         )
     }
     
+    static func versionJournallingService() -> VersionJournalingService {
+        return DefaultVersionJournalingService()
+    }
+    
 }

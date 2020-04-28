@@ -34,6 +34,9 @@
 		132652D7244784A4003FDA45 /* ConfigurationServiceResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 132652D6244784A4003FDA45 /* ConfigurationServiceResult.swift */; };
 		132652DA244784C4003FDA45 /* ConfigurationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 132652D9244784C4003FDA45 /* ConfigurationService.swift */; };
 		132652DC244784F1003FDA45 /* DefaultConfigurationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 132652DB244784F1003FDA45 /* DefaultConfigurationService.swift */; };
+		132652E52447B861003FDA45 /* DefaultVersionJournalingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 132652E42447B861003FDA45 /* DefaultVersionJournalingService.swift */; };
+		132652E82447B9B7003FDA45 /* VersionJournalingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 132652E72447B9B7003FDA45 /* VersionJournalingService.swift */; };
+		132652EA2447BA3B003FDA45 /* VersionJournalingServiceResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 132652E92447BA3B003FDA45 /* VersionJournalingServiceResult.swift */; };
 		138018F222FC7D96008FC6D4 /* Updates+UIDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 138018F022FC7D82008FC6D4 /* Updates+UIDevice.swift */; };
 		138B3515220B187700BB506A /* Versions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 138B3513220B187200BB506A /* Versions.swift */; };
 		138B3517220B18A000BB506A /* Build.swift in Sources */ = {isa = PBXBuildFile; fileRef = 138B3516220B18A000BB506A /* Build.swift */; };
@@ -99,6 +102,9 @@
 		132652D6244784A4003FDA45 /* ConfigurationServiceResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurationServiceResult.swift; sourceTree = "<group>"; };
 		132652D9244784C4003FDA45 /* ConfigurationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurationService.swift; sourceTree = "<group>"; };
 		132652DB244784F1003FDA45 /* DefaultConfigurationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultConfigurationService.swift; sourceTree = "<group>"; };
+		132652E42447B861003FDA45 /* DefaultVersionJournalingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultVersionJournalingService.swift; sourceTree = "<group>"; };
+		132652E72447B9B7003FDA45 /* VersionJournalingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersionJournalingService.swift; sourceTree = "<group>"; };
+		132652E92447BA3B003FDA45 /* VersionJournalingServiceResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersionJournalingServiceResult.swift; sourceTree = "<group>"; };
 		138018F022FC7D82008FC6D4 /* Updates+UIDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Updates+UIDevice.swift"; sourceTree = "<group>"; };
 		138B3513220B187200BB506A /* Versions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Versions.swift; sourceTree = "<group>"; };
 		138B3516220B18A000BB506A /* Build.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Build.swift; sourceTree = "<group>"; };
@@ -176,6 +182,7 @@
 			isa = PBXGroup;
 			children = (
 				132652A0244353B0003FDA45 /* Services.swift */,
+				132652E12447B839003FDA45 /* Version */,
 				131907DC222DD7DB0089CAA8 /* App Metadata */,
 				131907D6222DD7DB0089CAA8 /* Parsing */,
 				132652C02446520B003FDA45 /* Configuration */,
@@ -333,6 +340,44 @@
 			path = Implementation;
 			sourceTree = "<group>";
 		};
+		132652E12447B839003FDA45 /* Version */ = {
+			isa = PBXGroup;
+			children = (
+				132652E62447B8E9003FDA45 /* Model */,
+				132652E32447B847003FDA45 /* Implementation */,
+				132652E22447B843003FDA45 /* Protocol */,
+			);
+			path = Version;
+			sourceTree = "<group>";
+		};
+		132652E22447B843003FDA45 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				132652E72447B9B7003FDA45 /* VersionJournalingService.swift */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
+		132652E32447B847003FDA45 /* Implementation */ = {
+			isa = PBXGroup;
+			children = (
+				132652E42447B861003FDA45 /* DefaultVersionJournalingService.swift */,
+			);
+			path = Implementation;
+			sourceTree = "<group>";
+		};
+		132652E62447B8E9003FDA45 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				138B3516220B18A000BB506A /* Build.swift */,
+				138B3518220B195400BB506A /* Version.swift */,
+				138B351A220B1FF600BB506A /* VersionSortOptions.swift */,
+				138B3513220B187200BB506A /* Versions.swift */,
+				132652E92447BA3B003FDA45 /* VersionJournalingServiceResult.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		13DFA50821D5647700CD9AEA /* Core */ = {
 			isa = PBXGroup;
 			children = (
@@ -357,13 +402,9 @@
 		13DFA52821DAC6F100CD9AEA /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				138B3516220B18A000BB506A /* Build.swift */,
 				13DFA52B21DAC6F100CD9AEA /* NotificationMode.swift */,
 				13DFA52A21DAC6F100CD9AEA /* UpdatingMode.swift */,
-				138B3518220B195400BB506A /* Version.swift */,
 				13DFA52921DAC6F100CD9AEA /* VersionComparator.swift */,
-				138B3513220B187200BB506A /* Versions.swift */,
-				138B351A220B1FF600BB506A /* VersionSortOptions.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -655,6 +696,7 @@
 				138B3515220B187700BB506A /* Versions.swift in Sources */,
 				1326529F24409579003FDA45 /* UpdatesResultFactory.swift in Sources */,
 				131907D4222DCA380089CAA8 /* Updates+Internal.swift in Sources */,
+				132652E82447B9B7003FDA45 /* VersionJournalingService.swift in Sources */,
 				132652A32443AE7E003FDA45 /* Factory.swift in Sources */,
 				131907E9222DD7DC0089CAA8 /* ConfigurationType.swift in Sources */,
 				132652DC244784F1003FDA45 /* DefaultConfigurationService.swift in Sources */,
@@ -663,6 +705,7 @@
 				13DFA50D21D5647700CD9AEA /* UpdatesUI.swift in Sources */,
 				131907E8222DD7DC0089CAA8 /* ConfigurationJSONParsingService.swift in Sources */,
 				13DFA50C21D5647700CD9AEA /* Updates.swift in Sources */,
+				132652E52447B861003FDA45 /* DefaultVersionJournalingService.swift in Sources */,
 				1326528F243FAA3E003FDA45 /* ITunesSearchAPIService.swift in Sources */,
 				138018F222FC7D96008FC6D4 /* Updates+UIDevice.swift in Sources */,
 				132652BF2444F0F6003FDA45 /* StrategicUpdatesService.swift in Sources */,
@@ -676,6 +719,7 @@
 				132652D524477493003FDA45 /* AutomaticUpdateResolutionService.swift in Sources */,
 				13DFA53421DAC6F100CD9AEA /* VersionComparator.swift in Sources */,
 				E0B6D50EB1766F119A96ADD519D4D12D /* Updates-dummy.m in Sources */,
+				132652EA2447BA3B003FDA45 /* VersionJournalingServiceResult.swift in Sources */,
 				132652CE244773DB003FDA45 /* UpdateResolutionService.swift in Sources */,
 				138B351B220B1FF600BB506A /* VersionSortOptions.swift in Sources */,
 				132652D324477460003FDA45 /* ManualUpdateResolutionService.swift in Sources */,

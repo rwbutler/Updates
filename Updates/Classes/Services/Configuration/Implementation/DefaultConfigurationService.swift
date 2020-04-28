@@ -11,6 +11,7 @@ struct DefaultConfigurationService: ConfigurationService {
     
     private let cachedConfigurationURL: URL
     private let configurationURL: URL
+    private let parsingService = ConfigurationJSONParsingService()
     
     init(configurationURL: URL, cachedConfigurationURL: URL) {
         self.cachedConfigurationURL = cachedConfigurationURL
@@ -42,7 +43,7 @@ private extension DefaultConfigurationService {
         guard let configurationData = try? Data(contentsOf: configurationURL) else {
             return .failure(.networking)
         }
-        let parsingResult = ConfigurationJSONParsingService().parse(configurationData)
+        let parsingResult = parsingService.parse(configurationData)
         switch parsingResult {
         case .success(let configuration):
             if configurationURL != cachedConfigurationURL {

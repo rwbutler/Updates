@@ -107,7 +107,7 @@ public class Updates {
             completion(.none)
             return
         }
-        registerBuild(versionString: bundleVersion, buildString: buildString, comparator: .build)
+        registerBuild(bundleVersion: bundleVersion, buildString: buildString)
         let updatesService: UpdateResolutionService
         if let bundleIdentifier = bundleIdentifier, let countryCode = countryCode,
             let appMetadataService = Services.appMetadata(
@@ -131,6 +131,11 @@ public class Updates {
             )
         }
         updatesService.checkForUpdates(completion: completion)
+    }
+    
+    private static func registerBuild(bundleVersion: String, buildString: String) {
+        let versionJournaling = Services.versionJournallingService()
+        _ = versionJournaling.registerBuild(versionString: bundleVersion, buildString: buildString, comparator: .build)
     }
     
     public static var comparingVersions: VersionComparator = .patch
@@ -163,8 +168,6 @@ public class Updates {
     public static var releaseNotes: String?
     
     public static var updatingMode: UpdatingMode = .automatically
-    
-    static let userDefaultsKey = "com.rwbutler.updates"
     
     public static var versionString: String? = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
     
