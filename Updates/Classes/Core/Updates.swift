@@ -22,7 +22,9 @@ public class Updates {
     /// Defaults configuration URL to bundled configuration and detects configuration type when set.
     public static var configurationURL: URL? = bundledConfigurationURL() {
         didSet { // detect configuration format by extension
-            guard let lastPathComponent = configurationURL?.lastPathComponent.lowercased() else { return }
+            guard let lastPathComponent = configurationURL?.lastPathComponent.lowercased() else {
+                return
+            }
             let configExtension = configurationType.rawValue.lowercased()
             for configurationType in ConfigurationType.allCases where lastPathComponent.contains(configExtension) {
                 Updates.configurationType = configurationType
@@ -56,6 +58,39 @@ public class Updates {
     
     public static var bundleIdentifier: String? = Bundle.main.bundleIdentifier
     
+    public static var comparingVersions: VersionComparator = .patch
+    
+    public static var countryCode: String? = {
+        let currentBundle = Bundle(for: Updates.self)
+        if #available(iOS 13.0, macCatalyst 13.0, *),
+            let iso3166Alpha3CountryCode = SKPaymentQueue.default().storefront?.countryCode,
+            !iso3166Alpha3CountryCode.isEmpty,
+            let iso3166Mapping = currentBundle.infoDictionary?["ISO3166Map"] as? [String: String],
+            let iso3166Alpha2CountryCode = iso3166Mapping[iso3166Alpha3CountryCode] {
+            return iso3166Alpha2CountryCode
+        } else {
+            return Locale.current.regionCode
+        }
+    }()
+    
+    public internal(set) static var isFirstLaunchFollowingInstall: Bool = false
+    
+    public internal(set) static var isFirstLaunchFollowingUpdate: Bool = false
+    
+    public static var newVersionString: String?
+    
+    public static var notifying: NotificationMode = .once
+    
+    public static var minimumOSVersion: String?
+    
+    public static let productName: String? = Bundle.main.infoDictionary?["CFBundleDisplayName"] as? String
+    
+    public static var releaseNotes: String?
+    
+    public static var updatingMode: UpdatingMode = .automatically
+    
+    public static var versionString: String? = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
+    
     public static func checkForUpdates(currentOSVersion: String, completion: @escaping (UpdatesResult) -> Void) {
         guard let configURL = configurationURL, let cachedConfigURL = cachedConfigurationURL else {
             checkForUpdates(
@@ -69,7 +104,7 @@ public class Updates {
             configurationURL: configURL,
             cachedConfigurationURL: cachedConfigURL
         )
-        configurationService.fetchSettings { result in
+        configurationService.fetchSettings(defaults: programmaticConfiguration()) { result in
             switch result {
             case .success(let configuration):
                 checkForUpdates(
@@ -85,19 +120,6 @@ public class Updates {
                 )
             }
         }
-    }
-    
-    private static func programmaticConfiguration() -> ConfigurationResult {
-        return ConfigurationResult(
-            appStoreId: appStoreId,
-            build: buildString,
-            comparator: comparingVersions,
-            minRequiredOSVersion: minimumOSVersion,
-            notifying: notifying,
-            releaseNotes: releaseNotes,
-            updatingMode: updatingMode,
-            version: versionString
-        )
     }
     
     private static func checkForUpdates(configuration: ConfigurationResult,
@@ -133,42 +155,22 @@ public class Updates {
         updatesService.checkForUpdates(completion: completion)
     }
     
+    private static func programmaticConfiguration() -> ConfigurationResult {
+        return ConfigurationResult(
+            appStoreId: appStoreId,
+            build: buildString,
+            comparator: comparingVersions,
+            minRequiredOSVersion: minimumOSVersion,
+            notifying: notifying,
+            releaseNotes: releaseNotes,
+            updatingMode: updatingMode,
+            version: versionString
+        )
+    }
+    
     private static func registerBuild(bundleVersion: String, buildString: String) {
         let versionJournaling = Services.versionJournallingService()
         _ = versionJournaling.registerBuild(versionString: bundleVersion, buildString: buildString, comparator: .build)
     }
-    
-    public static var comparingVersions: VersionComparator = .patch
-    
-    public static var countryCode: String? = {
-        let currentBundle = Bundle(for: Updates.self)
-        if #available(iOS 13.0, macCatalyst 13.0, *),
-            let iso3166Alpha3CountryCode = SKPaymentQueue.default().storefront?.countryCode,
-            !iso3166Alpha3CountryCode.isEmpty,
-            let iso3166Mapping = currentBundle.infoDictionary?["ISO3166Map"] as? [String: String],
-            let iso3166Alpha2CountryCode = iso3166Mapping[iso3166Alpha3CountryCode] {
-            return iso3166Alpha2CountryCode
-        } else {
-            return Locale.current.regionCode
-        }
-    }()
-    
-    public internal(set) static var isFirstLaunchFollowingInstall: Bool = false
-    
-    public internal(set) static var isFirstLaunchFollowingUpdate: Bool = false
-    
-    public static var newVersionString: String?
-    
-    public static var notifying: NotificationMode = .once
-    
-    public static var minimumOSVersion: String?
-    
-    public static let productName: String? = Bundle.main.infoDictionary?["CFBundleDisplayName"] as? String
-    
-    public static var releaseNotes: String?
-    
-    public static var updatingMode: UpdatingMode = .automatically
-    
-    public static var versionString: String? = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
     
 }

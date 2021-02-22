@@ -19,9 +19,9 @@ struct DefaultConfigurationService: ConfigurationService {
     }
     
     /// Asynchronously fetches confguration settings.
-    func fetchSettings(_ completion: @escaping (ConfigurationServiceResult) -> Void) {
+    func fetchSettings(defaults: ConfigurationResult, completion: @escaping (ConfigurationServiceResult) -> Void) {
         DispatchQueue.global(qos: .background).async {
-            let settings = self.fetchSettings(configurationURL: self.configurationURL)
+            let settings = self.fetchSettings(configurationURL: self.configurationURL, defaults: defaults)
             onMainQueue(completion)(settings)
         }
     }
@@ -37,15 +37,16 @@ private extension DefaultConfigurationService {
         }
         try? data.write(to: cachedConfigurationURL)
     }
-
+    
     /// Synchronously fetches settings from the given URL.
-    private func fetchSettings(configurationURL: URL) -> ConfigurationServiceResult {
+    private func fetchSettings(configurationURL: URL, defaults: ConfigurationResult) -> ConfigurationServiceResult {
         guard let configurationData = try? Data(contentsOf: configurationURL) else {
             return .failure(.networking)
         }
         let parsingResult = parsingService.parse(configurationData)
         switch parsingResult {
-        case .success(let configuration):
+        case .success(let result):
+            let configuration = merge(result: result, defaults: defaults)
             if configurationURL != cachedConfigurationURL {
                 cacheConfiguration(configuration)
             }
@@ -54,8 +55,22 @@ private extension DefaultConfigurationService {
             guard configurationURL != cachedConfigurationURL else {
                 return .failure(.parsing(error))
             }
-            return fetchSettings(configurationURL: cachedConfigurationURL)
+            return fetchSettings(configurationURL: cachedConfigurationURL, defaults: defaults)
         }
+    }
+    
+    /// Fills in any information missing from Updates.json with programmatically configured default values.
+    private func merge(result: ConfigurationResult, defaults: ConfigurationResult) -> ConfigurationResult {
+        return ConfigurationResult(
+            appStoreId: result.appStoreId ?? defaults.appStoreId,
+            build: result.buildString ?? defaults.buildString,
+            comparator: result.comparator,
+            minRequiredOSVersion: result.minOSRequired ?? defaults.minOSRequired,
+            notifying: result.notificationMode,
+            releaseNotes: result.releaseNotes ?? defaults.releaseNotes,
+            updatingMode: result.updatingMode,
+            version: result.version ?? defaults.version
+        )
     }
     
 }

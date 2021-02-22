@@ -8,5 +8,5 @@
 import Foundation
 
 protocol ConfigurationService {
-    func fetchSettings(_ completion: @escaping (ConfigurationServiceResult) -> Void)
+    func fetchSettings(defaults: ConfigurationResult, completion: @escaping (ConfigurationServiceResult) -> Void)
 }
