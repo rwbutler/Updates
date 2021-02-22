@@ -18,11 +18,13 @@ struct UpdatesResultFactory: Factory {
     
     private let bundleVersion: String
     private let configuration: ConfigurationResult
+    private let journalingService: VersionJournalingService
     private let operatingSystemVersion: String
     
-    init(configuration: ConfigurationResult, bundleVersion: String, operatingSystemVersion: String) {
+    init(configuration: ConfigurationResult, bundleVersion: String, journalingService: VersionJournalingService, operatingSystemVersion: String) {
         self.bundleVersion = bundleVersion
         self.configuration = configuration
+        self.journalingService = journalingService
         self.operatingSystemVersion = operatingSystemVersion
     }
     
@@ -31,12 +33,13 @@ struct UpdatesResultFactory: Factory {
             return .none
         }
         let isUpdateAvailable = isUpdateAvailableForSystemVersion()
+        let shouldNotify = self.shouldNotify(for: appStoreVersion)
         let update = Update(
             newVersionString: appStoreVersion,
             releaseNotes: configuration.releaseNotes,
             shouldNotify: isUpdateAvailable
         )
-        return (isUpdateAvailable) ? .available(update) : .none
+        return (isUpdateAvailable && shouldNotify) ? .available(update) : .none
     }
     
 }
@@ -59,6 +62,17 @@ private extension UpdatesResultFactory {
             requiredVersionString: minRequiredOSVersion
         )
         return isNewVersionAvailable && isRequiredOSAvailable
+    }
+    
+    /// Check whether we've notified the user about this version already.
+    private func shouldNotify(for version: String) -> Bool {
+        let notificationCount = journalingService.notificationCount(for: version)
+        let notificationMode = configuration.notificationMode
+        if notificationCount < notificationMode.notificationCount {
+            journalingService.incrementNotificationCount(for: version)
+            return true
+        }
+        return false
     }
     
     /// Determines whether the required version of iOS is available on the current device.

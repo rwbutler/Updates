@@ -13,4 +13,19 @@ public enum NotificationMode: String, Codable {
     case twice
     case thrice
     case always
+    
+    var notificationCount: Int {
+        switch self {
+        case .never:
+            return 0
+        case .once:
+            return 1
+        case .twice:
+            return 2
+        case .thrice:
+            return 3
+        case .always:
+            return Int.max
+        }
+    }
 }

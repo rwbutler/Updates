@@ -21,3 +21,14 @@ struct Build: Codable {
     }
     
 }
+
+extension Build: CustomStringConvertible {
+    
+    var description: String {
+        """
+        identifier: \(identifier)
+        installDate: \(installDate)
+        """
+    }
+    
+}

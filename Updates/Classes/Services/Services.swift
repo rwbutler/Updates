@@ -20,6 +20,10 @@ struct Services {
         )
     }
     
+    static var journaling: VersionJournalingService {
+        DefaultVersionJournalingService()
+    }
+    
     static func updateResolutionService(appMetadataService: AppMetadataService? = nil, bundleVersion: String,
                                         configuration: ConfigurationResult, operatingSystemVersion: String,
                                         strategy: UpdatingMode) -> UpdateResolutionService {
@@ -27,13 +31,10 @@ struct Services {
             appMetadataService: appMetadataService,
             bundleVersion: bundleVersion,
             configuration: configuration,
+            journalingService: journaling,
             operatingSystemVersion: operatingSystemVersion,
             strategy: strategy
         )
-    }
-    
-    static func versionJournallingService() -> VersionJournalingService {
-        return DefaultVersionJournalingService()
     }
     
 }

@@ -53,3 +53,14 @@ class Version: Codable {
     }
     
 }
+
+extension Version: CustomStringConvertible {
+    
+    var description: String {
+        """
+        identifier: \(identifier)
+        builds: \(builds)
+        """
+    }
+    
+}

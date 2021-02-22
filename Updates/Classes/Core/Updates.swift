@@ -136,7 +136,7 @@ public class Updates {
                 bundleIdentifier: bundleIdentifier,
                 countryCode: countryCode
             ) {
-            updatesService = StrategicUpdateResolutionService(
+            updatesService = Services.updateResolutionService(
                 appMetadataService: appMetadataService,
                 bundleVersion: bundleVersion,
                 configuration: configuration,
@@ -144,7 +144,7 @@ public class Updates {
                 strategy: configuration.updatingMode
             )
         } else {
-            updatesService = StrategicUpdateResolutionService(
+            updatesService = Services.updateResolutionService(
                 appMetadataService: nil,
                 bundleVersion: bundleVersion,
                 configuration: configuration,
@@ -169,7 +169,7 @@ public class Updates {
     }
     
     private static func registerBuild(bundleVersion: String, buildString: String) {
-        let versionJournaling = Services.versionJournallingService()
+        let versionJournaling = Services.journaling
         _ = versionJournaling.registerBuild(versionString: bundleVersion, buildString: buildString, comparator: .build)
     }
     

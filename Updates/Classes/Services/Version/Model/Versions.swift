@@ -57,3 +57,13 @@ struct Versions: Codable {
         return existingVersion
     }
 }
+
+extension Versions: CustomStringConvertible {
+    
+    var description: String {
+        """
+        versions: \(versions)
+        """
+    }
+    
+}
