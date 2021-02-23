@@ -13,6 +13,7 @@ public enum UpdatesResult {
 }
 
 public struct Update {
+    public let appStoreId: String?
     public let newVersionString: String
     public let releaseNotes: String?
     public let shouldNotify: Bool

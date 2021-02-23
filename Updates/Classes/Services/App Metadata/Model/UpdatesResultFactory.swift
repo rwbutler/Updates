@@ -21,7 +21,12 @@ struct UpdatesResultFactory: Factory {
     private let journalingService: VersionJournalingService
     private let operatingSystemVersion: String
     
-    init(configuration: ConfigurationResult, bundleVersion: String, journalingService: VersionJournalingService, operatingSystemVersion: String) {
+    init(
+        configuration: ConfigurationResult,
+        bundleVersion: String,
+        journalingService: VersionJournalingService,
+        operatingSystemVersion: String
+    ) {
         self.bundleVersion = bundleVersion
         self.configuration = configuration
         self.journalingService = journalingService
@@ -35,6 +40,7 @@ struct UpdatesResultFactory: Factory {
         let isUpdateAvailable = isUpdateAvailableForSystemVersion()
         let shouldNotify = self.shouldNotify(for: appStoreVersion)
         let update = Update(
+            appStoreId: configuration.appStoreId,
             newVersionString: appStoreVersion,
             releaseNotes: configuration.releaseNotes,
             shouldNotify: isUpdateAvailable

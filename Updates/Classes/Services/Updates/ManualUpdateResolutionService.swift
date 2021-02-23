@@ -14,7 +14,12 @@ struct ManualUpdateResolutionService: UpdateResolutionService {
     private let journalingService: VersionJournalingService
     private let operatingSystemVersion: String
     
-    init(configuration: ConfigurationResult, bundleVersion: String, journalingService: VersionJournalingService, operatingSystemVersion: String) {
+    init(
+        configuration: ConfigurationResult,
+        bundleVersion: String,
+        journalingService: VersionJournalingService,
+        operatingSystemVersion: String
+    ) {
         self.bundleVersion = bundleVersion
         self.configuration = configuration
         self.journalingService = journalingService
