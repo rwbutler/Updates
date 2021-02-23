@@ -45,7 +45,9 @@ struct UpdatesResultFactory: Factory {
             releaseNotes: configuration.releaseNotes,
             shouldNotify: isUpdateAvailable
         )
-        return (isUpdateAvailable && shouldNotify) ? .available(update) : .none
+        let willNotify = (isUpdateAvailable && shouldNotify)
+            || (configuration.notificationMode == .withoutAvailableUpdate)
+        return willNotify ? .available(update) : .none
     }
     
 }

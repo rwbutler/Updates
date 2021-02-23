@@ -13,6 +13,7 @@ public enum NotificationMode: String, Codable {
     case twice
     case thrice
     case always
+    case withoutAvailableUpdate = "without-available-update"
     
     var notificationCount: Int {
         switch self {
@@ -24,7 +25,7 @@ public enum NotificationMode: String, Codable {
             return 2
         case .thrice:
             return 3
-        case .always:
+        case .always, .withoutAvailableUpdate:
             return Int.max
         }
     }
