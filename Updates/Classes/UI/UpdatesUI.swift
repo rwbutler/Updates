@@ -32,9 +32,14 @@ public class UpdatesUI: NSObject {
     }
     
     /// Presents SKStoreProductViewController modally.
-    public func presentAppStore(animated: Bool = true, completion: (() -> Void)? = nil,
-                                presentingViewController: UIViewController) {
-        guard let appStoreId = Updates.appStoreId, let appStoreIdentifierInt = UInt(appStoreId) else {
+    public func presentAppStore(
+        animated: Bool = true,
+        appStoreId: String?,
+        appStoreURL: URL?,
+        completion: (() -> Void)? = nil,
+        presentingViewController: UIViewController
+    ) {
+        guard let appStoreId = appStoreId, let appStoreIdentifierInt = UInt(appStoreId) else {
             return
         }
         let animated = self.animated
@@ -42,12 +47,13 @@ public class UpdatesUI: NSObject {
         let parameters = [SKStoreProductParameterITunesItemIdentifier: appStoreIdentifier]
         let viewController = SKStoreProductViewController()
         viewController.delegate = self
-        viewController.loadProduct(withParameters: parameters) { [weak self] (loadedSuccessfully, error) in
-            if !loadedSuccessfully, let appStoreURL = Updates.appStoreURL {
-                print(error as Any)
-                self?.presentSafariViewController(animated: animated,
-                                                  presentingViewController: presentingViewController,
-                                                  url: appStoreURL)
+        viewController.loadProduct(withParameters: parameters) { [weak self] (loadedSuccessfully, _) in
+            if !loadedSuccessfully, let appStoreURL = appStoreURL {
+                self?.presentSafariViewController(
+                    animated: animated,
+                    presentingViewController: presentingViewController,
+                    url: appStoreURL
+                )
             }
         }
         DispatchQueue.main.async {
@@ -56,9 +62,14 @@ public class UpdatesUI: NSObject {
     }
     
     /// Presents SKStoreProductViewController modally.
-    public func presentAppStore(animated: Bool = true, delegate: SKStoreProductViewControllerDelegate,
-                                presentingViewController: UIViewController) {
-        guard let appStoreId = Updates.appStoreId, let appStoreIdentifierInt = UInt(appStoreId) else {
+    public func presentAppStore(
+        animated: Bool = true,
+        appStoreId: String?,
+        appStoreURL: URL?,
+        delegate: SKStoreProductViewControllerDelegate,
+        presentingViewController: UIViewController
+    ) {
+        guard let appStoreId = appStoreId, let appStoreIdentifierInt = UInt(appStoreId) else {
             return
         }
         let animated = self.animated
@@ -66,9 +77,8 @@ public class UpdatesUI: NSObject {
         let parameters = [SKStoreProductParameterITunesItemIdentifier: appStoreIdentifier]
         let viewController = SKStoreProductViewController()
         viewController.delegate = delegate
-        viewController.loadProduct(withParameters: parameters) { [weak self] (loadedSuccessfully, error) in
-            if !loadedSuccessfully, let appStoreURL = Updates.appStoreURL {
-                print(error as Any)
+        viewController.loadProduct(withParameters: parameters) { [weak self] (loadedSuccessfully, _) in
+            if !loadedSuccessfully, let appStoreURL = appStoreURL {
                 self?.presentSafariViewController(animated: animated,
                                                   presentingViewController: presentingViewController,
                                                   url: appStoreURL)
@@ -80,10 +90,14 @@ public class UpdatesUI: NSObject {
     }
     
     /// Prompt the user to update to the latest version
-    public static func promptToUpdate(_ result: UpdatesResult, animated: Bool = true, completion: (() -> Void)? = nil,
-                                      presentingViewController: UIViewController,
-                                      title: String? = nil,
-                                      message: String? = nil) {
+    public static func promptToUpdate(
+        _ result: UpdatesResult,
+        animated: Bool = true,
+        completion: (() -> Void)? = nil,
+        presentingViewController: UIViewController,
+        title: String? = nil,
+        message: String? = nil
+    ) {
         guard case let .available(update) = result else {
             return
         }
@@ -102,8 +116,16 @@ public class UpdatesUI: NSObject {
             if update.updateType != .hard {
                 alert.dismiss(animated: animated, completion: completion)
             }
-            self.presentAppStore(animated: animated, completion: completion,
-                                 presentingViewController: presentingViewController)
+            guard let appStoreId = update.appStoreId else {
+                return
+            }
+            self.presentAppStore(
+                animated: animated,
+                appStoreId: appStoreId,
+                appStoreURL: Updates.appStoreURL(for: appStoreId),
+                completion: completion,
+                presentingViewController: presentingViewController
+            )
         }
         let cancelButtonTitle = buttonTitle("Cancel")
         let cancelAction = UIAlertAction(title: cancelButtonTitle, style: .cancel) { _ in
@@ -121,10 +143,18 @@ public class UpdatesUI: NSObject {
     ///     - animated: Whether or not the modal presentation is animated.
     ///     - completion: Completion closure called on SKStoreProductViewController dismissal.
     ///     - presentingViewController: View controller to present on.
-    public static func presentAppStore(animated: Bool = true, completion: (() -> Void)? = nil,
+    public static func presentAppStore(animated: Bool = true,
+                                       appStoreId: String?,
+                                       appStoreURL: URL?,
+                                       completion: (() -> Void)? = nil,
                                        presentingViewController: UIViewController) {
-        updatesUI.presentAppStore(animated: animated, completion: completion,
-                                  presentingViewController: presentingViewController)
+        updatesUI.presentAppStore(
+            animated: animated,
+            appStoreId: appStoreId,
+            appStoreURL: appStoreURL,
+            completion: completion,
+            presentingViewController: presentingViewController
+        )
     }
     
     /// Presents SKStoreProductViewController modally.
@@ -133,10 +163,17 @@ public class UpdatesUI: NSObject {
     ///     - delegate: Delegate for receiving completion delegate call if required.
     ///     - presentingViewController: View controller to present on.
     public static func presentAppStore(animated: Bool = true,
+                                       appStoreId: String?,
+                                       appStoreURL: URL?,
                                        delegate: SKStoreProductViewControllerDelegate,
                                        presentingViewController: UIViewController) {
-        updatesUI.presentAppStore(animated: animated, delegate: delegate,
-                                  presentingViewController: presentingViewController)
+        updatesUI.presentAppStore(
+            animated: animated,
+            appStoreId: appStoreId,
+            appStoreURL: appStoreURL,
+            delegate: delegate,
+            presentingViewController: presentingViewController
+        )
     }
     
 }
