@@ -10,6 +10,6 @@ import Foundation
 protocol VersionJournalingService {
     func incrementNotificationCount(for version: String)
     func notificationCount(for version: String) -> Int
-    func registerBuild(versionString: String, buildString: String, comparator: VersionComparator) ->
-    VersionJournalingServiceResult
+    func registerBuild(versionString: String, buildString: String?, comparator: VersionComparator) ->
+    AppUpdatedResult
 }

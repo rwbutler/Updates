@@ -39,7 +39,23 @@ struct AutomaticUpdateResolutionService: UpdateResolutionService {
                     )
                     onMainQueue(completion)(factory.manufacture())
                 case .failure:
-                    onMainQueue(completion)(.none)
+                    guard let versionString = self.configuration.bundleVersion else {
+                        onMainQueue(completion)(
+                            .none(
+                                AppUpdatedResult(
+                                    isFirstLaunchFollowingInstall: false,
+                                    isFirstLaunchFollowingUpdate: false
+                                )
+                            )
+                        )
+                        return
+                    }
+                    let isUpdated = journalingService.registerBuild(
+                        versionString: versionString,
+                        buildString: configuration.buildString,
+                        comparator: configuration.comparator
+                    )
+                    onMainQueue(completion)(.none(isUpdated))
                 }
             }
         }

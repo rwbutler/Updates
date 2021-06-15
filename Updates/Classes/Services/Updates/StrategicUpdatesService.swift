@@ -55,7 +55,10 @@ struct StrategicUpdateResolutionService: UpdateResolutionService {
                 operatingSystemVersion: operatingSystemVersion
             )
         case .never:
-            updatesService = NeverUpdateResolutionService()
+            updatesService = NeverUpdateResolutionService(
+                configuration: configuration,
+                journalingService: journalingService
+            )
         }
         updatesService.checkForUpdates(completion: completion)
     }

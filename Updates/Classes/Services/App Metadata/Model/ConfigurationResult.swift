@@ -17,6 +17,7 @@ struct ConfigurationResult: Codable {
         case minOSRequired = "min-os-required"
         case notificationMode = "notify"
         case releaseNotes = "release-notes"
+        case updateType = "update-type"
         case updatingMode = "check-for"
         case version
     }
@@ -30,6 +31,7 @@ struct ConfigurationResult: Codable {
     let releaseNotes: String?
     let updatingMode: UpdatingMode
     let latestVersion: String?
+    let updateType: UpdateType
     
     init(
         appStoreId: String?,
@@ -39,6 +41,7 @@ struct ConfigurationResult: Codable {
         minRequiredOSVersion: String?,
         notifying: NotificationMode,
         releaseNotes: String?,
+        updateType: UpdateType,
         updatingMode: UpdatingMode,
         latestVersion: String?
     ) {
@@ -49,6 +52,7 @@ struct ConfigurationResult: Codable {
         self.minOSRequired = minRequiredOSVersion
         self.notificationMode = notifying
         self.releaseNotes = releaseNotes
+        self.updateType = updateType
         self.updatingMode = updatingMode
         self.latestVersion = latestVersion
     }
@@ -58,11 +62,16 @@ struct ConfigurationResult: Codable {
         self.appStoreId = try? container.decode(String.self, forKey: .appStoreId)
         self.buildString = try? container.decodeIfPresent(String.self, forKey: .build)
         self.bundleVersion = try? container.decodeIfPresent(String.self, forKey: .bundleVersion)
-        self.comparator = (try? container.decode(VersionComparator.self, forKey: .comparing)) ?? .build
+        self.comparator = (try? container.decode(VersionComparator.self, forKey: .comparing))
+            ?? Updates.comparingVersions
         self.minOSRequired = try? container.decode(String.self, forKey: .minOSRequired)
-        self.notificationMode = (try? container.decode(NotificationMode.self, forKey: .notificationMode)) ?? .once
+        self.notificationMode = (try? container.decode(NotificationMode.self, forKey: .notificationMode))
+            ?? Updates.notifying
         self.releaseNotes = try? container.decode(String.self, forKey: .releaseNotes)
-        self.updatingMode = (try? container.decode(UpdatingMode.self, forKey: .updatingMode)) ?? .automatically
+        self.updateType = (try? container.decode(UpdateType.self, forKey: .updateType))
+            ?? Updates.updateType
+        self.updatingMode = (try? container.decode(UpdatingMode.self, forKey: .updatingMode))
+            ?? Updates.updatingMode
         self.latestVersion = try? container.decode(String.self, forKey: .version)
     }
     
@@ -93,6 +102,7 @@ extension ConfigurationResult {
             minRequiredOSVersion: apiResult.minimumOsVersion,
             notifying: notificationMode,
             releaseNotes: mergedReleaseNotes,
+            updateType: updateType,
             updatingMode: updatingMode,
             latestVersion: apiResult.version
         )

@@ -74,10 +74,6 @@ public class Updates {
         }
     }()
     
-    public internal(set) static var isFirstLaunchFollowingInstall: Bool = false
-    
-    public internal(set) static var isFirstLaunchFollowingUpdate: Bool = false
-    
     public static var newVersionString: String?
     
     public static var notifying: NotificationMode = .once
@@ -87,6 +83,8 @@ public class Updates {
     public static let productName: String? = Bundle.main.infoDictionary?["CFBundleDisplayName"] as? String
     
     public static var releaseNotes: String?
+    
+    public static var updateType: UpdateType = .soft
     
     public static var updatingMode: UpdatingMode = .automatically
     
@@ -160,6 +158,7 @@ public class Updates {
             minRequiredOSVersion: minimumOSVersion,
             notifying: notifying,
             releaseNotes: releaseNotes,
+            updateType: updateType,
             updatingMode: updatingMode,
             latestVersion: versionString
         )

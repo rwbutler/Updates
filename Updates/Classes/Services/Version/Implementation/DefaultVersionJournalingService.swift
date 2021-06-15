@@ -33,15 +33,15 @@ struct DefaultVersionJournalingService: VersionJournalingService {
     }
     
     /// Records the current build so that we can determine
-    func registerBuild(versionString: String, buildString: String, comparator: VersionComparator) ->
-        VersionJournalingServiceResult {
+    func registerBuild(versionString: String, buildString: String?, comparator: VersionComparator) ->
+        AppUpdatedResult {
+        let buildString = buildString ?? "0"
         guard var versionInformation = cachedVersionInfo() else {
             postAppDidInstallNotification()
             var versionInfo = Versions()
             versionInfo.appendVersion(versionIdentifier: versionString, buildIdentifier: buildString)
             cacheVersionInfo(versionInfo: versionInfo)
-
-            return VersionJournalingServiceResult(
+            return AppUpdatedResult(
                 isFirstLaunchFollowingInstall: true,
                 isFirstLaunchFollowingUpdate: false
             )
@@ -64,7 +64,7 @@ struct DefaultVersionJournalingService: VersionJournalingService {
             versionInformation.appendVersion(versionIdentifier: versionString, buildIdentifier: buildString)
             cacheVersionInfo(versionInfo: versionInformation)
         }
-        return VersionJournalingServiceResult(
+        return AppUpdatedResult(
             isFirstLaunchFollowingInstall: false,
             isFirstLaunchFollowingUpdate: isFirstLaunchFollowingUpdate
         )

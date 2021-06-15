@@ -44,8 +44,14 @@ extension Updates {
      - returns: .orderedSame if versions are equal, .orderedAscending if lhs is earlier than rhs
      and orderedDescending if rhs is earlier than lhs.
      */
-    static func compareVersions(lhs: String, rhs: String, comparator: VersionComparator) -> ComparisonResult {
-        let semanticVersioningComponents: [VersionComparator] = [.major, .minor, .patch]
+    static func compareVersions(
+        lhs: String,
+        lhsBuildNumber: String? = nil,
+        rhs: String,
+        rhsBuildNumber: String? = nil,
+        comparator: VersionComparator
+    ) -> ComparisonResult {
+        let semanticVersioningComponents: [VersionComparator] = [.major, .minor, .patch, .build]
         var result = ComparisonResult.orderedSame
         var lhsComponents = lhs.components(separatedBy: ".")
         var rhsComponents = rhs.components(separatedBy: ".")
@@ -53,6 +59,21 @@ extension Updates {
         // Pad out the array to make equal in length
         lhsComponents = padLHSWithZeroes(lhs: lhsComponents, rhs: rhsComponents)
         rhsComponents = padLHSWithZeroes(lhs: rhsComponents, rhs: lhsComponents)
+        // If comparator is `.build` add the build number as an additional component and compare.
+        if comparator == .build, let lhsBuildNumber = lhsBuildNumber, let rhsBuildNumber = rhsBuildNumber {
+            if lhsComponents.count > semanticVersioningComponents.count,
+               rhsComponents.count > semanticVersioningComponents.count {
+                // Number of components greater than expected therefore
+                // build number may have already been added as a component.
+                lhsComponents[3] = lhsBuildNumber
+                rhsComponents[3] = rhsBuildNumber
+            } else {
+                lhsComponents.append(lhsBuildNumber)
+                rhsComponents.append(rhsBuildNumber)
+            }
+        }
+        // If comparator is a value not present in the array e.g. .major + .patch then fallback to comparing
+        // individual components and ignore comparator.
         guard semanticVersioningComponents.contains(comparator) else {
             for (lhsComponent, rhsComponent) in zip(lhsComponents, rhsComponents) {
                 result = comparisonResult(lhs: lhsComponent, rhs: rhsComponent)

@@ -98,5 +98,54 @@ class VersionComparisonTests: XCTestCase {
         let result = Updates.compareVersions(lhs: "1.2.3.5", rhs: "1.2.3.4", comparator: .patch)
         XCTAssertEqual(result, ComparisonResult.orderedSame)
     }
+    
+    // Note: Last component will be treated as build number.
+    func testBuildComparatorEqualityWhereComponentsEqualSpecifiedAsAdditionalComponent() {
+        let result = Updates.compareVersions(lhs: "1.2.3.4", rhs: "1.2.3.4", comparator: .build)
+        XCTAssertEqual(result, ComparisonResult.orderedSame)
+    }
+    
+    func testBuildComparatorEqualityWhereComponentsAscendingSpecifiedAsAdditionalComponent() {
+        let result = Updates.compareVersions(lhs: "1.2.3.4", rhs: "1.2.3.5", comparator: .build)
+        XCTAssertEqual(result, ComparisonResult.orderedAscending)
+    }
+    
+    func testBuildComparatorEqualityWhereComponentsDescendingSpecifiedAsAdditionalComponent() {
+        let result = Updates.compareVersions(lhs: "1.2.3.5", rhs: "1.2.3.4", comparator: .build)
+        XCTAssertEqual(result, ComparisonResult.orderedDescending)
+    }
+    
+    func testBuildComparatorEqualityWhereComponentsEqual() {
+        let result = Updates.compareVersions(
+            lhs: "1.2.3",
+            lhsBuildNumber: "4",
+            rhs: "1.2.3",
+            rhsBuildNumber: "4",
+            comparator: .build
+        )
+        XCTAssertEqual(result, ComparisonResult.orderedSame)
+    }
+    
+    func testBuildComparatorEqualityWhereComponentsAscending() {
+        let result = Updates.compareVersions(
+            lhs: "1.2.3",
+            lhsBuildNumber: "4",
+            rhs: "1.2.3",
+            rhsBuildNumber: "5",
+            comparator: .build
+        )
+        XCTAssertEqual(result, ComparisonResult.orderedAscending)
+    }
+    
+    func testBuildComparatorEqualityWhereComponentsDescending() {
+        let result = Updates.compareVersions(
+            lhs: "1.2.3",
+            lhsBuildNumber: "5",
+            rhs: "1.2.3",
+            rhsBuildNumber: "4",
+            comparator: .build
+        )
+        XCTAssertEqual(result, ComparisonResult.orderedDescending)
+    }
 
 }

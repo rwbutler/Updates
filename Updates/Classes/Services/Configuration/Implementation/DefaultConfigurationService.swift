@@ -69,6 +69,7 @@ private extension DefaultConfigurationService {
             minRequiredOSVersion: result.minOSRequired ?? defaults.minOSRequired,
             notifying: result.notificationMode,
             releaseNotes: result.releaseNotes ?? defaults.releaseNotes,
+            updateType: result.updateType,
             updatingMode: result.updatingMode,
             latestVersion: result.latestVersion ?? defaults.latestVersion
         )

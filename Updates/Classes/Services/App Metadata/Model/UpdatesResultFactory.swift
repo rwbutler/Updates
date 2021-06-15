@@ -34,23 +34,34 @@ struct UpdatesResultFactory: Factory {
         guard let appStoreVersion = configuration.latestVersion,
               let bundleVersion = configuration.bundleVersion,
               let minRequiredOSVersion = configuration.minOSRequired else {
-            return .none
+            return .none(
+                AppUpdatedResult(isFirstLaunchFollowingInstall: false, isFirstLaunchFollowingUpdate: false)
+            )
         }
+        let isUpdated = journalingService.registerBuild(
+            versionString: bundleVersion,
+            buildString: configuration.buildString,
+            comparator: configuration.comparator
+        )
+        
         let isUpdateAvailable = isUpdateAvailableForSystemVersion(
             appStoreVersion: appStoreVersion,
             bundleVersion: bundleVersion,
+            comparator: configuration.comparator,
             minRequiredOSVersion: minRequiredOSVersion
         )
         let shouldNotify = self.shouldNotify(for: appStoreVersion)
         let update = Update(
             appStoreId: configuration.appStoreId,
+            isUpdated: isUpdated,
             newVersionString: appStoreVersion,
             releaseNotes: configuration.releaseNotes,
-            shouldNotify: isUpdateAvailable
+            shouldNotify: isUpdateAvailable,
+            updateType: configuration.updateType
         )
         let willNotify = (isUpdateAvailable && shouldNotify)
             || (configuration.notificationMode == .withoutAvailableUpdate)
-        return willNotify ? .available(update) : .none
+        return willNotify ? .available(update) : .none(isUpdated)
     }
     
 }
@@ -60,9 +71,9 @@ private extension UpdatesResultFactory {
     private func isUpdateAvailableForSystemVersion(
         appStoreVersion: String,
         bundleVersion: String,
+        comparator: VersionComparator,
         minRequiredOSVersion: String
     ) -> Bool {
-        let comparator = configuration.comparator
         let isNewVersionAvailable = updateAvailable(
             appVersion: bundleVersion,
             apiVersion: appStoreVersion,

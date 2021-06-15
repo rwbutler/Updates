@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct VersionJournalingServiceResult {
+public struct AppUpdatedResult {
     let isFirstLaunchFollowingInstall: Bool
     let isFirstLaunchFollowingUpdate: Bool
 }

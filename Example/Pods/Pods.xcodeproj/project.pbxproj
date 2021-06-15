@@ -36,7 +36,7 @@
 		132652DC244784F1003FDA45 /* DefaultConfigurationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 132652DB244784F1003FDA45 /* DefaultConfigurationService.swift */; };
 		132652E52447B861003FDA45 /* DefaultVersionJournalingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 132652E42447B861003FDA45 /* DefaultVersionJournalingService.swift */; };
 		132652E82447B9B7003FDA45 /* VersionJournalingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 132652E72447B9B7003FDA45 /* VersionJournalingService.swift */; };
-		132652EA2447BA3B003FDA45 /* VersionJournalingServiceResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 132652E92447BA3B003FDA45 /* VersionJournalingServiceResult.swift */; };
+		132652EA2447BA3B003FDA45 /* AppUpdatedResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 132652E92447BA3B003FDA45 /* AppUpdatedResult.swift */; };
 		138018F222FC7D96008FC6D4 /* Updates+UIDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 138018F022FC7D82008FC6D4 /* Updates+UIDevice.swift */; };
 		138B3515220B187700BB506A /* Versions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 138B3513220B187200BB506A /* Versions.swift */; };
 		138B3517220B18A000BB506A /* Build.swift in Sources */ = {isa = PBXBuildFile; fileRef = 138B3516220B18A000BB506A /* Build.swift */; };
@@ -104,7 +104,7 @@
 		132652DB244784F1003FDA45 /* DefaultConfigurationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultConfigurationService.swift; sourceTree = "<group>"; };
 		132652E42447B861003FDA45 /* DefaultVersionJournalingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultVersionJournalingService.swift; sourceTree = "<group>"; };
 		132652E72447B9B7003FDA45 /* VersionJournalingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersionJournalingService.swift; sourceTree = "<group>"; };
-		132652E92447BA3B003FDA45 /* VersionJournalingServiceResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersionJournalingServiceResult.swift; sourceTree = "<group>"; };
+		132652E92447BA3B003FDA45 /* AppUpdatedResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUpdatedResult.swift; sourceTree = "<group>"; };
 		138018F022FC7D82008FC6D4 /* Updates+UIDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Updates+UIDevice.swift"; sourceTree = "<group>"; };
 		138B3513220B187200BB506A /* Versions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Versions.swift; sourceTree = "<group>"; };
 		138B3516220B18A000BB506A /* Build.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Build.swift; sourceTree = "<group>"; };
@@ -373,7 +373,7 @@
 				138B3518220B195400BB506A /* Version.swift */,
 				138B351A220B1FF600BB506A /* VersionSortOptions.swift */,
 				138B3513220B187200BB506A /* Versions.swift */,
-				132652E92447BA3B003FDA45 /* VersionJournalingServiceResult.swift */,
+				132652E92447BA3B003FDA45 /* AppUpdatedResult.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -719,7 +719,7 @@
 				132652D524477493003FDA45 /* AutomaticUpdateResolutionService.swift in Sources */,
 				13DFA53421DAC6F100CD9AEA /* VersionComparator.swift in Sources */,
 				E0B6D50EB1766F119A96ADD519D4D12D /* Updates-dummy.m in Sources */,
-				132652EA2447BA3B003FDA45 /* VersionJournalingServiceResult.swift in Sources */,
+				132652EA2447BA3B003FDA45 /* AppUpdatedResult.swift in Sources */,
 				132652CE244773DB003FDA45 /* UpdateResolutionService.swift in Sources */,
 				138B351B220B1FF600BB506A /* VersionSortOptions.swift in Sources */,
 				132652D324477460003FDA45 /* ManualUpdateResolutionService.swift in Sources */,
@@ -818,7 +818,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MARKETING_VERSION = 1.3.1;
+				MARKETING_VERSION = 1.4.0;
 				MODULEMAP_FILE = "Target Support Files/Updates/Updates.modulemap";
 				PRODUCT_BUNDLE_IDENTIFIER = com.rwbutler.Updates;
 				PRODUCT_MODULE_NAME = Updates;
@@ -918,7 +918,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MARKETING_VERSION = 1.3.1;
+				MARKETING_VERSION = 1.4.0;
 				MODULEMAP_FILE = "Target Support Files/Updates/Updates.modulemap";
 				PRODUCT_BUNDLE_IDENTIFIER = com.rwbutler.Updates;
 				PRODUCT_MODULE_NAME = Updates;
