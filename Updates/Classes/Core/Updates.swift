@@ -149,6 +149,27 @@ public class Updates {
         updatesService.checkForUpdates(completion: completion)
     }
     
+    /// Warning: Use either this method or `checkForUpdates` but never both as whichever is called first will return the
+    /// correct result. If using `checkForUpdates` then an `AppUpdatedResult` is returned as part of the
+    /// `UpdatesResult` object.
+    public static func isInstallOrUpdate(
+        buildString: String? = Updates.buildString,
+        comparingVersions: VersionComparator = Updates.comparingVersions,
+        versionString: String? = Updates.versionString,
+        completion: @escaping (AppUpdatedResult) -> Void
+    ) {
+        guard let versionString = versionString else {
+            completion(.init(isFirstLaunchFollowingInstall: false, isFirstLaunchFollowingUpdate: false))
+            return
+        }
+        let isUpdated = Services.journaling.registerBuild(
+            versionString: versionString,
+            buildString: buildString,
+            comparator: comparingVersions
+        )
+        completion(isUpdated)
+    }
+    
     private static func programmaticConfiguration() -> ConfigurationResult {
         return ConfigurationResult(
             appStoreId: appStoreId,
