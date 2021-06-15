@@ -63,6 +63,7 @@ public class Updates {
     public static var countryCode: String? = {
         let currentBundle = Bundle(for: Updates.self)
         if #available(iOS 13.0, macCatalyst 13.0, *),
+            useStoreKit,
             let iso3166Alpha3CountryCode = SKPaymentQueue.default().storefront?.countryCode,
             !iso3166Alpha3CountryCode.isEmpty,
             let iso3166Mapping = currentBundle.infoDictionary?["ISO3166Map"] as? [String: String],
@@ -88,6 +89,8 @@ public class Updates {
     public static var releaseNotes: String?
     
     public static var updatingMode: UpdatingMode = .automatically
+    
+    public static var useStoreKit = true
     
     public static var versionString: String? = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
     
