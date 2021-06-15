@@ -63,13 +63,14 @@ private extension DefaultConfigurationService {
     private func merge(result: ConfigurationResult, defaults: ConfigurationResult) -> ConfigurationResult {
         return ConfigurationResult(
             appStoreId: result.appStoreId ?? defaults.appStoreId,
-            build: result.buildString ?? defaults.buildString,
+            buildString: result.buildString ?? defaults.buildString,
+            bundleVersion: result.bundleVersion ?? defaults.bundleVersion,
             comparator: result.comparator,
             minRequiredOSVersion: result.minOSRequired ?? defaults.minOSRequired,
             notifying: result.notificationMode,
             releaseNotes: result.releaseNotes ?? defaults.releaseNotes,
             updatingMode: result.updatingMode,
-            version: result.version ?? defaults.version
+            latestVersion: result.latestVersion ?? defaults.latestVersion
         )
     }
     

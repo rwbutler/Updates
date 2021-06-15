@@ -16,28 +16,31 @@ struct UpdatesResultFactory: Factory {
         let operatingSystemVersion: String
     }
     
-    private let bundleVersion: String
     private let configuration: ConfigurationResult
     private let journalingService: VersionJournalingService
     private let operatingSystemVersion: String
     
     init(
         configuration: ConfigurationResult,
-        bundleVersion: String,
         journalingService: VersionJournalingService,
         operatingSystemVersion: String
     ) {
-        self.bundleVersion = bundleVersion
         self.configuration = configuration
         self.journalingService = journalingService
         self.operatingSystemVersion = operatingSystemVersion
     }
     
     func manufacture() -> UpdatesResult {
-        guard let appStoreVersion = configuration.version else {
+        guard let appStoreVersion = configuration.latestVersion,
+              let bundleVersion = configuration.bundleVersion,
+              let minRequiredOSVersion = configuration.minOSRequired else {
             return .none
         }
-        let isUpdateAvailable = isUpdateAvailableForSystemVersion()
+        let isUpdateAvailable = isUpdateAvailableForSystemVersion(
+            appStoreVersion: appStoreVersion,
+            bundleVersion: bundleVersion,
+            minRequiredOSVersion: minRequiredOSVersion
+        )
         let shouldNotify = self.shouldNotify(for: appStoreVersion)
         let update = Update(
             appStoreId: configuration.appStoreId,
@@ -54,11 +57,11 @@ struct UpdatesResultFactory: Factory {
 
 private extension UpdatesResultFactory {
     
-    private func isUpdateAvailableForSystemVersion() -> Bool {
-        guard let appStoreVersion = configuration.version,
-            let minRequiredOSVersion = configuration.minOSRequired else {
-                return false
-        }
+    private func isUpdateAvailableForSystemVersion(
+        appStoreVersion: String,
+        bundleVersion: String,
+        minRequiredOSVersion: String
+    ) -> Bool {
         let comparator = configuration.comparator
         let isNewVersionAvailable = updateAvailable(
             appVersion: bundleVersion,

@@ -24,12 +24,14 @@ struct Services {
         DefaultVersionJournalingService()
     }
     
-    static func updateResolutionService(appMetadataService: AppMetadataService? = nil, bundleVersion: String,
-                                        configuration: ConfigurationResult, operatingSystemVersion: String,
-                                        strategy: UpdatingMode) -> UpdateResolutionService {
+    static func updateResolutionService(
+        appMetadataService: AppMetadataService? = nil,
+        configuration: ConfigurationResult,
+        operatingSystemVersion: String,
+        strategy: UpdatingMode
+    ) -> UpdateResolutionService {
         return StrategicUpdateResolutionService(
             appMetadataService: appMetadataService,
-            bundleVersion: bundleVersion,
             configuration: configuration,
             journalingService: journaling,
             operatingSystemVersion: operatingSystemVersion,

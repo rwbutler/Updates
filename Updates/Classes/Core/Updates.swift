@@ -128,11 +128,6 @@ public class Updates {
     private static func checkForUpdates(configuration: ConfigurationResult,
                                         operatingSystemVersion: String,
                                         completion: @escaping (UpdatesResult) -> Void) {
-        guard let bundleVersion = configuration.version, let buildString = configuration.buildString else {
-            completion(.none)
-            return
-        }
-        registerBuild(bundleVersion: bundleVersion, buildString: buildString)
         let updatesService: UpdateResolutionService
         if let bundleIdentifier = bundleIdentifier, let countryCode = countryCode,
             let appMetadataService = Services.appMetadata(
@@ -141,7 +136,6 @@ public class Updates {
             ) {
             updatesService = Services.updateResolutionService(
                 appMetadataService: appMetadataService,
-                bundleVersion: bundleVersion,
                 configuration: configuration,
                 operatingSystemVersion: operatingSystemVersion,
                 strategy: configuration.updatingMode
@@ -149,7 +143,6 @@ public class Updates {
         } else {
             updatesService = Services.updateResolutionService(
                 appMetadataService: nil,
-                bundleVersion: bundleVersion,
                 configuration: configuration,
                 operatingSystemVersion: operatingSystemVersion,
                 strategy: .manually
@@ -161,19 +154,15 @@ public class Updates {
     private static func programmaticConfiguration() -> ConfigurationResult {
         return ConfigurationResult(
             appStoreId: appStoreId,
-            build: buildString,
+            buildString: buildString,
+            bundleVersion: versionString,
             comparator: comparingVersions,
             minRequiredOSVersion: minimumOSVersion,
             notifying: notifying,
             releaseNotes: releaseNotes,
             updatingMode: updatingMode,
-            version: versionString
+            latestVersion: versionString
         )
-    }
-    
-    private static func registerBuild(bundleVersion: String, buildString: String) {
-        let versionJournaling = Services.journaling
-        _ = versionJournaling.registerBuild(versionString: bundleVersion, buildString: buildString, comparator: .build)
     }
     
 }

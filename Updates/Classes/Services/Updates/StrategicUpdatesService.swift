@@ -11,7 +11,6 @@ struct StrategicUpdateResolutionService: UpdateResolutionService {
     
     typealias UpdateCheckingStrategy = UpdatingMode
     private let appMetadataService: AppMetadataService?
-    private let bundleVersion: String
     private let configuration: ConfigurationResult
     private let journalingService: VersionJournalingService
     private let operatingSystemVersion: String
@@ -19,14 +18,12 @@ struct StrategicUpdateResolutionService: UpdateResolutionService {
     
     init(
         appMetadataService: AppMetadataService? = nil,
-        bundleVersion: String,
         configuration: ConfigurationResult,
         journalingService: VersionJournalingService,
         operatingSystemVersion: String,
         strategy: UpdateCheckingStrategy
     ) {
         self.appMetadataService = appMetadataService
-        self.bundleVersion = bundleVersion
         self.configuration = configuration
         self.journalingService = journalingService
         self.operatingSystemVersion = operatingSystemVersion
@@ -40,7 +37,6 @@ struct StrategicUpdateResolutionService: UpdateResolutionService {
             if let appMetadataService = appMetadataService {
                 updatesService = AutomaticUpdateResolutionService(
                     appMetadataService: appMetadataService,
-                    bundleVersion: bundleVersion,
                     configuration: configuration,
                     journalingService: journalingService,
                     operatingSystemVersion: self.operatingSystemVersion
@@ -48,7 +44,6 @@ struct StrategicUpdateResolutionService: UpdateResolutionService {
             } else {
                 updatesService = ManualUpdateResolutionService(
                     configuration: configuration,
-                    bundleVersion: bundleVersion,
                     journalingService: journalingService,
                     operatingSystemVersion: operatingSystemVersion
                 )
@@ -56,7 +51,6 @@ struct StrategicUpdateResolutionService: UpdateResolutionService {
         case .manually:
             updatesService = ManualUpdateResolutionService(
                 configuration: configuration,
-                bundleVersion: bundleVersion,
                 journalingService: journalingService,
                 operatingSystemVersion: operatingSystemVersion
             )

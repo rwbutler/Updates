@@ -10,20 +10,17 @@ import Foundation
 struct AutomaticUpdateResolutionService: UpdateResolutionService {
     
     private let appMetadataService: AppMetadataService
-    private let bundleVersion: String
     private let configuration: ConfigurationResult
     private let journalingService: VersionJournalingService
     private let operatingSystemVersion: String
     
     init(
         appMetadataService: AppMetadataService,
-        bundleVersion: String,
         configuration: ConfigurationResult,
         journalingService: VersionJournalingService,
         operatingSystemVersion: String
     ) {
         self.appMetadataService = appMetadataService
-        self.bundleVersion = bundleVersion
         self.configuration = configuration
         self.journalingService = journalingService
         self.operatingSystemVersion = operatingSystemVersion
@@ -37,7 +34,6 @@ struct AutomaticUpdateResolutionService: UpdateResolutionService {
                     let updatedConfiguration = self.configuration.mutableCopy(with: apiResult)
                     let factory = UpdatesResultFactory(
                         configuration: updatedConfiguration,
-                        bundleVersion: self.bundleVersion,
                         journalingService: journalingService,
                         operatingSystemVersion: self.operatingSystemVersion
                     )

@@ -12,6 +12,7 @@ struct ConfigurationResult: Codable {
     enum CodingKeys: String, CodingKey {
         case appStoreId = "app-store-id"
         case build
+        case bundleVersion = "bundle-version"
         case comparing
         case minOSRequired = "min-os-required"
         case notificationMode = "notify"
@@ -21,48 +22,61 @@ struct ConfigurationResult: Codable {
     }
     
     let appStoreId: String?
+    let bundleVersion: String?
     let buildString: String?
     let comparator: VersionComparator
     let minOSRequired: String?
     let notificationMode: NotificationMode
     let releaseNotes: String?
     let updatingMode: UpdatingMode
-    let version: String?
+    let latestVersion: String?
     
-    init(appStoreId: String?, build: String?, comparator: VersionComparator, minRequiredOSVersion: String?,
-         notifying: NotificationMode, releaseNotes: String?, updatingMode: UpdatingMode, version: String?) {
+    init(
+        appStoreId: String?,
+        buildString: String?,
+        bundleVersion: String?,
+        comparator: VersionComparator,
+        minRequiredOSVersion: String?,
+        notifying: NotificationMode,
+        releaseNotes: String?,
+        updatingMode: UpdatingMode,
+        latestVersion: String?
+    ) {
         self.appStoreId = appStoreId
-        self.buildString = build
+        self.buildString = buildString
+        self.bundleVersion = bundleVersion
         self.comparator = comparator
         self.minOSRequired = minRequiredOSVersion
         self.notificationMode = notifying
         self.releaseNotes = releaseNotes
         self.updatingMode = updatingMode
-        self.version = version
+        self.latestVersion = latestVersion
     }
     
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.appStoreId = try? container.decode(String.self, forKey: .appStoreId)
-        self.buildString = try? container.decode(String.self, forKey: .build)
-        self.comparator = (try? container.decode(VersionComparator.self, forKey: .comparing)) ?? .patch
+        self.buildString = try? container.decodeIfPresent(String.self, forKey: .build)
+        self.bundleVersion = try? container.decodeIfPresent(String.self, forKey: .bundleVersion)
+        self.comparator = (try? container.decode(VersionComparator.self, forKey: .comparing)) ?? .build
         self.minOSRequired = try? container.decode(String.self, forKey: .minOSRequired)
         self.notificationMode = (try? container.decode(NotificationMode.self, forKey: .notificationMode)) ?? .once
         self.releaseNotes = try? container.decode(String.self, forKey: .releaseNotes)
         self.updatingMode = (try? container.decode(UpdatingMode.self, forKey: .updatingMode)) ?? .automatically
-        self.version = try? container.decode(String.self, forKey: .version)
+        self.latestVersion = try? container.decode(String.self, forKey: .version)
     }
     
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(appStoreId, forKey: .appStoreId)
         try container.encode(buildString, forKey: .build)
+        try container.encode(bundleVersion, forKey: .bundleVersion)
         try container.encode(comparator, forKey: .comparing)
         try container.encode(minOSRequired, forKey: .minOSRequired)
         try container.encode(notificationMode, forKey: .notificationMode)
         try container.encode(releaseNotes, forKey: .releaseNotes)
         try container.encode(updatingMode, forKey: .updatingMode)
-        try container.encode(version, forKey: .version)
+        try container.encode(latestVersion, forKey: .version)
     }
     
 }
@@ -73,13 +87,14 @@ extension ConfigurationResult {
         let mergedReleaseNotes = apiResult.releaseNotes ?? releaseNotes
         return ConfigurationResult(
             appStoreId: "\(apiResult.trackId)",
-            build: buildString,
+            buildString: buildString,
+            bundleVersion: bundleVersion,
             comparator: comparator,
             minRequiredOSVersion: apiResult.minimumOsVersion,
             notifying: notificationMode,
             releaseNotes: mergedReleaseNotes,
             updatingMode: updatingMode,
-            version: apiResult.version
+            latestVersion: apiResult.version
         )
     }
     
