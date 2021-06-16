@@ -8,6 +8,6 @@
 import Foundation
 
 public struct AppUpdatedResult {
-    let isFirstLaunchFollowingInstall: Bool
-    let isFirstLaunchFollowingUpdate: Bool
+    public let isFirstLaunchFollowingInstall: Bool
+    public let isFirstLaunchFollowingUpdate: Bool
 }
