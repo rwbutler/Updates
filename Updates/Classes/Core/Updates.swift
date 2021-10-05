@@ -80,6 +80,10 @@ public class Updates {
     
     public static var minimumOSVersion: String?
     
+    public static var minimumOptionalAppVersion: String?
+    
+    public static var minimumRequiredAppVersion: String?
+    
     public static let productName: String? = Bundle.main.infoDictionary?["CFBundleDisplayName"] as? String
     
     public static var releaseNotes: String?
@@ -176,6 +180,8 @@ public class Updates {
             buildString: buildString,
             bundleVersion: versionString,
             comparator: comparingVersions,
+            minOptionalAppVersion: minimumOptionalAppVersion,
+            minRequiredAppVersion: minimumRequiredAppVersion,
             minRequiredOSVersion: minimumOSVersion,
             notifying: notifying,
             releaseNotes: releaseNotes,

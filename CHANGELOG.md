@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5.0] - 2021-10-05
+### Added
+- Added properties `minOptionalAppVersion` and `minRequiredAppVersion` with the latter taking precedence if both are set to a version string. If the former is set then the update type value will be `.soft` i.e. a soft update whereas if the latter is set then the update type will be `.hard` indicating that a different UI should be displayed to the user. 
+
+Note: At the current time UpdatesUI largely behaves the same for both type of update but for `.hard` updates the cancel button is omitted meaning that the user must press the Update button to quit the dialog - it is recommended to implement your own UI here instead.
+
 ## [1.4.0] - 2021-06-16
 ### Added
 - Added property `isUpdated` which can be used to determine whether the current app launch is the first one since an install or update has occurred.

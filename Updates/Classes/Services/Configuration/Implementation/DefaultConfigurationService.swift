@@ -66,6 +66,8 @@ private extension DefaultConfigurationService {
             buildString: result.buildString ?? defaults.buildString,
             bundleVersion: result.bundleVersion ?? defaults.bundleVersion,
             comparator: result.comparator,
+            minOptionalAppVersion: result.minOptionalAppVersion ?? defaults.minOptionalAppVersion,
+            minRequiredAppVersion: result.minRequiredAppVersion ?? defaults.minRequiredAppVersion,
             minRequiredOSVersion: result.minOSRequired ?? defaults.minOSRequired,
             notifying: result.notificationMode,
             releaseNotes: result.releaseNotes ?? defaults.releaseNotes,

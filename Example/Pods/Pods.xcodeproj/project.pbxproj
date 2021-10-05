@@ -628,7 +628,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0930;
-				LastUpgradeCheck = 1240;
+				LastUpgradeCheck = 1300;
 				TargetAttributes = {
 					74E1BB52F0AD1D37095FC573FC8B2E15 = {
 						LastSwiftMigration = 1130;
@@ -818,7 +818,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MARKETING_VERSION = 1.4.0;
+				MARKETING_VERSION = 1.5.0;
 				MODULEMAP_FILE = "Target Support Files/Updates/Updates.modulemap";
 				PRODUCT_BUNDLE_IDENTIFIER = com.rwbutler.Updates;
 				PRODUCT_MODULE_NAME = Updates;
@@ -918,7 +918,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MARKETING_VERSION = 1.4.0;
+				MARKETING_VERSION = 1.5.0;
 				MODULEMAP_FILE = "Target Support Files/Updates/Updates.modulemap";
 				PRODUCT_BUNDLE_IDENTIFIER = com.rwbutler.Updates;
 				PRODUCT_MODULE_NAME = Updates;
