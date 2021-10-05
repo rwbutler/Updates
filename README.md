@@ -1,6 +1,6 @@
 ![Updates](https://raw.githubusercontent.com/rwbutler/Updates/master/docs/images/updates-banner.png)
 
-[![CI Status](https://img.shields.io/travis/rwbutler/Updates.svg?style=flat)](https://travis-ci.org/rwbutler/Updates)
+[![Build Status](https://app.travis-ci.com/rwbutler/Updates.svg?branch=master)](https://app.travis-ci.com/rwbutler/Updates)
 [![Version](https://img.shields.io/cocoapods/v/Updates.svg?style=flat)](https://cocoapods.org/pods/Updates)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![Maintainability](https://api.codeclimate.com/v1/badges/cbabaea781ab999cb673/maintainability)](https://codeclimate.com/github/rwbutler/Updates/maintainability)
