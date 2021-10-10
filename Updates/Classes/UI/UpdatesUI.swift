@@ -138,6 +138,55 @@ public class UpdatesUI: NSObject {
         presentingViewController.present(alert, animated: animated, completion: nil)
     }
     
+    /// Prompt the user to update to the latest version
+    public static func promptToUpdate(
+        newVersionString: String?,
+        appStoreId: String?,
+        animated: Bool = true,
+        completion: (() -> Void)? = nil,
+        presentingViewController: UIViewController,
+        title: String? = nil,
+        message: String,
+        updateType: UpdateType
+    ) {
+        let alertTitle: String
+        if let title = title {
+            alertTitle = title
+        } else if let productName = Updates.productName, let newVersionString = newVersionString {
+            alertTitle = "\(productName) v\(newVersionString) Available"
+        } else if let newVersionString = newVersionString {
+            alertTitle = "App Version \(newVersionString) Available"
+        } else {
+            alertTitle = "App Update Available"
+        }
+        let alert = UIAlertController(title: alertTitle, message: message, preferredStyle: .alert)
+        let updateButtonTitle = buttonTitle("Update")
+        let updateAction = UIAlertAction(title: updateButtonTitle, style: .default) { _ in
+            if updateType != .hard {
+                alert.dismiss(animated: animated, completion: completion)
+            }
+            guard let appStoreId = appStoreId else {
+                return
+            }
+            self.presentAppStore(
+                animated: animated,
+                appStoreId: appStoreId,
+                appStoreURL: Updates.appStoreURL(for: appStoreId),
+                completion: completion,
+                presentingViewController: presentingViewController
+            )
+        }
+        let cancelButtonTitle = buttonTitle("Cancel")
+        let cancelAction = UIAlertAction(title: cancelButtonTitle, style: .cancel) { _ in
+            alert.dismiss(animated: animated, completion: completion)
+        }
+        alert.addAction(updateAction)
+        if updateType != .hard {
+            alert.addAction(cancelAction)
+        }
+        presentingViewController.present(alert, animated: animated, completion: nil)
+    }
+    
     /// Presents SKStoreProductViewController modally.
     /// - Parameters:
     ///     - animated: Whether or not the modal presentation is animated.

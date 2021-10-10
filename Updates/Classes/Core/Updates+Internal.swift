@@ -14,8 +14,8 @@ extension Updates {
     ///     - appStoreId: The app store identifier specified as a String.
     /// - Returns: The URL required to launch the App Store page for the specified app,
     /// provided a valid identifier is provided.
-    static func appStoreURL(appStoreId: String, countryCode: String? = nil, productName: String) -> URL? {
-        guard let countryCode = countryCode ?? Updates.countryCode else {
+    static func appStoreURL(appStoreId: String, countryCode: String? = nil, productName: String? = nil) -> URL? {
+        guard let countryCode = countryCode ?? Updates.countryCode, let productName = productName else {
             return nil
         }
         let lowercasedCountryCode = countryCode.lowercased()

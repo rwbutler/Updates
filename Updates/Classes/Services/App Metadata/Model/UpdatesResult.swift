@@ -19,6 +19,7 @@ public enum UpdateType: String, Codable {
 
 public struct Update {
     public let appStoreId: String?
+    public let appStoreURL: URL?
     public let isUpdated: AppUpdatedResult // whether or not this launch is a new install or update.
     public let newVersionString: String
     public let releaseNotes: String?

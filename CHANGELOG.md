@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.6.0] - 2021-10-10
+### Added
+- Added another `promptToUpdate` function which does not require an `UpdatesResult` object which means that the function can be used without having to pass an `UpdatesResult` object around the calling app.
+- `UpdatesResult` now has the App Store URL for the calling app if it is possible to form it from the required parameters.
+
 ## [1.5.0] - 2021-10-05
 ### Added
 - Added properties `minOptionalAppVersion` and `minRequiredAppVersion` with the latter taking precedence if both are set to a version string. If the former is set then the update type value will be `.soft` i.e. a soft update whereas if the latter is set then the update type will be `.hard` indicating that a different UI should be displayed to the user. 

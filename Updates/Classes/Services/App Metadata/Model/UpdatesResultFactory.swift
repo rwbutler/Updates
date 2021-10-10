@@ -70,8 +70,16 @@ struct UpdatesResultFactory: Factory {
             comparator: configuration.comparator,
             minRequiredOSVersion: minRequiredOSVersion
         )
+        let appStoreURL = configuration.appStoreId.flatMap { appStoreId in
+            Updates.appStoreURL(
+                appStoreId: appStoreId,
+                countryCode: Updates.countryCode,
+                productName: Updates.productName
+            )
+        }
         let update = Update(
             appStoreId: configuration.appStoreId,
+            appStoreURL: appStoreURL,
             isUpdated: isAppUpdated,
             newVersionString: appStoreVersion,
             releaseNotes: configuration.releaseNotes,
@@ -129,8 +137,16 @@ private extension UpdatesResultFactory {
             return nil
         }
         let isAppUpdated = self.isAppUpdated(bundleVersion: bundleVersion, configuration: configuration)
+        let appStoreURL = configuration.appStoreId.flatMap { appStoreId in
+            Updates.appStoreURL(
+                appStoreId: appStoreId,
+                countryCode: Updates.countryCode,
+                productName: Updates.productName
+            )
+        }
         let update = Update(
             appStoreId: configuration.appStoreId,
+            appStoreURL: appStoreURL,
             isUpdated: isAppUpdated,
             newVersionString: minAppVersion,
             releaseNotes: configuration.releaseNotes,
