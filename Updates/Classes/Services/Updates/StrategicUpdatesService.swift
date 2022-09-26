@@ -8,14 +8,14 @@
 import Foundation
 
 struct StrategicUpdateResolutionService: UpdateResolutionService {
-    
+
     typealias UpdateCheckingStrategy = UpdatingMode
     private let appMetadataService: AppMetadataService?
     private let configuration: ConfigurationResult
     private let journalingService: VersionJournalingService
     private let operatingSystemVersion: String
     private let strategy: UpdateCheckingStrategy
-    
+
     init(
         appMetadataService: AppMetadataService? = nil,
         configuration: ConfigurationResult,
@@ -29,7 +29,7 @@ struct StrategicUpdateResolutionService: UpdateResolutionService {
         self.operatingSystemVersion = operatingSystemVersion
         self.strategy = strategy
     }
-    
+
     func checkForUpdates(completion: @escaping (UpdatesResult) -> Void) {
         let updatesService: UpdateResolutionService
         switch strategy {

@@ -8,11 +8,11 @@
 import Foundation
 
 struct ManualUpdateResolutionService: UpdateResolutionService {
-    
+
     private let configuration: ConfigurationResult
     private let journalingService: VersionJournalingService
     private let operatingSystemVersion: String
-    
+
     init(
         configuration: ConfigurationResult,
         journalingService: VersionJournalingService,
@@ -22,7 +22,7 @@ struct ManualUpdateResolutionService: UpdateResolutionService {
         self.journalingService = journalingService
         self.operatingSystemVersion = operatingSystemVersion
     }
-    
+
     func checkForUpdates(completion: @escaping (UpdatesResult) -> Void) {
         DispatchQueue.global(qos: .background).async {
             let factory = UpdatesResultFactory(
@@ -33,5 +33,5 @@ struct ManualUpdateResolutionService: UpdateResolutionService {
             onMainQueue(completion)(factory.manufacture())
         }
     }
-    
+
 }

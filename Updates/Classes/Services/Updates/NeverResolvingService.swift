@@ -8,15 +8,15 @@
 import Foundation
 
 struct NeverUpdateResolutionService: UpdateResolutionService {
-    
+
     private let configuration: ConfigurationResult
     private let journalingService: VersionJournalingService
-    
+
     init(configuration: ConfigurationResult, journalingService: VersionJournalingService) {
         self.configuration = configuration
         self.journalingService = journalingService
     }
-    
+
     func checkForUpdates(completion: @escaping (UpdatesResult) -> Void) {
         guard let versionString = configuration.bundleVersion else {
             onMainQueue(completion)(
@@ -35,5 +35,5 @@ struct NeverUpdateResolutionService: UpdateResolutionService {
             .none(isUpdated)
         )
     }
-    
+
 }

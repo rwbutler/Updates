@@ -25,5 +25,5 @@ struct ConfigurationJSONParsingService: ParsingService {
         }
         return .success(result)
     }
-    
+
 }

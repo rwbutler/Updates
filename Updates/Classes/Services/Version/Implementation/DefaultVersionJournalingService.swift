@@ -8,30 +8,30 @@
 import Foundation
 
 struct DefaultVersionJournalingService: VersionJournalingService {
-    
+
     private let notificationCenter: NotificationCenter
     private let notificationsUserDefaultsKey = "com.rwbutler.updates.notifications"
     private let userDefaults: UserDefaults
     private let userDefaultsKey = "com.rwbutler.updates"
-    
+
     init(notificationCenter: NotificationCenter = .default, userDefaults: UserDefaults = .standard) {
         self.notificationCenter = notificationCenter
         self.userDefaults = userDefaults
     }
-    
+
     /// Record the fact that we have notified the user.
     func incrementNotificationCount(for version: String) {
         let notificationsUserDefaultsKey = "\(self.notificationsUserDefaultsKey).\(version)"
         let notificationCount = self.notificationCount(for: version) + 1
         userDefaults.setValue(notificationCount, forKey: notificationsUserDefaultsKey)
     }
-    
+
     /// Returns the number of times we have notified the user about this version.
     func notificationCount(for version: String) -> Int {
         let notificationsUserDefaultsKey = "\(self.notificationsUserDefaultsKey).\(version)"
         return userDefaults.integer(forKey: notificationsUserDefaultsKey)
     }
-    
+
     /// Records the current build so that we can determine
     func registerBuild(versionString: String, buildString: String?, comparator: VersionComparator) ->
         AppUpdatedResult {
@@ -69,13 +69,13 @@ struct DefaultVersionJournalingService: VersionJournalingService {
             isFirstLaunchFollowingUpdate: isFirstLaunchFollowingUpdate
         )
     }
-    
+
 }
 
 // MARK: - Caching
 
 private extension DefaultVersionJournalingService {
-    
+
     private func cachedVersionInfo() -> Versions? {
         let decoder = JSONDecoder()
         guard let data = userDefaults.data(forKey: userDefaultsKey),
@@ -84,27 +84,27 @@ private extension DefaultVersionJournalingService {
         }
         return versionInfo
     }
-    
+
     private func cacheVersionInfo(versionInfo: Versions) {
         let encoder = JSONEncoder()
         guard let data = try? encoder.encode(versionInfo) else { return }
         userDefaults.set(data, forKey: userDefaultsKey)
     }
-    
+
 }
 
 // MARK: - Notifications
 
 private extension DefaultVersionJournalingService {
-    
+
     private func postAppDidInstallNotification() {
         let appVersionDidChange = Notification(name: .appDidInstall)
         notificationCenter.post(appVersionDidChange)
     }
-    
+
     private func postAppVersionDidChangeNotification() {
         let appVersionDidChange = Notification(name: .appVersionDidChange)
         notificationCenter.post(appVersionDidChange)
     }
-    
+
 }

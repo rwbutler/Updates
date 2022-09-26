@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.6.1] - 2022-09-26
+### Changed
+- Added a public `init` for `UpdatesResult` to make unit testing easier in consumer projects.
+
 ## [1.6.0] - 2021-10-10
 ### Added
 - Added another `promptToUpdate` function which does not require an `UpdatesResult` object which means that the function can be used without having to pass an `UpdatesResult` object around the calling app.

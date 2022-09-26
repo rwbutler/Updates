@@ -14,7 +14,7 @@ public enum NotificationMode: String, Codable {
     case thrice
     case always
     case withoutAvailableUpdate = "without-available-update"
-    
+
     var notificationCount: Int {
         switch self {
         case .never:

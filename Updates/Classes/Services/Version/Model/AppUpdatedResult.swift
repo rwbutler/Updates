@@ -10,4 +10,9 @@ import Foundation
 public struct AppUpdatedResult {
     public let isFirstLaunchFollowingInstall: Bool
     public let isFirstLaunchFollowingUpdate: Bool
+    
+    public init(isFirstLaunchFollowingInstall: Bool, isFirstLaunchFollowingUpdate: Bool) {
+        self.isFirstLaunchFollowingInstall = isFirstLaunchFollowingInstall
+        self.isFirstLaunchFollowingUpdate = isFirstLaunchFollowingUpdate
+    }
 }

@@ -25,4 +25,22 @@ public struct Update {
     public let releaseNotes: String?
     public let shouldNotify: Bool
     public let updateType: UpdateType
+
+    public init(
+        appStoreId: String?,
+        appStoreURL: URL?,
+        isUpdated: AppUpdatedResult,
+        newVersionString: String,
+        releaseNotes: String?,
+        shouldNotify: Bool,
+        updateType: UpdateType
+    ) {
+        self.appStoreId = appStoreId
+        self.appStoreURL = appStoreURL
+        self.isUpdated = isUpdated
+        self.newVersionString = newVersionString
+        self.releaseNotes = releaseNotes
+        self.shouldNotify = shouldNotify
+        self.updateType = updateType
+    }
 }

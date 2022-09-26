@@ -8,13 +8,13 @@
 import Foundation
 
 struct ITunesSearchAPIService: AppMetadataService {
-    
+
     /// URL for invocation of iTunes Search API.
     private let iTunesSearchAPIURL: URL
-    
+
     /// Parses iTunes Search API responses.
     private let parsingService = ITunesSearchJSONParsingService()
-    
+
     init?(bundleIdentifier: String, countryCode: String) {
         let lowercasedCountryCode = countryCode.lowercased()
         let urlString = "http://itunes.apple.com/lookup?bundleId=\(bundleIdentifier)&country=\(lowercasedCountryCode)"
@@ -23,7 +23,7 @@ struct ITunesSearchAPIService: AppMetadataService {
         }
         self.iTunesSearchAPIURL = url
     }
-    
+
     /// Parses data returned by the iTunes Search API.
     private func parseConfiguration(data: Data) -> ParsingServiceResult? {
         switch parsingService.parse(data) {
@@ -33,7 +33,7 @@ struct ITunesSearchAPIService: AppMetadataService {
             return nil
         }
     }
-    
+
     func fetchAppMetadata(_ completion: @escaping (AppMetadataResult) -> Void) {
         DispatchQueue.global(qos: .background).async {
             guard let apiData = try? Data(contentsOf: self.iTunesSearchAPIURL) else {

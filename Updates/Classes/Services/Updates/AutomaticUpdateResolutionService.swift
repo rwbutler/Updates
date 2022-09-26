@@ -8,12 +8,12 @@
 import Foundation
 
 struct AutomaticUpdateResolutionService: UpdateResolutionService {
-    
+
     private let appMetadataService: AppMetadataService
     private let configuration: ConfigurationResult
     private let journalingService: VersionJournalingService
     private let operatingSystemVersion: String
-    
+
     init(
         appMetadataService: AppMetadataService,
         configuration: ConfigurationResult,
@@ -25,7 +25,7 @@ struct AutomaticUpdateResolutionService: UpdateResolutionService {
         self.journalingService = journalingService
         self.operatingSystemVersion = operatingSystemVersion
     }
-    
+
     func checkForUpdates(completion: @escaping (UpdatesResult) -> Void) {
         DispatchQueue.global(qos: .background).async {
             self.appMetadataService.fetchAppMetadata { result in
@@ -60,5 +60,5 @@ struct AutomaticUpdateResolutionService: UpdateResolutionService {
             }
         }
     }
-    
+
 }

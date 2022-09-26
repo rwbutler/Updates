@@ -8,16 +8,16 @@
 import Foundation
 
 struct DefaultConfigurationService: ConfigurationService {
-    
+
     private let cachedConfigurationURL: URL
     private let configurationURL: URL
     private let parsingService = ConfigurationJSONParsingService()
-    
+
     init(configurationURL: URL, cachedConfigurationURL: URL) {
         self.cachedConfigurationURL = cachedConfigurationURL
         self.configurationURL = configurationURL
     }
-    
+
     /// Asynchronously fetches confguration settings.
     func fetchSettings(defaults: ConfigurationResult, completion: @escaping (ConfigurationServiceResult) -> Void) {
         DispatchQueue.global(qos: .background).async {
@@ -25,11 +25,11 @@ struct DefaultConfigurationService: ConfigurationService {
             onMainQueue(completion)(settings)
         }
     }
-    
+
 }
 
 private extension DefaultConfigurationService {
-    
+
     private func cacheConfiguration(_ result: ConfigurationResult) {
         let encoder = JSONEncoder()
         guard let data = try? encoder.encode(result) else {
@@ -37,7 +37,7 @@ private extension DefaultConfigurationService {
         }
         try? data.write(to: cachedConfigurationURL)
     }
-    
+
     /// Synchronously fetches settings from the given URL.
     private func fetchSettings(configurationURL: URL, defaults: ConfigurationResult) -> ConfigurationServiceResult {
         guard let configurationData = try? Data(contentsOf: configurationURL) else {
@@ -58,7 +58,7 @@ private extension DefaultConfigurationService {
             return fetchSettings(configurationURL: cachedConfigurationURL, defaults: defaults)
         }
     }
-    
+
     /// Fills in any information missing from Updates.json with programmatically configured default values.
     private func merge(result: ConfigurationResult, defaults: ConfigurationResult) -> ConfigurationResult {
         return ConfigurationResult(
@@ -76,5 +76,5 @@ private extension DefaultConfigurationService {
             latestVersion: result.latestVersion ?? defaults.latestVersion
         )
     }
-    
+
 }

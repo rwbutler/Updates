@@ -8,10 +8,10 @@
 import Foundation
 
 struct ITunesSearchJSONParsingService: ParsingService {
-    
+
     // swiftlint:disable:next type_name
     typealias T = ITunesSearchAPIResult
-    
+
     func parse(_ data: Data) -> Result<ITunesSearchAPIResult, ParsingError> {
         guard !data.isEmpty else {
             return .failure(.emptyPayload)
@@ -32,5 +32,5 @@ struct ITunesSearchJSONParsingService: ParsingService {
         }
         return .success(result)
     }
-    
+
 }

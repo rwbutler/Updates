@@ -9,16 +9,16 @@ import Foundation
 import StoreKit
 
 public class Updates {
-    
+
     // MARK: Global State
-    
+
     public static var configurationType: ConfigurationType = {
         for configurationType in ConfigurationType.allCases where bundledConfigurationURL(configurationType) != nil {
             return configurationType
         }
         return .json // Default configuration type.
     }()
-    
+
     /// Defaults configuration URL to bundled configuration and detects configuration type when set.
     public static var configurationURL: URL? = bundledConfigurationURL() {
         didSet { // detect configuration format by extension
@@ -32,7 +32,7 @@ public class Updates {
             }
         }
     }
-    
+
     public static var appStoreId: String? {
         didSet {
             guard appStoreURL == nil, let appStoreId = appStoreId, let productName = productName else {
@@ -41,9 +41,9 @@ public class Updates {
             appStoreURL = appStoreURL(appStoreId: appStoreId, productName: productName)
         }
     }
-    
+
     public static var appStoreURL: URL?
-    
+
     /// Returns the URL to open the app with the specified identifier in the App Store.
     /// - Parameters:
     ///     - appStoreId: The app store identifier specified as a String.
@@ -53,13 +53,13 @@ public class Updates {
         Updates.appStoreId = appStoreId
         return appStoreURL
     }
-    
+
     public static let buildString: String? = Bundle.main.infoDictionary?[kCFBundleVersionKey as String] as? String
-    
+
     public static var bundleIdentifier: String? = Bundle.main.bundleIdentifier
-    
+
     public static var comparingVersions: VersionComparator = .patch
-    
+
     public static var countryCode: String? = {
         let currentBundle = Bundle(for: Updates.self)
         if #available(iOS 13.0, macCatalyst 13.0, *),
@@ -73,29 +73,29 @@ public class Updates {
             return Locale.current.regionCode
         }
     }()
-    
+
     public static var newVersionString: String?
-    
+
     public static var notifying: NotificationMode = .once
-    
+
     public static var minimumOSVersion: String?
-    
+
     public static var minimumOptionalAppVersion: String?
-    
+
     public static var minimumRequiredAppVersion: String?
-    
+
     public static let productName: String? = Bundle.main.infoDictionary?["CFBundleDisplayName"] as? String
-    
+
     public static var releaseNotes: String?
-    
+
     public static var updateType: UpdateType = .soft
-    
+
     public static var updatingMode: UpdatingMode = .automatically
-    
+
     public static var useStoreKit = true
-    
+
     public static var versionString: String? = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
-    
+
     public static func checkForUpdates(currentOSVersion: String, completion: @escaping (UpdatesResult) -> Void) {
         guard let configURL = configurationURL, let cachedConfigURL = cachedConfigurationURL else {
             checkForUpdates(
@@ -126,7 +126,7 @@ public class Updates {
             }
         }
     }
-    
+
     private static func checkForUpdates(configuration: ConfigurationResult,
                                         operatingSystemVersion: String,
                                         completion: @escaping (UpdatesResult) -> Void) {
@@ -152,7 +152,7 @@ public class Updates {
         }
         updatesService.checkForUpdates(completion: completion)
     }
-    
+
     /// Warning: Use either this method or `checkForUpdates` but never both as whichever is called first will return the
     /// correct result. If using `checkForUpdates` then an `AppUpdatedResult` is returned as part of the
     /// `UpdatesResult` object.
@@ -173,7 +173,7 @@ public class Updates {
         )
         completion(isUpdated)
     }
-    
+
     private static func programmaticConfiguration() -> ConfigurationResult {
         return ConfigurationResult(
             appStoreId: appStoreId,
@@ -190,5 +190,5 @@ public class Updates {
             latestVersion: versionString
         )
     }
-    
+
 }

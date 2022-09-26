@@ -8,11 +8,11 @@
 import Foundation
 
 struct Versions: Codable {
-    
+
     typealias SortOptions = VersionSortOptions
-    
+
     private var versions: [Version] = []
-    
+
     @discardableResult
     mutating func appendVersion(versionIdentifier: String, buildIdentifier: String) -> Version {
         guard let existingVersion = version(versionIdentifier) else {
@@ -23,19 +23,19 @@ struct Versions: Codable {
         existingVersion.appendBuild(buildIdentifier)
         return existingVersion
     }
-    
+
     func versionExists(versionIdentifier: String, comparator: VersionComparator) -> Bool {
         return versions.contains { version in
             Updates.compareVersions(lhs: versionIdentifier, rhs: version.identifier, comparator: comparator)
                 == .orderedSame
         }
     }
-    
+
     func buildExists(versionIdentifier: String, buildIdentifier: String) -> Bool {
         let existingVersion = version(versionIdentifier)
         return existingVersion?.buildExists(buildIdentifier) ?? false
     }
-    
+
     func latestVersion(by sortOptions: SortOptions = .installDate) -> Version? {
         let sorted = versions.sorted(by: { (lhs, rhs) in
             switch sortOptions {
@@ -49,7 +49,7 @@ struct Versions: Codable {
         })
         return sorted.last
     }
-    
+
     private func version(_ versionIdentifier: String) -> Version? {
         let existingVersion = versions.first(where: { version in
             version.identifier == versionIdentifier
@@ -59,11 +59,11 @@ struct Versions: Codable {
 }
 
 extension Versions: CustomStringConvertible {
-    
+
     var description: String {
         """
         versions: \(versions)
         """
     }
-    
+
 }

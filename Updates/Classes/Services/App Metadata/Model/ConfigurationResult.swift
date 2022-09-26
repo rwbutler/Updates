@@ -8,7 +8,7 @@
 import Foundation
 
 struct ConfigurationResult: Codable {
-    
+
     enum CodingKeys: String, CodingKey {
         case appStoreId = "app-store-id"
         case build
@@ -23,7 +23,7 @@ struct ConfigurationResult: Codable {
         case updatingMode = "check-for"
         case version
     }
-    
+
     let appStoreId: String?
     let bundleVersion: String?
     let buildString: String?
@@ -36,7 +36,7 @@ struct ConfigurationResult: Codable {
     let updatingMode: UpdatingMode
     let latestVersion: String?
     let updateType: UpdateType
-    
+
     init(
         appStoreId: String?,
         buildString: String?,
@@ -64,7 +64,7 @@ struct ConfigurationResult: Codable {
         self.updatingMode = updatingMode
         self.latestVersion = latestVersion
     }
-    
+
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.appStoreId = try? container.decode(String.self, forKey: .appStoreId)
@@ -84,7 +84,7 @@ struct ConfigurationResult: Codable {
             ?? Updates.updatingMode
         self.latestVersion = try? container.decode(String.self, forKey: .version)
     }
-    
+
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(appStoreId, forKey: .appStoreId)
@@ -97,11 +97,11 @@ struct ConfigurationResult: Codable {
         try container.encode(updatingMode, forKey: .updatingMode)
         try container.encode(latestVersion, forKey: .version)
     }
-    
+
 }
 
 extension ConfigurationResult {
-    
+
     func mutableCopy(with apiResult: ITunesSearchAPIResult) -> ConfigurationResult {
         let mergedReleaseNotes = apiResult.releaseNotes ?? releaseNotes
         return ConfigurationResult(
@@ -119,5 +119,5 @@ extension ConfigurationResult {
             latestVersion: apiResult.version
         )
     }
-    
+
 }

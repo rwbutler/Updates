@@ -10,10 +10,10 @@ import UIKit
 import Updates
 
 class ViewController: UIViewController {
-    
+
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var versionLabel: UILabel!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         activityIndicator.startAnimating()
@@ -21,7 +21,7 @@ class ViewController: UIViewController {
         configureLabels()
         observeAppVersionDidChange()
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         Updates.configurationURL = Bundle.main.url(forResource: "Updates", withExtension: "json")
         Updates.checkForUpdates { result in
@@ -33,20 +33,20 @@ class ViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-    
+
     // MARK: - Notifications
-    
+
     private func observeAppVersionDidChange() {
         NotificationCenter.default.addObserver(self, selector: #selector(appDidInstall),
         name: .appDidInstall, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(appVersionDidChange),
                                                name: .appVersionDidChange, object: nil)
     }
-    
+
     @objc func appDidInstall(_ notification: Notification) {
         print("App installed.")
     }
-    
+
     @objc func appVersionDidChange(_ notification: Notification) {
         print("App version changed.")
     }
@@ -54,7 +54,7 @@ class ViewController: UIViewController {
 }
 
 private extension ViewController {
-    
+
     func configureLabels() {
         let versionString: String? = Updates.versionString
         let buildString: String? =  Updates.buildString
@@ -62,12 +62,12 @@ private extension ViewController {
             versionLabel.text = "App version: \(version)(\(build))"
         }
     }
-    
+
     func configureUpdates() {
         // - Add custom configuration here if needed - 
         // Updates.bundleIdentifier = ""
         // Updates.countryCode = ""
         // Updates.versionString = ""
     }
-    
+
 }
