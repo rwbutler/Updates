@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0] - TBC
+### Changed
+- Base deployment target updated from iOS 9.3 to iOS 11.0 in-line with Xcode 14 support.
+
 ## [1.6.1] - 2022-09-26
 ### Changed
 - Added a public `init` for `UpdatesResult` to make unit testing easier in consumer projects.
