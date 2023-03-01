@@ -190,10 +190,10 @@ If you chose not to host a remote configuration file, the same configuration may
 ```swift
 Updates.updatingMode = .manually
 Updates.notifying = .always
-Updates.appStoreId: "123456"
-Updates.comparingVersions: .major
-Updates.minimumOSVersion: "12.0.0"
-Updates.versionString: "2.0.0"
+Updates.appStoreId = "123456"
+Updates.comparingVersions = .major
+Updates.minimumOSVersion = "12.0.0"
+Updates.versionString = "2.0.0"
 ```
 
 
