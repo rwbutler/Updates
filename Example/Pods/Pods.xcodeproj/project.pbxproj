@@ -123,6 +123,7 @@
 		2C7707574F2EF09038D00FE964DE5367 /* Pods-Updates_Example-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Updates_Example-frameworks.sh"; sourceTree = "<group>"; };
 		33DB34468D993C3181C095C3EA005895 /* Pods-Updates_Example-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Updates_Example-dummy.m"; sourceTree = "<group>"; };
 		3447C994F12F42BAA61F3883077AD440 /* Pods_Updates_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Updates_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		37E407602BCD80E6009DB18B /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		4381C1446AC443CEF7A63FD0EDAADA9A /* Pods-Updates_Tests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Updates_Tests-dummy.m"; sourceTree = "<group>"; };
 		463C3EB032ADDC6C10194A8A4307DA0A /* Pods-Updates_Tests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-Updates_Tests-acknowledgements.plist"; sourceTree = "<group>"; };
 		568EEA6ED853765E10CA42FF2E7320A3 /* Pods-Updates_Example-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Updates_Example-umbrella.h"; sourceTree = "<group>"; };
@@ -409,6 +410,14 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		37E407612BCD80FE009DB18B /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				37E407602BCD80E6009DB18B /* PrivacyInfo.xcprivacy */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		3DDCE615014459C7E77E78A0B6DB8FC5 /* Pods-Updates_Example */ = {
 			isa = PBXGroup;
 			children = (
@@ -532,6 +541,7 @@
 		F815053712799BC64FCBEDA1475C5572 /* Development Pods */ = {
 			isa = PBXGroup;
 			children = (
+				37E407612BCD80FE009DB18B /* Resources */,
 				B5D7FD0C1A2B02FC4D60CC7ECB28C5C9 /* Updates */,
 			);
 			name = "Development Pods";
