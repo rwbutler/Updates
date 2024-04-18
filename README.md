@@ -34,6 +34,8 @@ To learn more about how to use Updates, take a look at the [keynote presentation
 	- [Frameworks](#frameworks)
 	- [Tools](#tools)
 
+## Why we forked this Repo??
+The repository was forked because the developer responsible for maintaining the original repository failed to update the privacy manifest to list required reason API's'. This update became necessary as of April 2024. (https://developer.apple.com/documentation/bundleresources/privacy_manifest_files/describing_use_of_required_reason_api)
 ## Features
 
 - [x] Automatically detect whether a new version of your app is available.
