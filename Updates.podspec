@@ -15,4 +15,5 @@ Updates is a framework which automatically checks to see whether a new version o
   s.frameworks       = 'StoreKit'
   s.ios.deployment_target = '12.0'
   s.source_files = 'Updates/Classes/**/*'
+  s.resource_bundles = { 'Updates_Privacy' => ['Example/Pods/Target\ Support\ Files/Updates/PrivacyInfo.xcprivacy'] }
 end

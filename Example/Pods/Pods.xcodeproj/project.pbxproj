@@ -10,6 +10,7 @@
 		0C66242060A86AB3E8CC5B1C9A475865 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55491B53CCB52C197797CCFE018C0BF6 /* Foundation.framework */; };
 		0DF30D78F5827E13AB2C25CAECA153DA /* Build.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B7A58859A7E5D4259467FB1E245E469 /* Build.swift */; };
 		0F9670999EBCBF52E0CBDED87AC5FF7D /* ConfigurationServiceResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = E979904AD3CCAA7C84B048685B08ED4A /* ConfigurationServiceResult.swift */; };
+		13B1107F2CBEA5AA00B1EDEB /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 13B1107E2CBEA5AA00B1EDEB /* PrivacyInfo.xcprivacy */; };
 		19CC71F0B7F5BEB59CAB7B62C1C08373 /* Updates+Internal.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1E17BAE08DF57E39504C2EB0F79A9AC /* Updates+Internal.swift */; };
 		1A2EDC15DE747A95D6DE757C48AA7F0D /* Pods-Updates_Tests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AF2108DEA38BEE441332DEA37642B10 /* Pods-Updates_Tests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1CFBE92C6AB5609A13A726236EDD31A4 /* AppMetadataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270A2BBB0C3BFA1AEABC89E4179F633F /* AppMetadataService.swift */; };
@@ -83,6 +84,7 @@
 		0C12FF7AECF0C6A74E4B3874749F9873 /* ConfigurationResult.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ConfigurationResult.swift; sourceTree = "<group>"; };
 		0D29200D21C29DD56A689D8C5A959E92 /* ParsingServiceResult.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ParsingServiceResult.swift; sourceTree = "<group>"; };
 		0DE38071E84A9951B95FEECBEA926D5C /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.0.sdk/System/Library/Frameworks/StoreKit.framework; sourceTree = DEVELOPER_DIR; };
+		13B1107E2CBEA5AA00B1EDEB /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		14E1C599B374404271DB9A8272F78540 /* Updates.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Updates.release.xcconfig; sourceTree = "<group>"; };
 		14EEFBE1FE6A6345D0861D05329791A0 /* Pods-Updates_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Updates_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		1732DEDDE89162C49F1E2BA01EFD20D8 /* UpdatesUI.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = UpdatesUI.swift; sourceTree = "<group>"; };
@@ -405,6 +407,7 @@
 				2B05B8E33552C6D05951DFF45DCA7CAD /* Updates-umbrella.h */,
 				A51D2EA028000A2E3C727519411D81CA /* Updates.debug.xcconfig */,
 				14E1C599B374404271DB9A8272F78540 /* Updates.release.xcconfig */,
+				13B1107E2CBEA5AA00B1EDEB /* PrivacyInfo.xcprivacy */,
 			);
 			name = "Support Files";
 			path = "Example/Pods/Target Support Files/Updates";
@@ -666,6 +669,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				13B1107F2CBEA5AA00B1EDEB /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
