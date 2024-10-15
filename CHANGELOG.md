@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [2.0.0] - 2024-10-15
+### Added
+- Added PrivacyInfo.xcprivacy
+
 ### Changed
 - Applied Xcode 16 recommended build settings.
 - Base deployment target updated from iOS 9.3 to iOS 12.0 in-line with Xcode 16 support.
