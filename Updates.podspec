@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'Updates'
-  s.version          = '1.6.1'
+  s.version          = '2.0.0'
   s.swift_version    = '5.0'
   s.summary          = 'Updates is a framework for automatically detecting app updates and seamlessly prompting users to update.'
   s.description      = <<-DESC
@@ -13,6 +13,6 @@ Updates is a framework which automatically checks to see whether a new version o
   s.source           = { :git => 'https://github.com/rwbutler/Updates.git', :tag => s.version.to_s }
   s.social_media_url = 'https://twitter.com/ross_w_butler'
   s.frameworks       = 'StoreKit'
-  s.ios.deployment_target = '9.0'
+  s.ios.deployment_target = '12.0'
   s.source_files = 'Updates/Classes/**/*'
 end
