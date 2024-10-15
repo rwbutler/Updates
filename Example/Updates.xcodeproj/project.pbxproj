@@ -499,7 +499,7 @@
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Updates/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.6.1;
+				MARKETING_VERSION = 2.0.0;
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = com.rwbutler.updates;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -517,7 +517,7 @@
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Updates/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.6.1;
+				MARKETING_VERSION = 2.0.0;
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = com.rwbutler.updates;
 				PRODUCT_NAME = "$(TARGET_NAME)";
