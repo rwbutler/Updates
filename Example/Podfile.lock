@@ -1,5 +1,5 @@
 PODS:
-  - Updates (0.1.0)
+  - Updates (1.6.1)
 
 DEPENDENCIES:
   - Updates (from `../`)
@@ -9,8 +9,8 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  Updates: 3fa6c2cdac619da8ffa93fa7fc5d82faab32148d
+  Updates: dcd66208e10a3cd74453d5629ec3e3d9f782c6e1
 
 PODFILE CHECKSUM: 8b101ea82cc3b4a50a3991beac58113a247687cb
 
-COCOAPODS: 1.5.0
+COCOAPODS: 1.15.2
