@@ -153,7 +153,7 @@ public class UpdatesUI: NSObject {
         if let title = title {
             alertTitle = title
         } else if let productName = Updates.productName, let newVersionString = newVersionString {
-            alertTitle = "\(productName) v\(newVersionString) Available"
+            alertTitle = "\(productName) \(newVersionString) Available"
         } else if let newVersionString = newVersionString {
             alertTitle = "App Version \(newVersionString) Available"
         } else {
