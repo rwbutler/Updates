@@ -5,9 +5,11 @@
 //  Created by Ross Butler on 12/27/18.
 //
 
+#if canImport(UIKit)
 import Foundation
 import StoreKit
 import SafariServices
+import Updates
 
 public class UpdatesUI: NSObject {
     
@@ -248,3 +250,4 @@ private extension UpdatesUI {
     }
     
 }
+#endif
