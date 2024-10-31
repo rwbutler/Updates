@@ -187,7 +187,7 @@ public class Updates {
             releaseNotes: releaseNotes,
             updateType: updateType,
             updatingMode: updatingMode,
-            latestVersion: versionString
+            latestVersion: newVersionString
         )
     }
 
