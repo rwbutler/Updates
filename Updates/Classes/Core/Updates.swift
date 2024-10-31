@@ -49,7 +49,7 @@ public class Updates {
     ///     - appStoreId: The app store identifier specified as a String.
     /// - Returns: The URL required to launch the App Store page for the specified app,
     /// provided a valid identifier is provided.
-    static func appStoreURL(for appStoreId: String) -> URL? {
+    public static func appStoreURL(for appStoreId: String) -> URL? {
         Updates.appStoreId = appStoreId
         return appStoreURL
     }
