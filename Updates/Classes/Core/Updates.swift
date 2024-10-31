@@ -78,7 +78,7 @@ public class Updates {
 
     public static var notifying: NotificationMode = .once
 
-    public static var minimumOSVersion: String?
+    public static var minimumOSVersion: String? = Bundle.main.infoDictionary?["MinimumOSVersion"] as? String
 
     public static var minimumOptionalAppVersion: String?
 
