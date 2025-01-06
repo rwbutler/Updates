@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [2.0.2] - 2025-01-06
 ### Changed
-- Updated privacy manifest.
+- Updated privacy manifest. Credit to [prakashfs](https://github.com/rwbutler/Updates/pull/32).
 
 ## [2.0.0] - 2024-10-15
 ### Added
