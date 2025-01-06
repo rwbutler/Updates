@@ -214,13 +214,12 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 0830;
-				LastUpgradeCheck = 1600;
+				LastUpgradeCheck = 1620;
 				ORGANIZATIONNAME = CocoaPods;
 				TargetAttributes = {
 					607FACCF1AFB9204008FA782 = {
 						CreatedOnToolsVersion = 6.3.1;
 						LastSwiftMigration = 1020;
-						ProvisioningStyle = Manual;
 					};
 					607FACE41AFB9204008FA782 = {
 						CreatedOnToolsVersion = 6.3.1;
@@ -418,6 +417,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -475,6 +475,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -497,8 +498,10 @@
 			baseConfigurationReference = BED0C66E0E98FCD8701F6A40 /* Pods-Updates_Example.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				INFOPLIST_FILE = Updates/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -518,8 +521,10 @@
 			baseConfigurationReference = 707B4B6553DF9D3594519BDA /* Pods-Updates_Example.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				INFOPLIST_FILE = Updates/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
