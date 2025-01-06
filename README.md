@@ -173,7 +173,7 @@ To manually notify users of updates to your app configure your JSON file as foll
         "app-store-id": "123456",
         "comparing": "major-versions",
         "min-os-required": "12.0.0",
-        "version": "2.0.1"
+        "version": "2.0.2"
     }
 }
 ```
@@ -193,7 +193,7 @@ Updates.notifying = .always
 Updates.appStoreId = "123456"
 Updates.comparingVersions = .major
 Updates.minimumOSVersion = "12.0.0"
-Updates.versionString = "2.0.1"
+Updates.versionString = "2.0.2"
 ```
 
 
