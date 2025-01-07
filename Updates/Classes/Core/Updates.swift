@@ -49,7 +49,7 @@ public class Updates {
     ///     - appStoreId: The app store identifier specified as a String.
     /// - Returns: The URL required to launch the App Store page for the specified app,
     /// provided a valid identifier is provided.
-    static func appStoreURL(for appStoreId: String) -> URL? {
+    public static func appStoreURL(for appStoreId: String) -> URL? {
         Updates.appStoreId = appStoreId
         return appStoreURL
     }
@@ -78,7 +78,7 @@ public class Updates {
 
     public static var notifying: NotificationMode = .once
 
-    public static var minimumOSVersion: String?
+    public static var minimumOSVersion: String? = Bundle.main.infoDictionary?["MinimumOSVersion"] as? String
 
     public static var minimumOptionalAppVersion: String?
 
@@ -187,8 +187,18 @@ public class Updates {
             releaseNotes: releaseNotes,
             updateType: updateType,
             updatingMode: updatingMode,
-            latestVersion: versionString
+            latestVersion: newVersionString
         )
     }
 
 }
+
+#if canImport(UIKit)
+import UIKit
+
+public extension Updates {
+    static func checkForUpdates(completion: @escaping (UpdatesResult) -> Void) {
+        Updates.checkForUpdates(currentOSVersion: UIDevice.current.systemVersion, completion: completion)
+    }
+}
+#endif

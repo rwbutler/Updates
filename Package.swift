@@ -18,7 +18,6 @@ let package = Package(
             name: "Updates",
             dependencies: [],
             path: "Updates/Classes",
-            exclude: ["UI"],
             resources: [.copy("../../Example/Pods/Target Support Files/Updates/PrivacyInfo.xcprivacy")]
         )
     ]
